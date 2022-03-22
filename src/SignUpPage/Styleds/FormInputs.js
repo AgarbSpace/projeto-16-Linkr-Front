@@ -22,6 +22,14 @@ const FormInputs = styled.form`
         border: none;
         border-radius: 6px;
 
+        pointer-events: ${props => props.status === "loading" ? "none" : "visible"};
+        outline: ${props => props.status === "loading" ? "none" : "0px"};
+        opacity: ${props => props.status === "loading" ? "0.8" : "1"};
+        
+        :hover{
+            cursor: ${props => props.status === "loading" ? "not-allowed" : "default"};
+        }
+
         ::placeholder{
             font-family: 'Oswald';
             font-size: 27px;
@@ -56,8 +64,12 @@ const FormInputs = styled.form`
         font-weight: 700;
         letter-spacing: 0em;
         text-align: left;
-        color: #FFFFFF
-
+        color: #FFFFFF;
+        opacity: ${props => props.status === "loading" ? "0.8" : "1"};
+        
+        :hover{
+            cursor: ${props => props.status === "loading" ? "not-allowed" : "default"};
+        }
     }
 
     @media(max-width: 540px) {
