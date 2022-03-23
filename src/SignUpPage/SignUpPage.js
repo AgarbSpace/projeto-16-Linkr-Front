@@ -47,7 +47,7 @@ export default function SignUpPage(){
                 <h1>linkr</h1>
                 <span>save, share and discover the best links on the web</span>
             </ContainerLogoDescription>
-            <FormInputs onSubmit = {signUp}>
+            <FormInputs onSubmit = {signUp} status = {buttonStatus}>
                 <input type = "email" placeholder = "e-mail" name = "email" value = {signUpForm.email} onChange = {controlledInput}/>
                 <input type = "password" placeholder = "password" name = "password" value = {signUpForm.password} onChange = {controlledInput}/>
                 <input type = "text" placeholder = "username" name = "username" value = {signUpForm.username} onChange = {controlledInput}/>
