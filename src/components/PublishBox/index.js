@@ -7,12 +7,17 @@ import InputText from "./Styleds/InputText";
 import PublishButton from "./Styleds/PublishButton";
 import AvatarImg from "./AvatarPicture";
 
+import useAuth from "../../hooks/useAuth";
+
 function PublishBox() {
 
   const [loading, setLoading] = useState(false);
 
+  const { auth } = useAuth();
+
+
   const [postForm, setPostForm] = useState({
-    userId: "",
+    userId: `${auth.userId}`,
     link: "",
     text: "",
   })
@@ -29,10 +34,16 @@ function PublishBox() {
 
     try {
 
-      await axios.post("http://localhost:5000/signup", {
+      await axios.post("http://localhost:5000/publication", {
         ...postForm
       }
       )
+
+      setPostForm({
+        userId: `${auth.userId}`,
+        link: "",
+        text: "",
+      })
 
     } catch {
 
@@ -49,7 +60,7 @@ function PublishBox() {
   return (
     <PublishBoxStyled onSubmit={handleSubmit} disabled={loading}>
       <AvatarImg
-        img="https://picsum.photos/200"
+        img={auth.userPicture}
       />
       <div className="publish-box-wrapper">
         <h1>

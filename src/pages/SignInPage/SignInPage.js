@@ -1,20 +1,27 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
-import Container from "./Styleds/Container";
-import ContainerLogoDescription from "./Styleds/ContainerLogoDescription";
-import FormInputs from "./Styleds/FormInputs";
+import Container from "../SignUpPage/Styleds/Container";
+import ContainerLogoDescription from "../SignUpPage/Styleds/ContainerLogoDescription";
+import FormInputs from '../SignUpPage/Styleds/FormInputs';
+import useAuth from '../../hooks/useAuth';
 
-export default function SignUpPage() {
 
+export default function SignInPage() {
   const navigate = useNavigate();
   const [signUpForm, setSignUpForm] = useState({
     email: "",
     password: "",
-    username: "",
-    url: ""
   });
+  const { auth, login } = useAuth();
+
+  useEffect(() => {
+    if (auth) {
+      navigate("/timeline");
+    }
+  }, []);
+
   const [buttonStatus, setButtonStatus] = useState("");
 
   function controlledInput(e) {
@@ -23,19 +30,18 @@ export default function SignUpPage() {
 
   function signUp(e) {
     e.preventDefault();
-    const promisse = axios.post("http://localhost:5000/signup", {
+    const promisse = axios.post("http://localhost:5000/signin", {
       ...signUpForm
     })
 
-    promisse.then(response => {
-      alert("Successfully Registered!");
+    promisse.then(res => {
+      login(res.data)
       setButtonStatus("")
-      navigate('/')
+      navigate('/timeline')
     })
 
     promisse.catch(error => {
-
-      alert("Invalid data! Try again");
+      alert("Username or password is invalid!");
       setButtonStatus("")
       console.log(error.response.data);
     })
@@ -47,13 +53,11 @@ export default function SignUpPage() {
         <h1>linkr</h1>
         <span>save, share and discover the best links on the web</span>
       </ContainerLogoDescription>
-      <FormInputs onSubmit={signUp} status={buttonStatus}>
+      <FormInputs onSubmit={signUp}>
         <input type="email" placeholder="e-mail" name="email" value={signUpForm.email} onChange={controlledInput} />
         <input type="password" placeholder="password" name="password" value={signUpForm.password} onChange={controlledInput} />
-        <input type="text" placeholder="username" name="username" value={signUpForm.username} onChange={controlledInput} />
-        <input type="url" placeholder="picture url" name="url" value={signUpForm.url} onChange={controlledInput} />
-        <button type="submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={50} width={50} /> : "Sign Up"}</button>
-        <Link to="/">Switch back to log in</Link>
+        <button type="submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={50} width={50} /> : "Log In"}</button>
+        <Link to="/signup">First time? Create an account!</Link>
       </FormInputs>
     </Container>
   )
