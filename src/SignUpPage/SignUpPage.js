@@ -30,7 +30,7 @@ export default function SignUpPage(){
         promisse.then(response => {
             alert("Successfully Registered!");
             setButtonStatus("")
-            navigate('/timeline')
+            navigate('/')
         })
 
         promisse.catch(error => {

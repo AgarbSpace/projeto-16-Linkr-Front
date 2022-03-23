@@ -5,16 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import Container from "../SignUpPage/Styleds/Container";
 import ContainerLogoDescription from "../SignUpPage/Styleds/ContainerLogoDescription";
 import FormInputs from '../SignUpPage/Styleds/FormInputs';
-// import TokenContext from "../../contexts/TokenContext";
-// import UserContext from "../../contexts/UserContext";
+import useAuth from '../hooks/useAuth';
+
 
 export default function SignInPage(){
-
     const navigate = useNavigate();
     const [signUpForm, setSignUpForm] = useState({
         email: "",
         password: "",
     });
+    const { login } = useAuth();
     const [buttonStatus, setButtonStatus] = useState("");
 
     function controlledInput(e){
@@ -27,15 +27,14 @@ export default function SignInPage(){
             ...signUpForm
         })
 
-        promisse.then(response => {
-            alert("Successfully Registered!");
+        promisse.then(res => {
+            login(res.data)
             setButtonStatus("")
             navigate('/timeline')
         })
 
         promisse.catch(error => {
-
-            alert("Invalid data! Try again");
+            alert("Username or password is invalid!");
             setButtonStatus("")
             console.log(error.response.data);
         })
