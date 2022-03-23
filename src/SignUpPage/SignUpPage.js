@@ -27,12 +27,6 @@ export default function SignUpPage() {
       ...signUpForm
     })
 
-    promisse.then(response => {
-      alert("Successfully Registered!");
-      setButtonStatus("")
-      navigate('/navigate')
-      //linha que escrevi aleatorio
-    })
 
     promisse.catch(error => {
 
