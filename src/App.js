@@ -9,7 +9,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyled />
-      <PublishBox></PublishBox>
       <Routes>
         <Route path="/signup" element={<SignUpPage />} />
       </Routes>
