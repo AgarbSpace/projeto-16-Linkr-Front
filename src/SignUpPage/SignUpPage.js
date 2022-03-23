@@ -21,22 +21,25 @@ export default function SignUpPage() {
     setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value });
   }
 
-}
+  function blab(e) {
+    console.log(teste)
+  }
 
-return (
-  <Container>
-    <ContainerLogoDescription>
-      <h1>linkr</h1>
-      <span>save, share and discover the best links on the web</span>
-    </ContainerLogoDescription>
-    <FormInputs onSubmit={signUp} status={buttonStatus}>
-      <input type="email" placeholder="e-mail" name="email" value={signUpForm.email} onChange={controlledInput} />
-      <input type="password" placeholder="password" name="password" value={signUpForm.password} onChange={controlledInput} />
-      <input type="text" placeholder="username" name="username" value={signUpForm.username} onChange={controlledInput} />
-      <input type="url" placeholder="picture url" name="url" value={signUpForm.url} onChange={controlledInput} />
-      <button type="submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={50} width={50} /> : "Sign Up"}</button>
-      <Link to="/">Switch back to log in</Link>
-    </FormInputs>
-  </Container>
-)
+
+  return (
+    <Container>
+      <ContainerLogoDescription>
+        <h1>linkr</h1>
+        <span>save, share and discover the best links on the web</span>
+      </ContainerLogoDescription>
+      <FormInputs onSubmit={signUp} status={buttonStatus}>
+        <input type="email" placeholder="e-mail" name="email" value={signUpForm.email} onChange={controlledInput} />
+        <input type="password" placeholder="password" name="password" value={signUpForm.password} onChange={controlledInput} />
+        <input type="text" placeholder="username" name="username" value={signUpForm.username} onChange={controlledInput} />
+        <input type="url" placeholder="picture url" name="url" value={signUpForm.url} onChange={controlledInput} />
+        <button type="submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={50} width={50} /> : "Sign Up"}</button>
+        <Link to="/">Switch back to log in</Link>
+      </FormInputs>
+    </Container>
+  )
 }
