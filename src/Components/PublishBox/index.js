@@ -12,8 +12,8 @@ function PublishBox() {
   const [loading, setLoading] = useState(false);
 
   const [postForm, setPostForm] = useState({
-    user: "",
-    url: "",
+    userId: "",
+    link: "",
     text: "",
   })
 
@@ -29,8 +29,9 @@ function PublishBox() {
 
     try {
 
-      await axios.post("",
-        postForm
+      await axios.post("http://localhost:5000/signup", {
+        ...postForm
+      }
       )
 
     } catch {
@@ -58,8 +59,8 @@ function PublishBox() {
           type="text"
           placeholder="http://..."
           onChange={handleInputChange}
-          value={postForm.url}
-          name="url"
+          value={postForm.link}
+          name="link"
           required={true}
           disabled={loading}
         />
