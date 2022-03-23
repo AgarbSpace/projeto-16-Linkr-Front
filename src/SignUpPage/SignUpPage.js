@@ -21,10 +21,25 @@ export default function SignUpPage() {
     setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value });
   }
 
-  function blab(e) {
-    console.log(teste)
-  }
+  function signUp(e) {
+    e.preventDefault();
+    const promisse = axios.post("http://localhost:5000/signup", {
+      ...signUpForm
+    })
 
+    promisse.then(response => {
+      alert("Successfully Registered!");
+      setButtonStatus("")
+      navigate('/')
+    })
+
+    promisse.catch(error => {
+
+      alert("Invalid data! Try again");
+      setButtonStatus("")
+      console.log(error.response.data);
+    })
+  }
 
   return (
     <Container>
