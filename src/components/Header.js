@@ -9,22 +9,8 @@ export default function Header() {
   let navigate = useNavigate()
 
   const wrapperRef = useRef(null)
-  useOutsideAlerter(wrapperRef);
-  
-  function handleClickLogout() {
-    if (isClicked){
-      setIsClicked(false)
-      setIndex(-1)
-    } 
-    if (!isClicked) {
-      setIsClicked(true)
-      setTimeout(()=>setIndex(1),300)
-    }
-  }
-  function handleLogout() {
-    console.log("exit ")
-  }
-  function useOutsideAlerter(ref) {
+  useOutsideClick(wrapperRef);
+  function useOutsideClick(ref) {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target) && isClicked) {
@@ -33,11 +19,25 @@ export default function Header() {
       }
       // Bind the event listener
       document.addEventListener("mousedown", handleClickOutside);
+      // Unbind the event listener on clean up
       return () => {
-        // Unbind the event listener on clean up
         document.removeEventListener("mousedown", handleClickOutside);
       };
     }, [ref,isClicked]);
+  }
+  function handleClickLogout() {
+    if (isClicked){
+      setIsClicked(false)
+      setIndex(-1)
+    } 
+    if (!isClicked) {
+      setIsClicked(true)
+      setTimeout(()=>setIndex(2),300)
+    }
+  }
+  function handleLogout() {
+    navigate("/")
+    window.location.reload()
   }
 
   return(
@@ -46,7 +46,6 @@ export default function Header() {
       <div ref={wrapperRef} onClick={()=>handleClickLogout()}>
         <MdOutlineKeyboardArrowDown />
         <img src={img} alt="profile_picture"/>
-      </div>
       <LogoutButton 
         className={isClicked&&"allowed"} 
         index={index} 
@@ -54,6 +53,7 @@ export default function Header() {
         >
         Logout
       </LogoutButton>
+      </div>
     </Container>
   )
 }
