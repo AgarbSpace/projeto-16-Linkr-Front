@@ -1,28 +1,29 @@
 import styled from "styled-components";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import img from "../assets/profile_picture.svg";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import api from "../services/api";
+import useAuth from "../hooks/useAuth";
 export default function Header() {
   const [ isClicked, setIsClicked ] = useState(false)
   const [ index, setIndex ] = useState(-1)
+  const [profilePicture, setProfilePicture] = useState()
+  const { auth: { token} } = useAuth()
+
   let navigate = useNavigate()
 
   const wrapperRef = useRef(null)
   useOutsideClick(wrapperRef);
   function useOutsideClick(ref) {
     useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target) && isClicked) {
+      function handleClickOutside(e) {
+        if (ref.current && !ref.current.contains(e.target) && isClicked)
           handleClickLogout()
-        }
       }
       // Bind the event listener
       document.addEventListener("mousedown", handleClickOutside);
       // Unbind the event listener on clean up
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
+      return () => { document.removeEventListener("mousedown", handleClickOutside) };
     }, [ref,isClicked]);
   }
   function handleClickLogout() {
@@ -40,12 +41,25 @@ export default function Header() {
     window.location.reload()
   }
 
+  useEffect(()=>{
+    getProfilePicture()
+  },[])
+  
+  async function getProfilePicture(){
+    try {
+      const image = await api.getImageProfile(token)
+      setProfilePicture(image.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return(
     <Container isClicked={isClicked}>
       <h1 onClick={()=>navigate("/timeline")}>linkr</h1>
       <div ref={wrapperRef} onClick={()=>handleClickLogout()}>
         <MdOutlineKeyboardArrowDown />
-        <img src={img} alt="profile_picture"/>
+        <img src={profilePicture} alt="profile_picture"/>
       <LogoutButton 
         className={isClicked&&"allowed"} 
         index={index} 
