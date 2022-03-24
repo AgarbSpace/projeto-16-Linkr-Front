@@ -2,11 +2,29 @@ import styled from "styled-components";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import img from "../assets/profile_picture.svg";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 export default function Header() {
   const [ isClicked, setIsClicked ] = useState(false)
   const [ index, setIndex ] = useState(-1)
   let navigate = useNavigate()
+
+  const wrapperRef = useRef(null)
+  useOutsideClick(wrapperRef);
+  function useOutsideClick(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target) && isClicked) {
+          handleClickLogout()
+        }
+      }
+      // Bind the event listener
+      document.addEventListener("mousedown", handleClickOutside);
+      // Unbind the event listener on clean up
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref,isClicked]);
+  }
   function handleClickLogout() {
     if (isClicked){
       setIsClicked(false)
@@ -14,27 +32,28 @@ export default function Header() {
     } 
     if (!isClicked) {
       setIsClicked(true)
-      setTimeout(()=>setIndex(1),300)
+      setTimeout(()=>setIndex(2),300)
     }
   }
   function handleLogout() {
-    console.log("exit ")
+    navigate("/")
+    window.location.reload()
   }
-  console.log(isClicked)
+
   return(
     <Container isClicked={isClicked}>
       <h1 onClick={()=>navigate("/timeline")}>linkr</h1>
-      <div>
-        <MdOutlineKeyboardArrowDown onClick={()=>handleClickLogout()}/>
+      <div ref={wrapperRef} onClick={()=>handleClickLogout()}>
+        <MdOutlineKeyboardArrowDown />
         <img src={img} alt="profile_picture"/>
-      </div>
       <LogoutButton 
         className={isClicked&&"allowed"} 
         index={index} 
         onClick={()=>handleLogout()}
-      >
+        >
         Logout
       </LogoutButton>
+      </div>
     </Container>
   )
 }
