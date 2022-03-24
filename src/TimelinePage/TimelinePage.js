@@ -36,9 +36,9 @@ export default function TimelinePage(){
         </Loading>
     }
 
+
     if(posts.length === 0){
         return <>
-            <Header/>
             <NoPosts>
                 <span>There are no posts yet</span>
             </NoPosts>
@@ -47,7 +47,6 @@ export default function TimelinePage(){
 
     return (
         <>
-            <Header/>
             <TimelineContainer>
                 <Timeline>
                     <h2>timeline</h2>
