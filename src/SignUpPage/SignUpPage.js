@@ -12,7 +12,7 @@ export default function SignUpPage(){
     const [signUpForm, setSignUpForm] = useState({
         email: "",
         password: "",
-        username: "",
+        name: "",
         url: ""
     });
     const [buttonStatus, setButtonStatus] = useState("");
@@ -50,7 +50,7 @@ export default function SignUpPage(){
             <FormInputs onSubmit = {signUp} status = {buttonStatus}>
                 <input type = "email" placeholder = "e-mail" name = "email" value = {signUpForm.email} onChange = {controlledInput}/>
                 <input type = "password" placeholder = "password" name = "password" value = {signUpForm.password} onChange = {controlledInput}/>
-                <input type = "text" placeholder = "username" name = "username" value = {signUpForm.username} onChange = {controlledInput}/>
+                <input type = "text" placeholder = "username" name = "name" value = {signUpForm.name} onChange = {controlledInput}/>
                 <input type = "url" placeholder = "picture url" name = "url" value = {signUpForm.url} onChange = {controlledInput}/>
                 <button type = "submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={50} width={50} /> : "Sign Up"}</button>
                 <Link to = "/">Switch back to log in</Link>

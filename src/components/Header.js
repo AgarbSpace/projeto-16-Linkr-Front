@@ -1,11 +1,15 @@
 import styled from "styled-components";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import img from "../assets/profile_picture.svg";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import api from "../services/api";
+import AuthContext from "../contexts/AuthContext";
 export default function Header() {
   const [ isClicked, setIsClicked ] = useState(false)
   const [ index, setIndex ] = useState(-1)
+  const [profilePicture, setProfilePicture] = useState()
+  const { auth } = useContext(AuthContext)
+  const { token } = auth
   let navigate = useNavigate()
 
   const wrapperRef = useRef(null)
@@ -40,12 +44,25 @@ export default function Header() {
     window.location.reload()
   }
 
+  useEffect(()=>{
+    getProfilePicture()
+  },[])
+  
+  async function getProfilePicture(){
+    try {
+      const image = await api.getImageProfile(token)
+      setProfilePicture(image.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return(
     <Container isClicked={isClicked}>
       <h1 onClick={()=>navigate("/timeline")}>linkr</h1>
       <div ref={wrapperRef} onClick={()=>handleClickLogout()}>
         <MdOutlineKeyboardArrowDown />
-        <img src={img} alt="profile_picture"/>
+        <img src={profilePicture} alt="profile_picture"/>
       <LogoutButton 
         className={isClicked&&"allowed"} 
         index={index} 
