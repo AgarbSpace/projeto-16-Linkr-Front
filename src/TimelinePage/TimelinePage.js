@@ -23,6 +23,7 @@ import TrendingBox from "./Styleds/TrendingBox";
 export default function TimelinePage(){
 
     const { auth } = useAuth();
+    
     const [posts, setPosts] = useState()
 
     useEffect(async () => {
