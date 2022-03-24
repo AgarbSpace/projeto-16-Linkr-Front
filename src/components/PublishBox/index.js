@@ -17,7 +17,7 @@ function PublishBox() {
 
 
   const [postForm, setPostForm] = useState({
-    userId: `${auth.userId}`,
+    userId: `1`,
     link: "",
     text: "",
   })
@@ -60,7 +60,7 @@ function PublishBox() {
   return (
     <PublishBoxStyled onSubmit={handleSubmit} disabled={loading}>
       <AvatarImg
-        img={auth.userPicture}
+        img={"auth.userPicture"}
       />
       <div className="publish-box-wrapper">
         <h1>

@@ -46,7 +46,7 @@ pointer-events: ${props => props.isLoading ? "none" : "unset"};
 
 @media(max-width: 540px) {
 
-  width: 100%;
+  width: 100vw;
   height: unset;
   border-radius: unset;
   padding: 10px 16px;
