@@ -38,16 +38,20 @@ const ContentBox = styled.div`
     }
 
     @media(max-width: 630px) {
-        width: 100vw;
+        width: 100%;
+        min-width: 128px;
         height: 115px;
+        padding-right: 5px;
 
         a{
-            font-size: 17px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 20px;
-            letter-spacing: 0em;
-            text-align: left;
+
+          font-family: 'Lato';
+          font-style: normal;
+          font-weight: 400;
+          font-size: 17px;
+          line-height: 20px;
+
+          color: #FFFFFF;
         }   
 
         span{
@@ -59,6 +63,7 @@ const ContentBox = styled.div`
             letter-spacing: 0em;
             text-align: left;
         }
+
     }
 `
 export default ContentBox;

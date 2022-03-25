@@ -8,7 +8,7 @@ const PostHeader = styled.div`
     margin-bottom: 7px;
 
     @media(max-width: 630px) {
-        width: px;
+        width: 100%;
         height: 115px;
         align-items: center;
     }
