@@ -19,6 +19,7 @@ import Snippet from "./Styleds/Snippet";
 import Timeline from "./Styleds/Timeline";
 import TimelineContainer from "./Styleds/TimelineContainer";
 import TrendingBox from "./Styleds/TrendingBox";
+import { Text } from "../components/ReactHashtag";
 
 export default function TimelinePage(){
 
@@ -47,7 +48,8 @@ export default function TimelinePage(){
     }
 
     return (
-        <>
+        <> 
+            <Header/>
             <TimelineContainer>
                 <Timeline>
                     <h2>timeline</h2>
@@ -68,12 +70,12 @@ export default function TimelinePage(){
                                     <ion-icon name="create-outline"></ion-icon>
                                 </EditAndDeleteBox>
                             </PostHeader>
-                            <span>{post.text}</span>
+                            <Text>{post.text}</Text>
                             <Snippet>
                                 <InfosSnippet>
-                                    <a href={post.source} target="_blank">{post.title}</a>
+                                    <a href={post.source} target="_blank" rel="noreferrer">{post.title}</a>
                                     <span>{post.description}</span>
-                                    <a href={post.source} target="_blank">{post.source}</a>
+                                    <a href={post.source} target="_blank" rel="noreferrer">{post.source}</a>
                                 </InfosSnippet>
                                 <ImageSnippet src = {post.image} onClick={() => window.open(post.source, '_blank')}/>
                             </Snippet>
