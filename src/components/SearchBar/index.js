@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { SearchBarContainer, UserListContainer, UserListItem, InputIconContainer } from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from "react-icons/ai";
-
 import api from '../../services/api';
 import useAuth from '../../hooks/useAuth';
 
