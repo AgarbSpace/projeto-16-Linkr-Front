@@ -9,6 +9,7 @@ async function getTimeline(){
         );
         return promise.data
     } catch (error) {
+        console.log(error.response)
         alert("An error occured while trying to fetch the posts, please refresh the page");
         return;
     }

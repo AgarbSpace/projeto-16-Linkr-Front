@@ -12,13 +12,9 @@ const Snippet = styled.div`
     margin-top: 8px;
 
     @media(max-width: 630px) {
-        width: 86%;
-        height: 115px;
-        align-items: center;
-    }
-    @media(max-width: 500px) {
-        width: 80%;
-        height: 115px;
+      box-sizing:border-box;
+        width: calc(100% - 18px);
+
         align-items: center;
     }
 `
