@@ -21,6 +21,7 @@ import TimelineContainer from "./Styleds/TimelineContainer";
 import TrendingBox from "./Styleds/TrendingBox";
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
+import { confirmDelete } from "../modals/deletePostModal.js";
 
 export default function TimelinePage() {
 
@@ -29,7 +30,7 @@ export default function TimelinePage() {
   const { reload, setReload } = useReload()
 
 
-  const [posts, setPosts] = useState()
+  const [posts, setPosts] = useState([]);
 
   useEffect(async () => {
     const postsArray = await provider.getTimeline();
@@ -52,6 +53,10 @@ export default function TimelinePage() {
       </NoPosts>
     </>
   }
+  function deletePost(post) {
+    confirmDelete(post, auth); 
+  }
+  
 
   return (
     <>
@@ -60,8 +65,8 @@ export default function TimelinePage() {
         <Timeline>
           <h2>timeline</h2>
           <PublishBox />
-          {posts.map(post =>
-            <Post>
+          {posts.map((post, index) =>
+            <Post key={index}>
               <AvatarAndLikeBox>
                 <AvatarImg img={post.picture} />
                 <ion-icon name="heart-outline"></ion-icon>
@@ -72,7 +77,7 @@ export default function TimelinePage() {
                 <PostHeader>
                   <Link to="/timeline">{post.username}</Link>
                   <EditAndDeleteBox>
-                    <ion-icon name="trash-outline"></ion-icon>
+                    <ion-icon name="trash-outline" onClick={() => deletePost(post)}></ion-icon>
                     <ion-icon name="create-outline"></ion-icon>
                   </EditAndDeleteBox>
                 </PostHeader>
