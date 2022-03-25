@@ -24,7 +24,6 @@ import Loading from "./Styleds/Loading";
 export default function Hashtag() {
   const { auth } = useAuth();
   const params = useParams();
-  console.log(params.hashtag);
 
   const [posts, setPosts] = useState();
   const [hashtag, setHashtag] = useState();
@@ -36,7 +35,6 @@ export default function Hashtag() {
       },
     });
     promise.then((response) => {
-      console.log(response.data);
       setPosts(response.data);
     });
     promise.catch((error) => console.log(error));
