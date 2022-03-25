@@ -6,19 +6,9 @@ import PublishBox from "../components/PublishBox";
 import AvatarImg from "../components/PublishBox/AvatarPicture";
 import useAuth from "../hooks/useAuth";
 import { provider } from "../provider/provider";
-import AvatarAndLikeBox from "./Styleds/AvatarAndLikeBox";
-import ContentBox from "./Styleds/ContentBox";
-import EditAndDeleteBox from "./Styleds/EditAndDeleteBox";
-import ImageSnippet from "./Styleds/ImageSnippet";
-import InfosSnippet from "./Styleds/InfosSnippet";
-import Loading from "./Styleds/Loading";
-import NoPosts from "./Styleds/NoPosts";
-import Post from "./Styleds/Post";
-import PostHeader from "./Styleds/PostHeader";
-import Snippet from "./Styleds/Snippet";
-import Timeline from "./Styleds/Timeline";
-import TimelineContainer from "./Styleds/TimelineContainer";
-import TrendingBox from "./Styleds/TrendingBox";
+import { AvatarAndLikeBox, ContentBox, EditAndDeleteBox, ImageSnippet, InfosSnippet,
+Loading, NoPosts, Post, PostHeader, Snippet, Timeline, TimelineContainer,TrendingBox } from "./Styleds"
+import { Text } from "../components/ReactHashtag";
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
 import { confirmDelete } from "../modals/deletePostModal.js";

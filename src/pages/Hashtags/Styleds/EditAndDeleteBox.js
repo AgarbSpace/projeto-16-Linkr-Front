@@ -12,10 +12,6 @@ const EditAndDeleteBox = styled.div`
         
         color: #FFFFFF;
     }
-
-    @media(max-width: 630px) {
-       display: none;
-    }
 `
 
 export default EditAndDeleteBox;
