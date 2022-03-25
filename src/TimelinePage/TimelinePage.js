@@ -20,17 +20,21 @@ import Timeline from "./Styleds/Timeline";
 import TimelineContainer from "./Styleds/TimelineContainer";
 import TrendingBox from "./Styleds/TrendingBox";
 import HashtagRanking from "../components/HashtagRanking";
+import useReload from "../hooks/useReload";
 
 export default function TimelinePage() {
 
   const { auth } = useAuth();
+
+  const { reload, setReload } = useReload()
+
 
   const [posts, setPosts] = useState()
 
   useEffect(async () => {
     const postsArray = await provider.getTimeline();
     setPosts(postsArray)
-  }, []);
+  }, [reload]);
 
   if (!posts) {
     return <Loading>

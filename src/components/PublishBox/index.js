@@ -6,6 +6,7 @@ import InputLink from "./Styleds/InputLink";
 import InputText from "./Styleds/InputText";
 import PublishButton from "./Styleds/PublishButton";
 import AvatarImg from "./AvatarPicture";
+import useReload from "../../hooks/useReload";
 
 import useAuth from "../../hooks/useAuth";
 import api from "../../services/api";
@@ -16,6 +17,8 @@ function PublishBox() {
   const [loading, setLoading] = useState(false);
 
   const { auth } = useAuth();
+
+  const { reload, setReload } = useReload()
 
 
   const [postForm, setPostForm] = useState({
@@ -43,6 +46,8 @@ function PublishBox() {
         link: "",
         text: "",
       })
+
+      setReload([!reload[0]])
 
     } catch {
 
