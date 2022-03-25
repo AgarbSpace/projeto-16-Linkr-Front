@@ -27,10 +27,17 @@ async function postPublication(token, body) {
 
 }
 
+async function getHashtagRankingList(token) {
+  const config = createConfig(token)
+  const list = await axios.get(`${BASE_URL}/hashtagranking`, config)
+  return list
+}
+
 const api = {
   getImageProfile,
   searchUser,
-  postPublication
+  postPublication,
+  getHashtagRankingList
 }
 
 export default api

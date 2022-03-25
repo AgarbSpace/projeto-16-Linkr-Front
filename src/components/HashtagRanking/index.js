@@ -2,6 +2,7 @@ import { HashtagContainer, Line } from "./styled";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
 
 function HashtagRanking() {
 
@@ -11,7 +12,7 @@ function HashtagRanking() {
 
   async function getHashtagRanking() {
     try {
-      const list = await axios.get("http://localhost:5000/hashtagranking")
+      const list = await api.getHashtagRankingList()
       setHashtagList(list.data)
 
     }
