@@ -3,14 +3,16 @@ import styled from "styled-components";
 const SearchBarContainer = styled.div`
 
 position: fixed;
-width: 100vw;
 top: 13px;
 z-index: 35;
 display: flex;
+left: calc(27vw);
 justify-content: center;
 
-@media(max-width: 540px) {
+@media(max-width: 630px) {
 top: 82px;
+left: 0px;
+width: 100vw;
 }
 
 .search-bar{
@@ -52,7 +54,7 @@ border-radius: 8px;
 
 padding: 0px 14px;
 
-@media(max-width: 540px) {
+@media(max-width: 630px) {
   width: calc(100vw - 10px);
   max-width: 350px;
   }
@@ -71,7 +73,7 @@ z-index:10;
 
 padding: 45px 17px 0px 17px;
 
-@media(max-width: 540px) {
+@media(max-width: 630px) {
 
   width: calc(100vw - 10px);
   max-width: 350px
