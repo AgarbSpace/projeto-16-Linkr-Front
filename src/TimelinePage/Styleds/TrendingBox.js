@@ -4,9 +4,8 @@ const TrendingBox = styled.section`
     width: 301px;
     height: 406px;
 
-    background-color: #171717;
     border-radius: 16px;
-    padding-top: 9px;
+
     margin-top: 86px;
     margin-left: 25px;
 

@@ -6,14 +6,19 @@ import InputLink from "./Styleds/InputLink";
 import InputText from "./Styleds/InputText";
 import PublishButton from "./Styleds/PublishButton";
 import AvatarImg from "./AvatarPicture";
+import useReload from "../../hooks/useReload";
 
 import useAuth from "../../hooks/useAuth";
+import api from "../../services/api";
+
 
 function PublishBox() {
 
   const [loading, setLoading] = useState(false);
 
   const { auth } = useAuth();
+
+  const { reload, setReload } = useReload()
 
 
   const [postForm, setPostForm] = useState({
@@ -34,16 +39,15 @@ function PublishBox() {
 
     try {
 
-      await axios.post("http://localhost:5000/publication", {
-        ...postForm
-      }
-      )
+      await api.postPublication(auth.token, postForm)
 
       setPostForm({
         userId: `${auth.userId}`,
         link: "",
         text: "",
       })
+
+      setReload([!reload[0]])
 
     } catch {
 
@@ -60,7 +64,7 @@ function PublishBox() {
   return (
     <PublishBoxStyled onSubmit={handleSubmit} disabled={loading}>
       <AvatarImg
-        img={"auth.userPicture"}
+        img={auth.userPicture}
       />
       <div className="publish-box-wrapper">
         <h1>
