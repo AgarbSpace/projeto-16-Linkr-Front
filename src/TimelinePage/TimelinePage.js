@@ -19,79 +19,80 @@ import Snippet from "./Styleds/Snippet";
 import Timeline from "./Styleds/Timeline";
 import TimelineContainer from "./Styleds/TimelineContainer";
 import TrendingBox from "./Styleds/TrendingBox";
+import HashtagRanking from "../components/HashtagRanking";
+import useReload from "../hooks/useReload";
 
-export default function TimelinePage(){
+export default function TimelinePage() {
 
-    const { auth } = useAuth();
-    
-    const [posts, setPosts] = useState()
+  const { auth } = useAuth();
 
-    useEffect(async () => {
-        const postsArray = await provider.getTimeline();
-        setPosts(postsArray)
-    }, []);
-   
-    if(!posts){
-        return <Loading>
-            <InfinitySpin color="grey" />
-        </Loading>
-    }
+  const { reload, setReload } = useReload()
 
 
-    if(posts.length === 0){
-        return <>
-            <NoPosts>
-                <span>There are no posts yet</span>
-            </NoPosts>
-        </>
-    }
+  const [posts, setPosts] = useState()
 
-    return (
-        <>
-            <TimelineContainer>
-                <Timeline>
-                    <h2>timeline</h2>
-                    <PublishBox/>
-                    {posts.map(post => 
-                        <Post>
-                        <AvatarAndLikeBox>
-                            <AvatarImg img = {post.picture}/>
-                            <ion-icon name="heart-outline"></ion-icon>
-                            <ion-icon name="heart"></ion-icon>
-                            <span>13 likes</span>
-                        </AvatarAndLikeBox>
-                        <ContentBox>
-                            <PostHeader>
-                                <Link to = "/timeline">{post.username}</Link>
-                                <EditAndDeleteBox>
-                                    <ion-icon name="trash-outline"></ion-icon>
-                                    <ion-icon name="create-outline"></ion-icon>
-                                </EditAndDeleteBox>
-                            </PostHeader>
-                            <span>{post.text}</span>
-                            <Snippet>
-                                <InfosSnippet>
-                                    <a href={post.source} target="_blank">{post.title}</a>
-                                    <span>{post.description}</span>
-                                    <a href={post.source} target="_blank">{post.source}</a>
-                                </InfosSnippet>
-                                <ImageSnippet src = {post.image} onClick={() => window.open(post.source, '_blank')}/>
-                            </Snippet>
-                        </ContentBox>
-                    </Post>
-                    )}
-                </Timeline>
-                <TrendingBox>
-                    <h1>trending</h1>
-                    <hr/>
-                    <ul>
-                        <li>Internet Explorer</li>
-                        <li>Opera</li>
-                        <li>Firefox</li>
-                        <li>Safari</li>
-                    </ul>
-                </TrendingBox>
-            </TimelineContainer>
-        </>
-    )
+  useEffect(async () => {
+    const postsArray = await provider.getTimeline();
+    setPosts(postsArray)
+  }, [reload]);
+
+  if (!posts) {
+    return <Loading>
+      <InfinitySpin color="grey" />
+    </Loading>
+  }
+
+
+  if (posts.length === 0) {
+    return <>
+      <NoPosts>
+        <Header />
+        <PublishBox />
+        <span>There are no posts yet</span>
+      </NoPosts>
+    </>
+  }
+
+  return (
+    <>
+      <Header />
+      <TimelineContainer>
+        <Timeline>
+          <h2>timeline</h2>
+          <PublishBox />
+          {posts.map(post =>
+            <Post>
+              <AvatarAndLikeBox>
+                <AvatarImg img={post.picture} />
+                <ion-icon name="heart-outline"></ion-icon>
+                <ion-icon name="heart"></ion-icon>
+                <span>13 likes</span>
+              </AvatarAndLikeBox>
+              <ContentBox>
+                <PostHeader>
+                  <Link to="/timeline">{post.username}</Link>
+                  <EditAndDeleteBox>
+                    <ion-icon name="trash-outline"></ion-icon>
+                    <ion-icon name="create-outline"></ion-icon>
+                  </EditAndDeleteBox>
+                </PostHeader>
+                <span>{post.text}</span>
+                <Snippet>
+                  <InfosSnippet>
+                    <a href={post.source} target="_blank">{post.title}</a>
+                    <span>{post.description}</span>
+                    <a href={post.source} target="_blank">{post.source}</a>
+                  </InfosSnippet>
+                  <ImageSnippet src={post.image} onClick={() => window.open(post.source, '_blank')} />
+                </Snippet>
+              </ContentBox>
+            </Post>
+          )}
+        </Timeline>
+        <TrendingBox>
+          <HashtagRanking />
+        </TrendingBox>
+      </TimelineContainer>
+    </>
+  )
 }

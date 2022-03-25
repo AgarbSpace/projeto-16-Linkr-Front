@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import api from "../services/api";
 import useAuth from "../hooks/useAuth";
 export default function Header() {
-  const [ isClicked, setIsClicked ] = useState(false)
-  const [ index, setIndex ] = useState(-1)
+  const [isClicked, setIsClicked] = useState(false)
+  const [index, setIndex] = useState(-1)
   const [profilePicture, setProfilePicture] = useState()
-  const { auth: { token} } = useAuth()
+  const { auth: { token } } = useAuth()
 
   let navigate = useNavigate()
 
@@ -24,16 +24,16 @@ export default function Header() {
       document.addEventListener("mousedown", handleClickOutside);
       // Unbind the event listener on clean up
       return () => { document.removeEventListener("mousedown", handleClickOutside) };
-    }, [ref,isClicked]);
+    }, [ref, isClicked]);
   }
   function handleClickLogout() {
-    if (isClicked){
+    if (isClicked) {
       setIsClicked(false)
       setIndex(-1)
-    } 
+    }
     if (!isClicked) {
       setIsClicked(true)
-      setTimeout(()=>setIndex(2),300)
+      setTimeout(() => setIndex(50), 300)
     }
   }
   function handleLogout() {
@@ -41,11 +41,11 @@ export default function Header() {
     window.location.reload()
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     getProfilePicture()
-  },[])
-  
-  async function getProfilePicture(){
+  }, [])
+
+  async function getProfilePicture() {
     try {
       const image = await api.getImageProfile(token)
       setProfilePicture(image.data)
@@ -54,19 +54,19 @@ export default function Header() {
     }
   }
 
-  return(
+  return (
     <Container isClicked={isClicked}>
-      <h1 onClick={()=>navigate("/timeline")}>linkr</h1>
-      <div ref={wrapperRef} onClick={()=>handleClickLogout()}>
+      <h1 onClick={() => navigate("/timeline")}>linkr</h1>
+      <div ref={wrapperRef} onClick={() => handleClickLogout()}>
         <MdOutlineKeyboardArrowDown />
-        <img src={profilePicture} alt="profile_picture"/>
-      <LogoutButton 
-        className={isClicked&&"allowed"} 
-        index={index} 
-        onClick={()=>handleLogout()}
+        <img src={profilePicture} alt="profile_picture" />
+        <LogoutButton
+          className={isClicked && "allowed"}
+          index={index}
+          onClick={() => handleLogout()}
         >
-        Logout
-      </LogoutButton>
+          Logout
+        </LogoutButton>
       </div>
     </Container>
   )
@@ -80,7 +80,7 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 17px 0 28px; 
-  position:relative;
+  position:fixed;
 
   h1 {
     font-size: 49px;
@@ -96,6 +96,7 @@ const Container = styled.div`
     height: 53px;
 
     border-radius: 26.5px;
+    z-index: 5;
   }
   div svg{
     width: 33px;
@@ -103,7 +104,7 @@ const Container = styled.div`
     color: #FFFFFF;
 
     transition: transform .4s;
-    transform: rotate(${props=>props.isClicked ? "180deg": "0deg"})
+    transform: rotate(${props => props.isClicked ? "180deg" : "0deg"})
   
   }
   div{
@@ -131,19 +132,35 @@ const Container = styled.div`
     }
   }
 `;
+
+
 const LogoutButton = styled.button`
   all: unset;
 
   width: 133px;
   height: 47px;
 
-  position: absolute;
+  position: fixed;
   right: 0px;
-  bottom: 0px;
+  top: 35px;
+  opacity: 0;
   &.allowed{
-    bottom: -47px;
+    top: 70px;
+    opacity: 1;
   }
-  z-index:${props=>props.index};
+  z-index:${props => props.index};
+
+  @media (max-width:630px){
+  &.allowed{
+    height: 90px;
+    top: 70px;
+    opacity: 1;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+  }
 
   background: #171717;
   border-radius: 0px 0px 0px 20px;
@@ -157,5 +174,5 @@ const LogoutButton = styled.button`
   
   color: #FFFFFF;
   /* transition: z-index .4s;  */
-  transition: bottom  .4s; 
+  transition: .4s; 
 `
