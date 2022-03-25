@@ -20,33 +20,39 @@ import Timeline from "./Styleds/Timeline";
 import TimelineContainer from "./Styleds/TimelineContainer";
 import TrendingBox from "./Styleds/TrendingBox";
 import { Text } from "../components/ReactHashtag";
+import HashtagRanking from "../components/HashtagRanking";
+import useReload from "../hooks/useReload";
 
-export default function TimelinePage(){
+export default function TimelinePage() {
 
-    const { auth } = useAuth();
-    
-    const [posts, setPosts] = useState()
+  const { auth } = useAuth();
 
-    useEffect(async () => {
-        const postsArray = await provider.getTimeline();
-        setPosts(postsArray)
-    }, []);
-   
-    if(!posts){
-        return <Loading>
-            <InfinitySpin color="grey" />
-        </Loading>
-    }
+  const { reload, setReload } = useReload()
 
 
-    if(posts.length === 0){
-        return <>
-            <NoPosts>
-                <span>There are no posts yet</span>
-            </NoPosts>
-        </>
-    }
+  const [posts, setPosts] = useState()
 
+  useEffect(async () => {
+    const postsArray = await provider.getTimeline();
+    setPosts(postsArray)
+  }, [reload]);
+
+  if (!posts) {
+    return <Loading>
+      <InfinitySpin color="grey" />
+    </Loading>
+  }
+
+
+  if (posts.length === 0) {
+    return <>
+      <NoPosts>
+        <Header />
+        <PublishBox />
+        <span>There are no posts yet</span>
+      </NoPosts>
+    </>
+  }
     return (
         <> 
             <Header/>
@@ -84,14 +90,7 @@ export default function TimelinePage(){
                     )}
                 </Timeline>
                 <TrendingBox>
-                    <h1>trending</h1>
-                    <hr/>
-                    <ul>
-                        <li>Internet Explorer</li>
-                        <li>Opera</li>
-                        <li>Firefox</li>
-                        <li>Safari</li>
-                    </ul>
+                <HashtagRanking />
                 </TrendingBox>
             </TimelineContainer>
         </>

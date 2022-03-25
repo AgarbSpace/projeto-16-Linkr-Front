@@ -6,10 +6,11 @@ const TimelineContainer = styled.div`
 
     display: flex;
     justify-content: center;
-    padding-top: 5%;
+    padding-top: 83px;
 
     @media(max-width: 630px) {
-        width: 97%;
+        width: 100vw;
+        padding-top: 150px;
         justify-content: flex-start;
     }
 `
