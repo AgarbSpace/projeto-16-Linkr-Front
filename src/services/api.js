@@ -33,11 +33,17 @@ async function getHashtagRankingList(token) {
   return list
 }
 
+async function deletePublication(token, postId) {
+  const config = createConfig(token);
+  return axios.delete(`${BASE_URL}/publication/${postId}`, config);
+}
+
 const api = {
   getImageProfile,
   searchUser,
   postPublication,
-  getHashtagRankingList
+  getHashtagRankingList,
+  deletePublication,
 }
 
 export default api
