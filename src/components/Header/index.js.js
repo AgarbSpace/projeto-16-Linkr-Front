@@ -81,6 +81,7 @@ const Container = styled.div`
   align-items: center;
   padding: 0 17px 0 28px; 
   position:fixed;
+  z-index: 10;
 
   h1 {
     font-size: 49px;
