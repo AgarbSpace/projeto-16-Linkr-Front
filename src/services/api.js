@@ -19,9 +19,18 @@ async function searchUser(token, query) {
   return usersList.data
 }
 
+async function postPublication(token, body) {
+
+  const config = createConfig(token)
+
+  await axios.post(`${BASE_URL}/publication`, { ...body }, config)
+
+}
+
 const api = {
   getImageProfile,
-  searchUser
+  searchUser,
+  postPublication
 }
 
 export default api

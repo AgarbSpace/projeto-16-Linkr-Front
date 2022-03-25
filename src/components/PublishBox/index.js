@@ -8,6 +8,8 @@ import PublishButton from "./Styleds/PublishButton";
 import AvatarImg from "./AvatarPicture";
 
 import useAuth from "../../hooks/useAuth";
+import api from "../../services/api";
+
 
 function PublishBox() {
 
@@ -34,10 +36,7 @@ function PublishBox() {
 
     try {
 
-      await axios.post("http://localhost:5000/publication", {
-        ...postForm
-      }
-      )
+      await api.postPublication(auth.token, postForm)
 
       setPostForm({
         userId: `${auth.userId}`,
