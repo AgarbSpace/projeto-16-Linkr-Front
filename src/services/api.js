@@ -32,6 +32,11 @@ async function getHashtagRankingList(token) {
   const list = await axios.get(`${BASE_URL}/hashtagranking`, config)
   return list
 }
+async function getLikes(token, postId) {
+  const config = createConfig(token)
+  const list = await axios.get(`${BASE_URL}/likes/${postId}`,  config)
+  return list
+}
 
 async function deletePublication(token, postId) {
   const config = createConfig(token);
@@ -43,6 +48,7 @@ const api = {
   searchUser,
   postPublication,
   getHashtagRankingList,
+  getLikes,
   deletePublication,
 }
 

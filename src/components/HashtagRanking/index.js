@@ -1,5 +1,4 @@
 import { HashtagContainer, Line } from "./styled";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
@@ -33,8 +32,8 @@ function HashtagRanking() {
       <h1>trending</h1>
       <Line />
       <ul>
-        {hashtagList.map((el) =>
-          <li onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
+        {hashtagList.map((el, i) =>
+          <li key={i} onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
             # {el.name}
           </li>)}
       </ul>

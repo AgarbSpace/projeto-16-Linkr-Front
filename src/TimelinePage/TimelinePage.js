@@ -13,6 +13,7 @@ import {
 import { Text } from "../components/ReactHashtag";
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
+import Likes from "../components/Likes";
 import { confirmDelete } from "../modals/deletePostModal.js";
 
 export default function TimelinePage() {
@@ -45,51 +46,49 @@ export default function TimelinePage() {
       </NoPosts>
     </>
   }
-  function deletePost(post) {
-    confirmDelete(post, auth);
-  }
+    function deletePost(post) {
+      confirmDelete(post, auth); 
+    }
 
 
-  return (
-    <>
-      <Header />
-      <TimelineContainer>
-        <Timeline>
-          <h2>timeline</h2>
-          <PublishBox />
-          {posts.map((post, index) =>
-            <Post key={index}>
-              <AvatarAndLikeBox>
-                <AvatarImg img={post.picture} />
-                <ion-icon name="heart-outline"></ion-icon>
-                <ion-icon name="heart"></ion-icon>
-                <span>13 likes</span>
-              </AvatarAndLikeBox>
-              <ContentBox>
-                <PostHeader>
-                  <Link to="/timeline">{post.username}</Link>
-                  <EditAndDeleteBox>
-                    <ion-icon name="trash-outline" onClick={() => deletePost(post)}></ion-icon>
-                    <ion-icon name="create-outline"></ion-icon>
-                  </EditAndDeleteBox>
-                </PostHeader>
-                <Text>{post.text}</Text>
-                <Snippet>
-                  <InfosSnippet>
-                    <a href={post.source} target="_blank">{post.title}</a>
-                    <span>{post.description}</span>
-                    <a href={post.source} target="_blank">{post.source}</a>
-                  </InfosSnippet>
-                  <ImageSnippet src={post.image} onClick={() => window.open(post.source, '_blank')} />
-                </Snippet>
-              </ContentBox>
-            </Post>
-          )}
-        </Timeline>
-        <TrendingBox>
-          <HashtagRanking />
-        </TrendingBox>
-      </TimelineContainer>
-    </>
-  )
+    return (
+        <> 
+            <Header/>
+            <TimelineContainer>
+                <Timeline>
+                    <h2>timeline</h2>
+                    <PublishBox/>
+                    {posts.map((post, i) => 
+                        <Post key={i}>
+                        <AvatarAndLikeBox>
+                            <AvatarImg img = {post.picture}/>
+                            <Likes postId={post.postId}/>
+                        </AvatarAndLikeBox>
+                        <ContentBox>
+                            <PostHeader>
+                                <Link to = "/timeline">{post.username}</Link>
+                                <EditAndDeleteBox>
+                                    <ion-icon name="trash-outline"></ion-icon>
+                                    <ion-icon name="create-outline"></ion-icon>
+                                </EditAndDeleteBox>
+                            </PostHeader>
+                            <Text>{post.text}</Text>
+                            <Snippet>
+                                <InfosSnippet>
+                                    <a href={post.source} target="_blank" rel="noreferrer">{post.title}</a>
+                                    <span>{post.description}</span>
+                                    <a href={post.source} target="_blank" rel="noreferrer">{post.source}</a>
+                                </InfosSnippet>
+                                <ImageSnippet src = {post.image} onClick={() => window.open(post.source, '_blank')}/>
+                            </Snippet>
+                        </ContentBox>
+                    </Post>
+                    )}
+                </Timeline>
+                <TrendingBox>
+                <HashtagRanking />
+                </TrendingBox>
+            </TimelineContainer>
+        </>
+    )
 }
