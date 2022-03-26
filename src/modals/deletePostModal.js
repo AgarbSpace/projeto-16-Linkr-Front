@@ -2,7 +2,6 @@ import Swal from 'sweetalert2';
 import api from '../services/api';
 
 function confirmDelete (post, auth) {
- console.log(post)
   Swal.fire({
     html: `<h1 style = 'color: #fff'>Are you sure you want to delete this post?</h1>`,
     showDenyButton: true,
@@ -18,9 +17,14 @@ function confirmDelete (post, auth) {
       api.deletePublication(auth.token, post.id)
         .then(() => window.location.reload())
         .catch((err) => {
-            Swal.fire(
-                'Algo deu errado, tente novamente mais tarde!'
-            );
+          Swal.fire({
+            html: `<h1 style = 'color: #fff'>Something went wrong. Try again later!</h1>`,
+            timer: 2000,
+            background: '#333',
+            timerProgressBar: true,
+            showConfirmButton: false,
+            position: 'center',
+        });
         })
     }
   });
