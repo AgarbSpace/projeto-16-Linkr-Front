@@ -14,10 +14,8 @@ const Post = styled.div`
     border-radius: 16px;
 
     @media(max-width: 630px) {
-        width:100vw;
         height: 232px;
         border-radius: unset;
-
     }
 
 `

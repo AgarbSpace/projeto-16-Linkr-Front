@@ -12,6 +12,7 @@ import { Text } from "../components/ReactHashtag";
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
 import Likes from "../components/Likes";
+import { confirmDelete } from "../modals/deletePostModal.js";
 
 export default function TimelinePage() {
 
@@ -20,7 +21,7 @@ export default function TimelinePage() {
   const { reload, setReload } = useReload()
 
 
-  const [posts, setPosts] = useState()
+  const [posts, setPosts] = useState([]);
 
   useEffect(async () => {
     const postsArray = await provider.getTimeline();
@@ -43,6 +44,12 @@ export default function TimelinePage() {
       </NoPosts>
     </>
   }
+  
+    function deletePost(post) {
+      confirmDelete(post, auth); 
+    }
+
+
     return (
         <> 
             <Header/>

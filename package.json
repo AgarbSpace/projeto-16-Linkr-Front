@@ -15,6 +15,7 @@
     "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.3",
     "styled-reset": "^4.3.4",
+    "sweetalert2": "^11.4.7",
     "url-metadata": "^2.5.0"
   },
   "scripts": {
@@ -39,5 +40,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@rollup/plugin-replace": "^4.0.0",
+    "react-error-overlay": "^6.0.9"
   }
 }

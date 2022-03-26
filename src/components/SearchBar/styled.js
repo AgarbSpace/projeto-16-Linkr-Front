@@ -8,11 +8,14 @@ z-index: 35;
 display: flex;
 left: calc(27vw);
 justify-content: center;
+align-items: center;
 
 @media(max-width: 630px) {
-top: 82px;
+top: 70px;
 left: 0px;
 width: 100vw;
+background-color: #333333;
+height: 65px;
 }
 
 .search-bar{
@@ -44,6 +47,8 @@ const InputIconContainer = styled.div`
 
 width: calc(100vw - 350px);
 max-width: 563px;
+height: 45px;
+
 display: flex;
 justify-content: space-between;
 align-items: center;
@@ -76,7 +81,8 @@ padding: 45px 17px 0px 17px;
 @media(max-width: 630px) {
 
   width: calc(100vw - 10px);
-  max-width: 350px
+  max-width: 350px;
+  top: 10px;
 }
 `
 

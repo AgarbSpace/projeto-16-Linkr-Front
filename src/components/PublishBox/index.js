@@ -22,7 +22,7 @@ function PublishBox() {
 
 
   const [postForm, setPostForm] = useState({
-    userId: `1`,
+    userId: `${auth.userId}`,
     link: "",
     text: "",
   })
