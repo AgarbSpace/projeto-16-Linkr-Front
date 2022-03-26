@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Post = styled.div`
+const PostConteiner = styled.div`
     width: 611px;
     height: 276px;
 
@@ -21,4 +21,4 @@ const Post = styled.div`
     }
 
 `
-export default Post;
+export default PostConteiner;

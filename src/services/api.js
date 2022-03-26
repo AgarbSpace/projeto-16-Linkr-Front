@@ -38,12 +38,19 @@ async function deletePublication(token, postId) {
   return axios.delete(`${BASE_URL}/publication/${postId}`, config);
 }
 
+async function editPublication(token, body, id) {
+
+  const config = createConfig(token)
+  return axios.post(`${BASE_URL}/publication/edit/${id}`, { ...body }, config)
+}
+
 const api = {
   getImageProfile,
   searchUser,
   postPublication,
   getHashtagRankingList,
   deletePublication,
+  editPublication,
 }
 
 export default api
