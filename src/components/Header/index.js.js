@@ -8,7 +8,7 @@ export default function Header() {
   const [isClicked, setIsClicked] = useState(false)
   const [index, setIndex] = useState(-1)
   const [profilePicture, setProfilePicture] = useState()
-  const { auth: { token } } = useAuth()
+  const { auth, logout } = useAuth()
 
   let navigate = useNavigate()
 
@@ -37,6 +37,7 @@ export default function Header() {
     }
   }
   function handleLogout() {
+    logout()
     navigate("/")
     window.location.reload()
   }
@@ -47,7 +48,7 @@ export default function Header() {
 
   async function getProfilePicture() {
     try {
-      const image = await api.getImageProfile(token)
+      const image = await api.getImageProfile(auth.token)
       setProfilePicture(image.data)
     } catch (error) {
       console.log(error)
@@ -81,6 +82,7 @@ const Container = styled.div`
   align-items: center;
   padding: 0 17px 0 28px; 
   position:fixed;
+  z-index: 10;
 
   h1 {
     font-size: 49px;

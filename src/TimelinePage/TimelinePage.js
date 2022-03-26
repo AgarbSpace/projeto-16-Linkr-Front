@@ -6,8 +6,10 @@ import PublishBox from "../components/PublishBox";
 import AvatarImg from "../components/PublishBox/AvatarPicture";
 import useAuth from "../hooks/useAuth";
 import { provider } from "../provider/provider";
-import { AvatarAndLikeBox, ContentBox, EditAndDeleteBox, ImageSnippet, InfosSnippet,
-Loading, NoPosts, Post, PostHeader, Snippet, Timeline, TimelineContainer,TrendingBox } from "./Styleds"
+import {
+  AvatarAndLikeBox, ContentBox, EditAndDeleteBox, ImageSnippet, InfosSnippet,
+  Loading, NoPosts, Post, PostHeader, Snippet, Timeline, TimelineContainer, TrendingBox
+} from "./Styleds"
 import { Text } from "../components/ReactHashtag";
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
@@ -36,17 +38,17 @@ export default function TimelinePage() {
 
   if (posts.length === 0) {
     return <>
+      <Header />
       <NoPosts>
-        <Header />
         <PublishBox />
         <span>There are no posts yet</span>
       </NoPosts>
     </>
   }
   function deletePost(post) {
-    confirmDelete(post, auth); 
+    confirmDelete(post, auth);
   }
-  
+
 
   return (
     <>
@@ -71,7 +73,7 @@ export default function TimelinePage() {
                     <ion-icon name="create-outline"></ion-icon>
                   </EditAndDeleteBox>
                 </PostHeader>
-                <span>{post.text}</span>
+                <Text>{post.text}</Text>
                 <Snippet>
                   <InfosSnippet>
                     <a href={post.source} target="_blank">{post.title}</a>
