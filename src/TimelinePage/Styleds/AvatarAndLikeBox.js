@@ -7,24 +7,7 @@ const AvatarAndLikeBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    ion-icon{
-        width: 25px;
-        height: 25px;
-        color: #FFFFFF;
-    }
-
-    span{
-        font-family: 'Lato';
-        font-size: 11px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 13px;
-        letter-spacing: 0em;
-        text-align: center;
-        color: #FFFFFF;
-
-    }
+    gap: 18px;
 `
 
 export default AvatarAndLikeBox;

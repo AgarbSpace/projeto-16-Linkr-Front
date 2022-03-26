@@ -11,6 +11,7 @@ Loading, NoPosts, Post, PostHeader, Snippet, Timeline, TimelineContainer,Trendin
 import { Text } from "../components/ReactHashtag";
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
+import Likes from "../components/Likes";
 
 export default function TimelinePage() {
 
@@ -49,13 +50,11 @@ export default function TimelinePage() {
                 <Timeline>
                     <h2>timeline</h2>
                     <PublishBox/>
-                    {posts.map(post => 
-                        <Post>
+                    {posts.map((post, i) => 
+                        <Post key={i}>
                         <AvatarAndLikeBox>
                             <AvatarImg img = {post.picture}/>
-                            <ion-icon name="heart-outline"></ion-icon>
-                            <ion-icon name="heart"></ion-icon>
-                            <span>13 likes</span>
+                            <Likes postId={post.postId}/>
                         </AvatarAndLikeBox>
                         <ContentBox>
                             <PostHeader>
