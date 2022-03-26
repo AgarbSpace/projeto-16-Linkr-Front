@@ -35,7 +35,7 @@ function SearchBar(Props) {
     getUserListSearch()
   }, [name]);
 
-  if (location.pathname === "/") {
+  if (location.pathname === "/" || "/signup") {
     return ""
   }
 
