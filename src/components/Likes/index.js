@@ -37,15 +37,15 @@ export default function Likes({postId}) {
           :
           <ion-icon name="heart-outline" onClick = {() => likeOrRemove(auth.token, auth.userId, postId)}></ion-icon>
         }
-        <span data-tip data-for="tooltipLikes">{`${whoLiked.length} likes`}</span>
-        {whoLiked.length !== 0 && <LoadTooltip whoLiked={whoLiked} isLiked={isLiked}/>}
+        <span data-tip data-for={`tooltipLikes${postId}`}>{`${whoLiked.length} likes`}</span>
+        {whoLiked.length !== 0 && <LoadTooltip whoLiked={whoLiked} isLiked={isLiked} postId={postId}/>}
       </LikeButton>  
     </>
   );
 }
-function LoadTooltip({whoLiked, isLiked}) {
+function LoadTooltip({whoLiked, isLiked, postId}) {
   return(
-    <ReactTooltip id="tooltipLikes" place="bottom" type='light' effect="solid">
+    <ReactTooltip id={`tooltipLikes${postId}`} place="bottom" type='light' effect="solid">
     {
       (whoLiked.length === 1 && isLiked) ? 
       <p>{`You`}</p>
