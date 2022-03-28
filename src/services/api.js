@@ -1,6 +1,8 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config()
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = process.env.URL || "http://localhost:5000"
 
 function createConfig(token) {
   return { headers: { 'Authorization': `Bearer ${token}` } }
@@ -32,12 +34,36 @@ async function getHashtagRankingList(token) {
   const list = await axios.get(`${BASE_URL}/hashtagranking`, config)
   return list
 }
+async function getLikes(token, postId) {
+  const config = createConfig(token)
+  const list = await axios.get(`${BASE_URL}/likes/${postId}`, config)
+  return list
+}
 
+async function deletePublication(token, postId) {
+  const config = createConfig(token);
+  return axios.delete(`${BASE_URL}/publication/${postId}`, config);
+}
+
+async function editPublication(token, body, id) {
+
+  const config = createConfig(token)
+  return axios.post(`${BASE_URL}/publication/edit/${id}`, { ...body }, config)
+}
+
+async function likeOrRemoveLike (token, userId, postId){
+  const config = createConfig(token);
+  return axios.patch(`${BASE_URL}/likes/${postId}`, {userId}, config)
+}
 const api = {
   getImageProfile,
   searchUser,
   postPublication,
-  getHashtagRankingList
+  getHashtagRankingList,
+  getLikes,
+  deletePublication,
+  editPublication,
+  likeOrRemoveLike
 }
 
 export default api

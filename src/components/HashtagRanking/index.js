@@ -1,14 +1,15 @@
 import { HashtagContainer, Line } from "./styled";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
+import useReload from "../../hooks/useReload";
 
 function HashtagRanking() {
 
   const [hashtagList, setHashtagList] = useState([]);
   const { auth } = useAuth()
+  const { reload } = useReload()
   const navigate = useNavigate()
 
   async function getHashtagRanking() {
@@ -26,14 +27,14 @@ function HashtagRanking() {
 
     getHashtagRanking()
 
-  }, [])
+  }, [reload])
 
   return (
     <HashtagContainer>
       <h1>trending</h1>
       <Line />
       <ul>
-        {hashtagList.map((el) =>
+        {hashtagList.map((el, i) =>
           <li onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
             # {el.name}
           </li>)}
