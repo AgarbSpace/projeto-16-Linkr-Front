@@ -17,10 +17,9 @@ export default function Hashtag() {
   const params = useParams();
 
   const [posts, setPosts] = useState();
-  const [hashtag, setHashtag] = useState();
 
   useEffect(() => {
-    const promise = axios.get("http://localhost:5000/hashtag", {
+    const promise = axios.get("https://back--linkr.herokuapp.com/hashtag", {
       headers: {
         nameHashtag: `${params.hashtag}`,
       },
