@@ -152,17 +152,6 @@ const LogoutButton = styled.button`
   }
   z-index:${props => props.index};
 
-  @media (max-width:630px){
-  &.allowed{
-    height: 90px;
-    top: 70px;
-    opacity: 1;
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    padding-bottom: 10px;
-  }
-  }
 
   background: #171717;
   border-radius: 0px 0px 0px 20px;

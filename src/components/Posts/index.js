@@ -1,5 +1,7 @@
-import { AvatarAndLikeBox, ContentBox, EditAndDeleteBox, ImageSnippet, InfosSnippet,
-PostConteiner, PostHeader, Snippet } from "./Styleds";
+import {
+  AvatarAndLikeBox, ContentBox, EditAndDeleteBox, ImageSnippet, InfosSnippet,
+  PostConteiner, PostHeader, Snippet
+} from "./Styleds";
 import AvatarImg from '../PublishBox/AvatarPicture';
 import { confirmDelete } from "../../modals/deletePostModal.js";
 import useAuth from "../../hooks/useAuth";
@@ -8,10 +10,13 @@ import api from "../../services/api";
 import { errorEdit } from "../../modals/errorEditingPost.js";
 import { useNavigate } from 'react-router-dom';
 import Likes from "../Likes";
+import { Text } from "../ReactHashtag";
+import useReload from "../../hooks/useReload";
 
 function Posts({ post, setPosts }) {
-  
+
   const { auth } = useAuth();
+  const { reload, setReload } = useReload()
 
   const [isEditing, setIsEditing] = useState(false);
   const [textToEdit, setTextToEdit] = useState(post.text);
@@ -26,39 +31,42 @@ function Posts({ post, setPosts }) {
     }
   }, [isEditing]);
 
-  function deletePost () {
-    confirmDelete(post, auth); 
-  }
-      
-  function editPost (e) {
-    e.preventDefault();
-    const body = {text: textToEdit};
-    api.editPublication(auth.token, body, post.id)
-    .then(setIsEditing(!isEditing))
-    .catch(() => errorEdit());
+  function deletePost() {
+    confirmDelete(post, auth);
   }
 
-  function toggleEdit () {
+  function editPost(e) {
+    e.preventDefault();
+    const body = { text: textToEdit };
+    api.editPublication(auth.token, body, post.id)
+      .then(setIsEditing(!isEditing))
+      .catch(() => errorEdit());
+  }
+
+  function toggleEdit() {
     setTextToEdit(post.text);
     setIsEditing(!isEditing);
   }
 
-  function verifyEsc (e) {
+  function verifyEsc(e) {
     if (e.key === 'Escape') toggleEdit();
   }
 
   function goToUserPage() {
     setPosts([]);
-    navigate(`/user/${post.userId}`);
+    navigate(`/user/${post.userId}`)
+    setReload(!reload)
+
+      ;
   }
-  
+
   return (
     <PostConteiner>
       <AvatarAndLikeBox>
         <div onClick={goToUserPage}>
-          <AvatarImg img={post.picture}/>
+          <AvatarImg img={post.picture} />
         </div>
-        <Likes postId={post.id}/>
+        <Likes postId={post.id} />
       </AvatarAndLikeBox>
       <ContentBox>
         <PostHeader>
@@ -69,21 +77,21 @@ function Posts({ post, setPosts }) {
           </EditAndDeleteBox>
         </PostHeader>
         <span>{
-          isEditing ? 
-          (
-            <form onSubmit={editPost} onKeyDown={verifyEsc}>
-              <input
-                ref={inputRef}
-                value={textToEdit}
-                onChange={e => setTextToEdit(e.target.value)}
-              >
-              </input>
-            </form>
-          )
-          :
-          (
-            textToEdit
-          )
+          isEditing ?
+            (
+              <form onSubmit={editPost} onKeyDown={verifyEsc}>
+                <input
+                  ref={inputRef}
+                  value={textToEdit}
+                  onChange={e => setTextToEdit(e.target.value)}
+                >
+                </input>
+              </form>
+            )
+            :
+            (
+              <Text>{textToEdit}</Text>
+            )
         }</span>
         <Snippet>
           <InfosSnippet>

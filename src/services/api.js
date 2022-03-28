@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = process.env.URL || "http://localhost:5000"
 
 function createConfig(token) {
   return { headers: { 'Authorization': `Bearer ${token}` } }
@@ -34,7 +34,7 @@ async function getHashtagRankingList(token) {
 }
 async function getLikes(token, postId) {
   const config = createConfig(token)
-  const list = await axios.get(`${BASE_URL}/likes/${postId}`,  config)
+  const list = await axios.get(`${BASE_URL}/likes/${postId}`, config)
   return list
 }
 
