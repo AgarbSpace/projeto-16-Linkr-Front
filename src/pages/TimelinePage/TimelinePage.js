@@ -32,7 +32,7 @@ export default function TimelinePage() {
     }
   }, [reload, id]);
 
-  console.log(posts)
+
   if (!posts) {
     return <Loading>
       <InfinitySpin color="grey" />
