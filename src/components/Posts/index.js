@@ -3,12 +3,12 @@ PostConteiner, PostHeader, Snippet } from "./Styleds";
 import AvatarImg from '../PublishBox/AvatarPicture';
 import { confirmDelete } from "../../modals/deletePostModal.js";
 import useAuth from "../../hooks/useAuth";
-import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import { errorEdit } from "../../modals/errorEditingPost.js";
+import { useNavigate } from 'react-router-dom';
 
-function Posts({ post }) {
+function Posts({ post, setPosts }) {
   
   const { auth } = useAuth();
 
@@ -16,6 +16,8 @@ function Posts({ post }) {
   const [textToEdit, setTextToEdit] = useState(post.text);
 
   const inputRef = useRef(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isEditing) {
@@ -43,18 +45,25 @@ function Posts({ post }) {
   function verifyEsc (e) {
     if (e.key === 'Escape') toggleEdit();
   }
+
+  function goToUserPage() {
+    setPosts([]);
+    navigate(`/user/${post.userId}`);
+  }
   
   return (
     <PostConteiner>
       <AvatarAndLikeBox>
-        <AvatarImg img={post.picture} />
+        <div onClick={goToUserPage}>
+          <AvatarImg img={post.picture}/>
+        </div>
         <ion-icon name="heart-outline"></ion-icon>
         <ion-icon name="heart"></ion-icon>
         <span>13 likes</span>
       </AvatarAndLikeBox>
       <ContentBox>
         <PostHeader>
-          <Link to="/timeline">{post.username}</Link>
+          <h1 onClick={goToUserPage}>{post.username}</h1>
           <EditAndDeleteBox>
             <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
             <ion-icon name="create-outline" onClick={toggleEdit}></ion-icon>

@@ -11,7 +11,7 @@ const ContentBox = styled.div`
     align-items: flex-start;
     padding-left: 18px;
     
-    a{
+    a, h1{
         font-size: 19px;
         font-style: normal;
         font-weight: 400;

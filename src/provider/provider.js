@@ -1,4 +1,5 @@
-import axios from "axios"
+import axios from "axios";
+import { errServer } from "../modals/errServer";
 
 const BASE_URL = "http://localhost:5000/"
 
@@ -10,11 +11,23 @@ async function getTimeline(){
         return promise.data
     } catch (error) {
         console.log(error.response)
-        alert("An error occured while trying to fetch the posts, please refresh the page");
+        errServer();
         return;
     }
 }
 
+async function getUserTimeline (id) {
+  try {
+    const promise = await axios.get(`${BASE_URL}user/${id}`,);
+    return promise.data;
+  } catch (err) {
+    console.log(err);
+    errServer();
+    return;
+  }
+}
+
 export const provider = {
-    getTimeline
+    getTimeline,
+    getUserTimeline,
 }

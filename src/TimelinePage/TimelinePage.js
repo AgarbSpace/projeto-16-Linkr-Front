@@ -8,20 +8,31 @@ import { Loading, NoPosts, Timeline, TimelineContainer,TrendingBox } from "./Sty
 import HashtagRanking from "../components/HashtagRanking";
 import useReload from "../hooks/useReload";
 import Posts from "../components/Posts";
+import { useParams } from "react-router";
 
 export default function TimelinePage() {
 
   const { auth } = useAuth();
 
-  const { reload, setReload } = useReload()
+  const { reload, setReload } = useReload();
 
+  const [username, setUsername] = useState('');
   const [posts, setPosts] = useState([]);
 
-  useEffect(async () => {
-    const postsArray = await provider.getTimeline();
-    setPosts(postsArray)
-  }, [reload]);
+  const { id } = useParams();
 
+  useEffect(async () => {
+    if (!id) {
+      const postsArray = await provider.getTimeline();
+      setPosts(postsArray);
+    } else {
+      const postsArray = await provider.getUserTimeline(id);
+      setUsername(postsArray.username);
+      setPosts(postsArray.posts);
+    }
+  }, [reload, id]);
+
+  console.log(posts)
   if (!posts) {
     return <Loading>
       <InfinitySpin color="grey" />
@@ -33,7 +44,7 @@ export default function TimelinePage() {
     return <>
       <Header />
       <NoPosts>
-        <PublishBox />
+        { id === undefined ? <PublishBox/> : false }
         <span>There are no posts yet</span>
       </NoPosts>
     </>
@@ -44,10 +55,10 @@ export default function TimelinePage() {
       <Header />
       <TimelineContainer>
         <Timeline>
-          <h2>timeline</h2>
-          <PublishBox />
+          <h2>{ id === undefined ? 'timeline' : `${username}'s posts'` }</h2>
+          { id === undefined ? <PublishBox/> : false  }
           {posts.map((post, index) =>
-            <Posts key = {index} post = {post}/>
+            <Posts key = {index} post = {post} setPosts={setPosts}/>
           )}
         </Timeline>
         <TrendingBox>
