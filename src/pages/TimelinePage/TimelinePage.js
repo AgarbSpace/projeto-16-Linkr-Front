@@ -16,12 +16,16 @@ export default function TimelinePage() {
 
   const { reload, setReload } = useReload();
 
+
   const [username, setUsername] = useState('');
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const { id } = useParams();
 
   useEffect(async () => {
+    setIsLoading(true)
     if (!id) {
       const postsArray = await provider.getTimeline(auth.token);
       setPosts(postsArray);
@@ -30,11 +34,11 @@ export default function TimelinePage() {
       setUsername(postsArray.username);
       setPosts(postsArray.posts);
     }
-
+    setIsLoading(false)
   }, [reload]);
 
 
-  if (!posts) {
+  if (isLoading) {
     return <Loading>
       <InfinitySpin color="grey" />
     </Loading>
