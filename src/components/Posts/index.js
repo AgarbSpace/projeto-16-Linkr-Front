@@ -59,7 +59,6 @@ function Posts({ post, setPosts }) {
 
       ;
   }
-
   return (
     <PostConteiner>
       <AvatarAndLikeBox>

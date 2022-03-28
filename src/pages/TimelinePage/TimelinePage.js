@@ -4,7 +4,7 @@ import { Header } from "../../components";
 import PublishBox from "../../components/PublishBox";
 import useAuth from "../../hooks/useAuth";
 import { provider } from "../../provider/provider";
-import { Loading, NoPosts, Timeline, TimelineContainer, TrendingBox } from "./Styleds"
+import { Loading, NoPosts, Timeline, TimelineContainer, TrendingBox } from "../Hashtags/Styleds"
 import HashtagRanking from "../../components/HashtagRanking";
 import useReload from "../../hooks/useReload";
 import Posts from "../../components/Posts";
