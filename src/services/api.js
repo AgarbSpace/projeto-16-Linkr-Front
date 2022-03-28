@@ -1,4 +1,6 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config()
 
 const BASE_URL = process.env.URL || "http://localhost:5000"
 
