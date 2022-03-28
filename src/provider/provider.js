@@ -3,22 +3,33 @@ import { errServer } from "../modals/errServer";
 
 const BASE_URL = "http://localhost:5000/"
 
-async function getTimeline(){
-    try {
-        const promise = await axios.get(`${BASE_URL}timeline`,
-        
-        );
-        return promise.data
-    } catch (error) {
-        console.log(error.response)
-        errServer();
-        return;
-    }
+
+function createConfig(token) {
+  return { headers: { 'Authorization': `Bearer ${token}` } }
 }
 
-async function getUserTimeline (id) {
+async function getTimeline(token) {
+
+  const config = createConfig(token)
+
   try {
-    const promise = await axios.get(`${BASE_URL}user/${id}`,);
+    const promise = await axios.get(`${BASE_URL}timeline`,
+      config
+    );
+    return promise.data
+  } catch (error) {
+    console.log(error.response)
+    errServer();
+    return;
+  }
+}
+
+async function getUserTimeline(id, token) {
+
+  const config = createConfig(token)
+
+  try {
+    const promise = await axios.get(`${BASE_URL}user/${id}`, config);
     return promise.data;
   } catch (err) {
     console.log(err);
@@ -28,6 +39,6 @@ async function getUserTimeline (id) {
 }
 
 export const provider = {
-    getTimeline,
-    getUserTimeline,
+  getTimeline,
+  getUserTimeline,
 }
