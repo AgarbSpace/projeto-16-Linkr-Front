@@ -22,7 +22,7 @@ export default function TimelinePage() {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const { id } = useParams();
+  const { id } = useParams() || 0;
 
   useEffect(async () => {
     setIsLoading(true)
@@ -35,7 +35,7 @@ export default function TimelinePage() {
       setPosts(postsArray.posts);
     }
     setIsLoading(false)
-  }, [reload]);
+  }, [reload, id]);
 
 
   if (isLoading) {

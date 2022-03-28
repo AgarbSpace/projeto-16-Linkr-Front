@@ -1,7 +1,7 @@
 import axios from "axios";
 import { errServer } from "../modals/errServer";
 
-const BASE_URL = process.env.URL || "http://localhost:5000"
+const BASE_URL = "https://back--linkr.herokuapp.com"
 
 
 function createConfig(token) {

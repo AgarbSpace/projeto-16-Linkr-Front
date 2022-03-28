@@ -35,9 +35,6 @@ function SearchBar(Props) {
     getUserListSearch()
   }, [name]);
 
-  if (location.pathname === "/" || "/signup") {
-    return ""
-  }
 
   function handleClick(id) {
     navigate(`/user/${id}`)
