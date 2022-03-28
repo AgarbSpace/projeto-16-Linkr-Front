@@ -4,7 +4,7 @@ const SearchBarContainer = styled.div`
 
 position: fixed;
 top: 13px;
-z-index: 35;
+z-index: 10;
 display: flex;
 left: calc(27vw);
 justify-content: center;
@@ -32,7 +32,7 @@ height: 65px;
   line-height: 23px;
   color: #C6C6C6;
 
-  z-index: 25px;
+  z-index: 25;
 
 }
 
@@ -52,7 +52,7 @@ height: 45px;
 display: flex;
 justify-content: space-between;
 align-items: center;
-z-index: 20;
+z-index: 30;
 
 background: #FFFFFF;
 border-radius: 8px;

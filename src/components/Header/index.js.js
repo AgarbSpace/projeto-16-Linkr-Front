@@ -34,7 +34,7 @@ export default function Header() {
     }
     if (!isClicked) {
       setIsClicked(true)
-      setTimeout(() => setIndex(50), 300)
+      setTimeout(() => setIndex(500), 300)
     }
   }
   function handleLogout() {

@@ -12,7 +12,6 @@ export default function App() {
       <ReloadContextProvider>
         <BrowserRouter>
           <GlobalStyled />
-          <SearchBar />
           <Routes>
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/" element={<SignInPage />} />
@@ -20,6 +19,7 @@ export default function App() {
             <Route path="/hashtag/:hashtag" element={<Hashtag />} />
             <Route path="/user/:id" element={<TimelinePage />} />
           </Routes>
+          <SearchBar />
         </BrowserRouter>
       </ReloadContextProvider>
     </AuthProvider>

@@ -31,6 +31,8 @@ function SearchBar(Props) {
     }
   }
 
+
+
   useEffect(() => {
     getUserListSearch()
   }, [name]);
@@ -40,6 +42,12 @@ function SearchBar(Props) {
     navigate(`/user/${id}`)
     setList([])
     setName("")
+  }
+
+  console.log(location)
+
+  if (location.pathname === "/" || location.pathname === "/signin" || location.pathname === "/signup") {
+    return ""
   }
 
   return (
