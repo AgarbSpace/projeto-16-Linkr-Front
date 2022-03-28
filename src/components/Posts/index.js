@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import { errorEdit } from "../../modals/errorEditingPost.js";
 import { useNavigate } from 'react-router-dom';
+import Likes from "../Likes";
 
 function Posts({ post, setPosts }) {
   
@@ -57,9 +58,7 @@ function Posts({ post, setPosts }) {
         <div onClick={goToUserPage}>
           <AvatarImg img={post.picture}/>
         </div>
-        <ion-icon name="heart-outline"></ion-icon>
-        <ion-icon name="heart"></ion-icon>
-        <span>13 likes</span>
+        <Likes postId={post.id}/>
       </AvatarAndLikeBox>
       <ContentBox>
         <PostHeader>

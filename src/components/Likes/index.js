@@ -10,6 +10,7 @@ export default function Likes({postId}) {
   const [whoLiked, setWhoLiked] = useState()
 
   useEffect(()=>getLikes(),[])
+
   async function getLikes() {
     try {
       const { data: list } = await api.getLikes(auth.token,  postId )
@@ -21,15 +22,20 @@ export default function Likes({postId}) {
     }
   }
 
+  async function likeOrRemove(token, userId, postId){
+    await api.likeOrRemoveLike(token, userId, postId);
+    getLikes();
+  }
+
   if(!whoLiked && isLiked === undefined) return <p>Loading</p>
   return(
     <>
       <LikeButton  isLiked={isLiked}>
         {
           isLiked ? 
-          <ion-icon name="heart"></ion-icon>
+          <ion-icon name="heart" onClick = {() => likeOrRemove(auth.token, auth.userId, postId)}></ion-icon>
           :
-          <ion-icon name="heart-outline"></ion-icon>
+          <ion-icon name="heart-outline" onClick = {() => likeOrRemove(auth.token, auth.userId, postId)}></ion-icon>
         }
         <span data-tip data-for="tooltipLikes">{`${whoLiked.length} likes`}</span>
         {whoLiked.length !== 0 && <LoadTooltip whoLiked={whoLiked} isLiked={isLiked}/>}
