@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
+
 export default function Header() {
   const [isClicked, setIsClicked] = useState(false)
   const [index, setIndex] = useState(-1)
@@ -33,7 +34,7 @@ export default function Header() {
     }
     if (!isClicked) {
       setIsClicked(true)
-      setTimeout(() => setIndex(50), 300)
+      setTimeout(() => setIndex(500), 300)
     }
   }
   function handleLogout() {

@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config()
 
-const BASE_URL = process.env.URL || "http://localhost:5000"
+const BASE_URL = "https://back--linkr.herokuapp.com"
 
 function createConfig(token) {
   return { headers: { 'Authorization': `Bearer ${token}` } }
@@ -51,9 +51,9 @@ async function editPublication(token, body, id) {
   return axios.post(`${BASE_URL}/publication/edit/${id}`, { ...body }, config)
 }
 
-async function likeOrRemoveLike (token, userId, postId){
+async function likeOrRemoveLike(token, userId, postId) {
   const config = createConfig(token);
-  return axios.patch(`${BASE_URL}/likes/${postId}`, {userId}, config)
+  return axios.patch(`${BASE_URL}/likes/${postId}`, { userId }, config)
 }
 const api = {
   getImageProfile,

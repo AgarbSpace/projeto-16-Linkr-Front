@@ -23,7 +23,7 @@ export default function SignUpPage() {
 
   function signUp(e) {
     e.preventDefault();
-    const promisse = axios.post("http://localhost:5000/signup", {
+    const promisse = axios.post("https://back--linkr.herokuapp.com/signup", {
       ...signUpForm
     })
 
