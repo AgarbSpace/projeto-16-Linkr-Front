@@ -11,6 +11,7 @@ import HashtagRanking from "../../components/HashtagRanking/index.js";
 import NoPosts from "./Styleds/NoPosts";
 import Loading from "./Styleds/Loading";
 import Posts from "../../components/Posts";
+import SearchBar from "../../components/SearchBar";
 
 export default function Hashtag() {
   const { auth } = useAuth();
@@ -47,21 +48,22 @@ export default function Hashtag() {
       </>
     );
   }
-  
+
   return (
     <>
+      <SearchBar />
       <Header />
       <TimelineContainer>
         <Timeline>
           <h2>#{params.hashtag}</h2>
           {posts.map((post, index) =>
-          <Posts key={index} post={post} setPosts={setPosts} />
-        )}
-      </Timeline>
-      <TrendingBox>
-        <HashtagRanking />
-      </TrendingBox>
-    </TimelineContainer>
-  </>
+            <Posts key={index} post={post} setPosts={setPosts} />
+          )}
+        </Timeline>
+        <TrendingBox>
+          <HashtagRanking />
+        </TrendingBox>
+      </TimelineContainer>
+    </>
   );
 }

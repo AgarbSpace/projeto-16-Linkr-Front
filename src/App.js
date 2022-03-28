@@ -4,7 +4,6 @@ import GlobalStyled from "./GlobalStyleds/GlobalStyled";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Hashtag, SignInPage, SignUpPage, TimelinePage } from "./pages";
 import { ReloadContextProvider } from "./contexts/ReloadContext";
-import SearchBar from "./components/SearchBar";
 
 export default function App() {
   return (
@@ -19,7 +18,6 @@ export default function App() {
             <Route path="/hashtag/:hashtag" element={<Hashtag />} />
             <Route path="/user/:id" element={<TimelinePage />} />
           </Routes>
-          <SearchBar />
         </BrowserRouter>
       </ReloadContextProvider>
     </AuthProvider>

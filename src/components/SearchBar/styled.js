@@ -4,18 +4,21 @@ const SearchBarContainer = styled.div`
 
 position: fixed;
 top: 13px;
-z-index: 10;
+z-index: 25;
 display: flex;
-left: calc(27vw);
+left: calc(29vw);
 justify-content: center;
 align-items: center;
 
 @media(max-width: 630px) {
+
+  z-index: 10;
 top: 70px;
 left: 0px;
 width: 100vw;
 background-color: #333333;
 height: 65px;
+position: absolute;
 }
 
 .search-bar{
@@ -45,7 +48,7 @@ height: 65px;
 
 const InputIconContainer = styled.div`
 
-width: calc(100vw - 350px);
+width: calc(100vw - 400px);
 max-width: 563px;
 height: 45px;
 
@@ -67,7 +70,7 @@ padding: 0px 14px;
 `
 
 const UserListContainer = styled.ul`
-width: calc(100vw - 350px);
+width: calc(100vw - 400px);
 max-width: 563px;
 background: #E7E7E7;
 border-radius: 8px;
