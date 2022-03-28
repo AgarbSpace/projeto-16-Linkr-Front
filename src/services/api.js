@@ -49,6 +49,10 @@ async function editPublication(token, body, id) {
   return axios.post(`${BASE_URL}/publication/edit/${id}`, { ...body }, config)
 }
 
+async function likeOrRemoveLike (token, userId, postId){
+  const config = createConfig(token);
+  return axios.patch(`${BASE_URL}/likes/${postId}`, {userId}, config)
+}
 const api = {
   getImageProfile,
   searchUser,
@@ -57,6 +61,7 @@ const api = {
   getLikes,
   deletePublication,
   editPublication,
+  likeOrRemoveLike
 }
 
 export default api
