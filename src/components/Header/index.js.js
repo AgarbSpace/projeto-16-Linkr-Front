@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
+
 export default function Header() {
   const [isClicked, setIsClicked] = useState(false)
   const [index, setIndex] = useState(-1)

@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import GlobalStyled from "./GlobalStyleds/GlobalStyled";
 import { AuthProvider } from "./contexts/AuthContext";
 import { Hashtag, SignInPage, SignUpPage, TimelinePage } from "./pages";
-import SearchBar from "./components/SearchBar";
 import { ReloadContextProvider } from "./contexts/ReloadContext";
+import SearchBar from "./components/SearchBar";
 
 export default function App() {
   return (
