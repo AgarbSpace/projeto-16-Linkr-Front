@@ -30,7 +30,8 @@ export default function TimelinePage() {
       setUsername(postsArray.username);
       setPosts(postsArray.posts);
     }
-  }, [reload, id]);
+
+  }, [reload]);
 
 
   if (!posts) {

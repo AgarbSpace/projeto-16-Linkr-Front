@@ -11,10 +11,12 @@ import { errorEdit } from "../../modals/errorEditingPost.js";
 import { useNavigate } from 'react-router-dom';
 import Likes from "../Likes";
 import { Text } from "../ReactHashtag";
+import useReload from "../../hooks/useReload";
 
 function Posts({ post, setPosts }) {
 
   const { auth } = useAuth();
+  const { reload, setReload } = useReload()
 
   const [isEditing, setIsEditing] = useState(false);
   const [textToEdit, setTextToEdit] = useState(post.text);
@@ -52,10 +54,11 @@ function Posts({ post, setPosts }) {
 
   function goToUserPage() {
     setPosts([]);
-    navigate(`/user/${post.userId}`);
-  }
+    navigate(`/user/${post.userId}`)
+    setReload(!reload)
 
-  console.log(post)
+      ;
+  }
 
   return (
     <PostConteiner>
