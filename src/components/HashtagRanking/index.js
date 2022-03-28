@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
+import useReload from "../../hooks/useReload";
 
 function HashtagRanking() {
 
   const [hashtagList, setHashtagList] = useState([]);
   const { auth } = useAuth()
+  const { reload } = useReload()
   const navigate = useNavigate()
 
   async function getHashtagRanking() {
@@ -25,7 +27,7 @@ function HashtagRanking() {
 
     getHashtagRanking()
 
-  }, [])
+  }, [reload])
 
   return (
     <HashtagContainer>
@@ -33,7 +35,7 @@ function HashtagRanking() {
       <Line />
       <ul>
         {hashtagList.map((el, i) =>
-          <li key={i} onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
+          <li onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
             # {el.name}
           </li>)}
       </ul>
