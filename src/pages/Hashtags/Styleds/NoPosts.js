@@ -6,7 +6,9 @@ const NoPosts = styled.div`
 
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    flex-direction: column;
+    padding-top: 83px;
 
     span{
         font-family: 'Oswald';
