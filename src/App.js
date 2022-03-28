@@ -7,7 +7,7 @@ import TimelinePage from "./TimelinePage/TimelinePage";
 import SearchBar from "./components/SearchBar";
 import { ReloadContextProvider } from "./contexts/ReloadContext";
 
-export default function App() {
+export default function App() {  
   return (
     <AuthProvider>
       <ReloadContextProvider>
@@ -19,6 +19,7 @@ export default function App() {
             <Route path="/" element={<SignInPage />} />
             <Route path="/timeline" element={<TimelinePage />}  />
             <Route path="/hashtag/:hashtag" element={<Hashtag />} />
+            <Route path="/user/:id" element={<TimelinePage />}/>
           </Routes>
         </BrowserRouter>
       </ReloadContextProvider>
