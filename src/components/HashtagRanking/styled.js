@@ -12,6 +12,8 @@ border-radius: 16px;
 
 padding: 10px 0px;
 
+position: sticky;
+
 h1{
 
   padding: 0px 16px;

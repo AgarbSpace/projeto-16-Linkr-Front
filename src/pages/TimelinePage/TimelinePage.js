@@ -8,7 +8,9 @@ import { Loading, NoPosts, Timeline, TimelineContainer, TrendingBox } from "../H
 import HashtagRanking from "../../components/HashtagRanking";
 import useReload from "../../hooks/useReload";
 import Posts from "../../components/Posts";
+import SearchBar from "../../components/SearchBar";
 import { useParams } from "react-router";
+
 
 export default function TimelinePage() {
 
@@ -57,7 +59,9 @@ export default function TimelinePage() {
 
   return (
     <>
+      <SearchBar />
       <Header />
+
       <TimelineContainer>
         <Timeline>
           <h2>{id === undefined ? 'timeline' : `${username}'s posts'`}</h2>
