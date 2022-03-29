@@ -2,10 +2,15 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
-import Container from "../SignUpPage/Styleds/Container";
-import ContainerLogoDescription from "../SignUpPage/Styleds/ContainerLogoDescription";
-import FormInputs from '../SignUpPage/Styleds/FormInputs';
 import useAuth from '../../hooks/useAuth';
+import { errLogin } from "../../modals/errorLogin";
+import api from "../../services/api";
+
+import {
+  Container,
+  ContainerLogoDescription,
+  FormInputs
+} from "../SignUpPage/Styleds";
 
 
 export default function SignInPage() {
@@ -28,23 +33,19 @@ export default function SignInPage() {
     setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value });
   }
 
-  function signUp(e) {
+  async function signIn(e) {
     e.preventDefault();
-    const promisse = axios.post("https://back--linkr.herokuapp.com/signin", {
-      ...signUpForm
-    })
 
-    promisse.then(res => {
-      login(res.data)
+    try {
+      const token = await api.signIn(signUpForm)
+      login(token.data)
       setButtonStatus("")
       navigate('/timeline')
-    })
-
-    promisse.catch(error => {
-      alert("Username or password is invalid!");
+    } catch (error) {
+      errLogin()
       setButtonStatus("")
-      console.log(error.response.data);
-    })
+      console.log(error.response.data)
+    }
   }
 
   return (
@@ -53,7 +54,7 @@ export default function SignInPage() {
         <h1>linkr</h1>
         <span>save, share and discover the best links on the web</span>
       </ContainerLogoDescription>
-      <FormInputs onSubmit={signUp}>
+      <FormInputs onSubmit={signIn}>
         <input type="email" placeholder="e-mail" name="email" value={signUpForm.email} onChange={controlledInput} />
         <input type="password" placeholder="password" name="password" value={signUpForm.password} onChange={controlledInput} />
         <button type="submit" onClick={() => setButtonStatus("loading")}>{buttonStatus === 'loading' ? <ThreeDots type="ThreeDots" color="#000000" height={50} width={50} /> : "Log In"}</button>

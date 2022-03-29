@@ -1,9 +1,11 @@
-import { HashtagContainer, Line } from "./styled";
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
 import useReload from "../../hooks/useReload";
+import api from "../../services/api";
+import { HashtagContainer, Line } from "./styled";
+
 
 function HashtagRanking() {
 
@@ -12,21 +14,19 @@ function HashtagRanking() {
   const { reload } = useReload()
   const navigate = useNavigate()
 
-  async function getHashtagRanking() {
-    try {
-      const list = await api.getHashtagRankingList(auth.token)
-      setHashtagList(list.data)
 
-    }
-    catch (error) {
-      console.log(error)
-      alert("An error has occur in retrieving hashtag ranking data")
-    }
-  }
   useEffect(() => {
-
-    getHashtagRanking()
-
+    async function getHashtagRanking(token) {
+      try {
+        const list = await api.getHashtagRankingList(token)
+        setHashtagList(list.data)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+    getHashtagRanking(auth.token)
+    // eslint-disable-next-line
   }, [reload])
 
   return (

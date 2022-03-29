@@ -11,6 +11,8 @@ const InfosSnippet = styled.div`
     padding-left: 19px;
     padding-top: 24px;
 
+    padding-bottom: 5px;
+
     font-family: 'Lato';
     
     a:first-child{
@@ -40,6 +42,10 @@ const InfosSnippet = styled.div`
         color: #9B9595;
 
         margin-bottom: 13px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
     }
 
     a{
@@ -50,6 +56,13 @@ const InfosSnippet = styled.div`
         letter-spacing: 0em;
         text-align: left;
         color: #CECECE;
+
+        padding-right: 15px;
+        word-break: break-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+
 
         :hover{
             cursor: pointer;

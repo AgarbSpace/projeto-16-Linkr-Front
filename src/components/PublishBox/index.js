@@ -1,26 +1,21 @@
-import axios from "axios";
 import { useState } from "react";
-
-import PublishBoxStyled from "./Styleds/Form";
-import InputLink from "./Styleds/InputLink";
-import InputText from "./Styleds/InputText";
-import PublishButton from "./Styleds/PublishButton";
-import AvatarImg from "./AvatarPicture";
 import useReload from "../../hooks/useReload";
-
 import useAuth from "../../hooks/useAuth";
 import api from "../../services/api";
-
+import { errServer } from "../../modals/errServer";
+import AvatarImg from "./AvatarPicture";
+import {
+  PublishBoxStyled,
+  InputText,
+  InputLink,
+  PublishButton
+} from "./Styleds"
 
 function PublishBox() {
 
-  const [loading, setLoading] = useState(false);
-
   const { auth } = useAuth();
-
+  const [loading, setLoading] = useState(false);
   const { reload, setReload } = useReload()
-
-
   const [postForm, setPostForm] = useState({
     userId: `${auth.userId}`,
     link: "",
@@ -32,34 +27,21 @@ function PublishBox() {
   }
 
   async function handleSubmit(e) {
-
     e.preventDefault();
-
     setLoading(true)
-
     try {
-
       await api.postPublication(auth.token, postForm)
-
       setPostForm({
         userId: `${auth.userId}`,
         link: "",
         text: "",
       })
-
       setReload([!reload[0]])
-
     } catch {
-
-      alert("Houve um erro ao publicar seu link")
-
+      errServer()
     }
-
     setLoading(false)
-
   }
-
-
 
   return (
     <PublishBoxStyled onSubmit={handleSubmit} disabled={loading}>
@@ -67,9 +49,7 @@ function PublishBox() {
         img={auth.userPicture}
       />
       <div className="publish-box-wrapper">
-        <h1>
-          What are you going to share today?
-        </h1>
+        <h1>What are you going to share today?</h1>
         <InputLink
           type="text"
           placeholder="http://..."

@@ -1,17 +1,22 @@
-import { Header } from "../../components";
-import axios from "axios";
-import { InfinitySpin } from "react-loader-spinner";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { InfinitySpin } from "react-loader-spinner";
+import api from "../../services/api.js";
 import useAuth from "../../hooks/useAuth.js";
-import Timeline from "./Styleds/Timeline";
-import TimelineContainer from "./Styleds/TimelineContainer";
-import TrendingBox from "./Styleds/TrendingBox";
-import HashtagRanking from "../../components/HashtagRanking/index.js";
-import NoPosts from "./Styleds/NoPosts";
-import Loading from "./Styleds/Loading";
-import Posts from "../../components/Posts";
-import SearchBar from "../../components/SearchBar";
+import { errServer } from "../../modals/errServer.js";
+import {
+  Loading,
+  NoPosts,
+  Timeline,
+  TimelineContainer,
+  TrendingBox
+} from "./Styleds";
+import {
+  Posts,
+  Header,
+  SearchBar,
+  HashtagRanking
+} from "../../components";
 
 export default function Hashtag() {
   const { auth } = useAuth();
@@ -20,15 +25,16 @@ export default function Hashtag() {
   const [posts, setPosts] = useState();
 
   useEffect(() => {
-    const promise = axios.get("https://back--linkr.herokuapp.com/hashtag", {
-      headers: {
-        nameHashtag: `${params.hashtag}`,
-      },
-    });
-    promise.then((response) => {
-      setPosts(response.data);
-    });
-    promise.catch((error) => console.log(error));
+    async function fetchData() {
+      try {
+        const list = await api.getPublicationByHashtag(auth.token, params.hashtag)
+        setPosts(list.data);
+      } catch (error) {
+        console.log(error)
+        errServer()
+      };
+    }
+    fetchData()
   }, [params.hashtag]);
 
   if (!posts) {

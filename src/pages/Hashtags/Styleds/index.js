@@ -4,8 +4,7 @@ import Timeline from "./Timeline";
 import TimelineContainer from "./TimelineContainer";
 import TrendingBox from "./TrendingBox";
 
-
-export { 
+export {
   Loading,
   NoPosts,
   Timeline,

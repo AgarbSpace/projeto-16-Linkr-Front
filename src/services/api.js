@@ -1,5 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import { errServer } from "../modals/errServer";
 dotenv.config()
 
 const BASE_URL = "https://back--linkr.herokuapp.com"
@@ -55,6 +56,53 @@ async function likeOrRemoveLike(token, userId, postId) {
   const config = createConfig(token);
   return axios.patch(`${BASE_URL}/likes/${postId}`, { userId }, config)
 }
+
+async function getPublicationByHashtag(token, hashtag) {
+  const config = createConfig(token)
+  config.headers.nameHashtag = `${hashtag}`
+  const list = await axios.get(`${BASE_URL}/hashtag`, config);
+  return list
+}
+
+async function signIn(data) {
+  const token = await axios.post(`${BASE_URL}/signin`, { ...data })
+  return token
+}
+
+async function signUp(data) {
+  await axios.post(`${BASE_URL}/signup`, { ...data })
+}
+
+async function getUserTimeline(id, token) {
+
+  const config = createConfig(token)
+
+  try {
+    const promise = await axios.get(`${BASE_URL}/user/${id}`, config);
+    return promise.data;
+  } catch (err) {
+    console.log(err);
+    errServer();
+    return;
+  }
+}
+
+async function getTimeline(token) {
+
+  const config = createConfig(token)
+
+  try {
+    const promise = await axios.get(`${BASE_URL}/timeline`,
+      config
+    );
+    return promise.data
+  } catch (error) {
+    console.log(error.response)
+    errServer();
+    return;
+  }
+}
+
 const api = {
   getImageProfile,
   searchUser,
@@ -63,7 +111,12 @@ const api = {
   getLikes,
   deletePublication,
   editPublication,
-  likeOrRemoveLike
+  likeOrRemoveLike,
+  getPublicationByHashtag,
+  signIn,
+  signUp,
+  getUserTimeline,
+  getTimeline,
 }
 
 export default api

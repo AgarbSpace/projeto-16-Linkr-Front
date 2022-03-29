@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-export const HashtagContainer = styled.section`
+const HashtagContainer = styled.section`
 
 box-sizing: border-box;
 
@@ -44,7 +44,7 @@ li{
 }
 
 `
-export const Line = styled.div`
+const Line = styled.div`
 
 width: 100%;
 height: 1px;
@@ -53,3 +53,7 @@ margin: 10px 0px;
 background-color: #484848;
 
 `
+export {
+  Line,
+  HashtagContainer
+}
