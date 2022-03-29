@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { errServer } from "../modals/errServer";
 dotenv.config()
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = process.env.REACT_APP_URL || "http://localhost:5000" 
 
 // localhost = http://localhost:5000
 // onlineServer = https://back--linkr.herokuapp.com
@@ -90,12 +90,18 @@ async function getUserTimeline(id, token) {
   }
 }
 
-async function getTimeline(token) {
+async function getTimeline(token, offset) {
 
-  const config = createConfig(token)
+  const config = createConfig(token);
+
+  let offsetQueryString = "";
+  
+  if(offset){
+    offsetQueryString = `?offset=${offset}`
+  }
 
   try {
-    const promise = await axios.get(`${BASE_URL}/timeline`,
+    const promise = await axios.get(`${BASE_URL}/timeline${offsetQueryString}`,
       config
     );
     return promise.data
