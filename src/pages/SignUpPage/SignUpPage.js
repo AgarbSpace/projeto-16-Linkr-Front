@@ -2,9 +2,14 @@ import axios from "axios";
 import { useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
-import Container from "./Styleds/Container";
-import ContainerLogoDescription from "./Styleds/ContainerLogoDescription";
-import FormInputs from "./Styleds/FormInputs";
+import api from "../../services/api";
+import { errSignUp } from "../../modals/errorSignup";
+import { successSignUp } from "../../modals/successSignup";
+import {
+  Container,
+  ContainerLogoDescription,
+  FormInputs
+} from "./Styleds";
 
 export default function SignUpPage() {
 
@@ -21,24 +26,18 @@ export default function SignUpPage() {
     setSignUpForm({ ...signUpForm, [e.target.name]: e.target.value });
   }
 
-  function signUp(e) {
+  async function signUp(e) {
     e.preventDefault();
-    const promisse = axios.post("https://back--linkr.herokuapp.com/signup", {
-      ...signUpForm
-    })
-
-    promisse.then(response => {
-      alert("Successfully Registered!");
+    try {
+      await api.signUp(signUpForm)
+      successSignUp();
       setButtonStatus("")
       navigate('/')
-    })
-
-    promisse.catch(error => {
-
-      alert("Invalid data! Try again");
+    } catch (error) {
+      errSignUp();
       setButtonStatus("")
       console.log(error.response.data);
-    })
+    }
   }
 
   return (

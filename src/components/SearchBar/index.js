@@ -6,9 +6,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import api from '../../services/api';
 import useAuth from '../../hooks/useAuth';
 
-
-
-function SearchBar(Props) {
+function SearchBar() {
 
   const location = useLocation();
   const navigate = useNavigate()
@@ -17,24 +15,22 @@ function SearchBar(Props) {
 
   const { auth } = useAuth()
 
-  async function getUserListSearch() {
-    if (name) {
-      try {
-        const usersList = await api.searchUser(auth.token, name)
-        setList(usersList)
-      } catch (error) {
-        console.log(error)
+  useEffect(() => {
+    async function getUserListSearch(token, searchedName) {
+      if (searchedName) {
+        try {
+          const usersList = await api.searchUser(token, searchedName)
+          setList(usersList)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      else {
+        setList([])
       }
     }
-    else {
-      setList([])
-    }
-  }
-
-
-
-  useEffect(() => {
-    getUserListSearch()
+    getUserListSearch(auth.token, name)
+    // eslint-disable-next-line
   }, [name]);
 
 
@@ -43,8 +39,6 @@ function SearchBar(Props) {
     setList([])
     setName("")
   }
-
-  console.log(location)
 
   if (location.pathname === "/" || location.pathname === "/signin" || location.pathname === "/signup") {
     return ""
@@ -66,7 +60,7 @@ function SearchBar(Props) {
       <UserListContainer>
         {list.map((el, id) =>
           <UserListItem onClick={() => { handleClick(el.id) }} key={id}>
-            <img src={el.picture} alt="user picture" />
+            <img src={el.picture} alt="user avatar" />
             <h1>{el.name}</h1>
           </UserListItem>
         )}

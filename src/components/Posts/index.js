@@ -1,17 +1,22 @@
-import {
-  AvatarAndLikeBox, ContentBox, EditAndDeleteBox, ImageSnippet, InfosSnippet,
-  PostConteiner, PostHeader, Snippet
-} from "./Styleds";
-import AvatarImg from '../PublishBox/AvatarPicture';
-import { confirmDelete } from "../../modals/deletePostModal.js";
-import useAuth from "../../hooks/useAuth";
 import { useEffect, useRef, useState } from "react";
-import api from "../../services/api";
-import { errorEdit } from "../../modals/errorEditingPost.js";
 import { useNavigate } from 'react-router-dom';
-import Likes from "../Likes";
-import { Text } from "../ReactHashtag";
 import useReload from "../../hooks/useReload";
+import useAuth from "../../hooks/useAuth";
+import { confirmDelete } from "../../modals/deletePostModal.js";
+import { errorEdit } from "../../modals/errorEditingPost.js";
+import api from "../../services/api";
+import { Text, Likes } from "../index"
+import AvatarImg from '../PublishBox/AvatarPicture';
+import {
+  AvatarAndLikeBox,
+  ContentBox,
+  EditAndDeleteBox,
+  ImageSnippet,
+  InfosSnippet,
+  PostConteiner,
+  PostHeader,
+  Snippet
+} from "./Styleds";
 
 function Posts({ post, setPosts }) {
 

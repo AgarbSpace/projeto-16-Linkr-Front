@@ -1,51 +1,52 @@
 import { useEffect, useState } from "react";
 import { InfinitySpin } from "react-loader-spinner";
-import { Header } from "../../components";
-import PublishBox from "../../components/PublishBox";
 import useAuth from "../../hooks/useAuth";
-import { provider } from "../../provider/provider";
-import { Loading, NoPosts, Timeline, TimelineContainer, TrendingBox } from "../Hashtags/Styleds"
-import HashtagRanking from "../../components/HashtagRanking";
 import useReload from "../../hooks/useReload";
-import Posts from "../../components/Posts";
-import SearchBar from "../../components/SearchBar";
 import { useParams } from "react-router";
+import api from "../../services/api";
+import {
+  Loading,
+  NoPosts,
+  Timeline,
+  TimelineContainer,
+  TrendingBox
+} from "../Hashtags/Styleds";
+import {
+  Posts,
+  Header,
+  SearchBar,
+  HashtagRanking,
+  PublishBox
+} from "../../components";
 
 
 export default function TimelinePage() {
 
   const { auth } = useAuth();
-
   const { reload, setReload } = useReload();
-
-
   const [username, setUsername] = useState('');
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
-
   const { id } = useParams() || 0;
 
   useEffect(async () => {
     setIsLoading(true)
     if (!id) {
-      const postsArray = await provider.getTimeline(auth.token);
+      const postsArray = await api.getTimeline(auth.token);
       setPosts(postsArray);
     } else {
-      const postsArray = await provider.getUserTimeline(id, auth.token);
+      const postsArray = await api.getUserTimeline(id, auth.token);
       setUsername(postsArray.username);
       setPosts(postsArray.posts);
     }
     setIsLoading(false)
   }, [reload, id]);
 
-
   if (isLoading) {
     return <Loading>
       <InfinitySpin color="grey" />
     </Loading>
   }
-
 
   if (posts.length === 0) {
     return <>
@@ -61,7 +62,6 @@ export default function TimelinePage() {
     <>
       <SearchBar />
       <Header />
-
       <TimelineContainer>
         <Timeline>
           <h2>{id === undefined ? 'timeline' : `${username}'s posts'`}</h2>

@@ -4,7 +4,8 @@ const ImageSnippet = styled.img`
     width: 144.44px;
     height: 155px;
     border-top-right-radius: 11px;
-        border-bottom-right-radius: 11px;
+    border-bottom-right-radius: 11px;
+    object-fit: cover;
 
     :hover{
         cursor: pointer;
@@ -13,7 +14,7 @@ const ImageSnippet = styled.img`
     @media(max-width: 630px) {
         width: 95px;
         height: 115px;
-        object-fit: fit;
+
         border-radius: unset;
         border-top-right-radius: 11px;
         border-bottom-right-radius: 11px;
