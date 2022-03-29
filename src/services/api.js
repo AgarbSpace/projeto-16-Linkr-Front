@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { errServer } from "../modals/errServer";
 dotenv.config()
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = "https://back--linkr.herokuapp.com"
 
 function createConfig(token) {
   return { headers: { 'Authorization': `Bearer ${token}` } }
