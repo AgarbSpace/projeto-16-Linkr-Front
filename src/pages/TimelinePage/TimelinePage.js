@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useReload from "../../hooks/useReload";
 import { useParams } from "react-router";
 import api from "../../services/api";
+import InfiniteScroll from "react-infinite-scroller"
 import {
   Loading,
   NoPosts,
@@ -18,7 +19,7 @@ import {
   HashtagRanking,
   PublishBox,
 } from "../../components";
-import { HeaderTimeline, ButtonFollow, ButtonUnfollow } from "./Styleds";
+import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader } from "./Styleds";
 
 export default function TimelinePage() {
   const { auth } = useAuth();
@@ -26,6 +27,8 @@ export default function TimelinePage() {
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [offset, setOffset] = useState(10)
+  const [hasMore, setHasMore] = useState(true)
   const { id } = useParams() || 0;
 
   useEffect(async () => {
@@ -41,12 +44,15 @@ export default function TimelinePage() {
     setIsLoading(false);
   }, [reload, id]);
 
-  if (isLoading) {
+  if(!posts){
     return (
-      <Loading>
-        <InfinitySpin color="grey" />
-      </Loading>
-    );
+      <>
+        <Header />
+        <Loading>
+          <InfinitySpin color="grey" />
+        </Loading>
+      </>
+    )
   }
 
   if (posts.length === 0) {
@@ -60,7 +66,23 @@ export default function TimelinePage() {
       </>
     );
   }
-  console.log(posts);
+
+  const loadPosts = async () => {
+    const loadMorePosts = await api.getTimeline(auth.token, offset);
+    return loadMorePosts;
+  }
+
+  const loadFunc = async () => {
+    const morePosts = await loadPosts();
+    setPosts([...posts, ...morePosts]);
+
+    if(morePosts.length === 0 || morePosts.length < 10){
+      setHasMore(false)
+    }
+
+    setOffset(offset+10);
+  }
+
   return (
     <>
       <SearchBar />
@@ -73,9 +95,28 @@ export default function TimelinePage() {
             <UserHeader posts={posts} id={id} username={username} />
           )}
           {id === undefined ? <PublishBox /> : false}
-          {posts.map((post, index) => (
-            <Posts key={index} post={post} setPosts={setPosts} />
-          ))}
+          {isLoading
+            ? <>
+              <Loading>
+                <InfinitySpin color="grey" />
+              </Loading>
+            </>
+            : <>
+              <NewPostNotification currentList={posts} setPosts={setPosts} />
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={loadFunc}
+                hasMore={hasMore}
+                loader={<FooterLoader>
+                          <InfinitySpin color="grey" />
+                        </FooterLoader>}>
+                  {posts.map((post) =>
+                    <Posts key={post.id} post={post} setPosts={setPosts} />
+                  )} 
+              </InfiniteScroll>
+              {hasMore === true ? <></> : <FooterLoader><span>There are no more posts</span></FooterLoader>}
+            </>
+          }
         </Timeline>
         <TrendingBox>
           <HashtagRanking />

@@ -6,6 +6,7 @@ import TrendingBox from "./TrendingBox";
 import HeaderTimeline from './HeaderTimeline'
 import ButtonFollow from "./ButtonFollow";
 import ButtonUnfollow from "./ButtonUnfollow";
+import FooterLoader from "./FooterLoader";
 
 
 export { 
@@ -16,5 +17,6 @@ export {
   TrendingBox,
   HeaderTimeline,
   ButtonFollow,
-  ButtonUnfollow
+  ButtonUnfollow,
+  FooterLoader
 }
