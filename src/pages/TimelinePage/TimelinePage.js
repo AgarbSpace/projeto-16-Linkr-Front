@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import useReload from "../../hooks/useReload";
 import { useParams } from "react-router";
 import api from "../../services/api";
+import InfiniteScroll from "react-infinite-scroller"
 import {
   Loading,
   NoPosts,
@@ -19,6 +20,7 @@ import {
   PublishBox,
   NewPostNotification,
 } from "../../components";
+import { FooterLoader } from "./Styleds";
 
 
 export default function TimelinePage() {
@@ -26,8 +28,10 @@ export default function TimelinePage() {
   const { auth } = useAuth();
   const { reload, setReload } = useReload();
   const [username, setUsername] = useState('');
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [offset, setOffset] = useState(10)
+  const [hasMore, setHasMore] = useState(true)
   const { id } = useParams() || 0;
 
   useEffect(async () => {
@@ -43,6 +47,16 @@ export default function TimelinePage() {
     setIsLoading(false)
   }, [reload, id]);
 
+  if(!posts){
+    return (
+      <>
+        <Header />
+        <Loading>
+          <InfinitySpin color="grey" />
+        </Loading>
+      </>
+    )
+  }
 
   if (posts.length === 0) {
     return <>
@@ -52,6 +66,22 @@ export default function TimelinePage() {
         <span>There are no posts yet</span>
       </NoPosts>
     </>
+  }
+
+  const loadPosts = async () => {
+    const loadMorePosts = await api.getTimeline(auth.token, offset);
+    return loadMorePosts;
+  }
+
+  const loadFunc = async () => {
+    const morePosts = await loadPosts();
+    setPosts([...posts, ...morePosts]);
+
+    if(morePosts.length === 0 || morePosts.length < 10){
+      setHasMore(false)
+    }
+
+    setOffset(offset+10);
   }
 
   return (
@@ -70,9 +100,18 @@ export default function TimelinePage() {
             </>
             : <>
               <NewPostNotification currentList={posts} setPosts={setPosts} />
-              {posts.map((post) =>
-                <Posts key={post.id} post={post} setPosts={setPosts} /> //Key precisa ser única, por isso, utilizar post.id em vez de index
-              )}
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={loadFunc}
+                hasMore={hasMore}
+                loader={<FooterLoader>
+                          <InfinitySpin color="grey" />
+                        </FooterLoader>}>
+                  {posts.map((post) =>
+                    <Posts key={post.id} post={post} setPosts={setPosts} />
+                  )} 
+              </InfiniteScroll>
+              {hasMore === true ? <></> : <FooterLoader><span>There are no more posts</span></FooterLoader>}
             </>
           }
         </Timeline>
