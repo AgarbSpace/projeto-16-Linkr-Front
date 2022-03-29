@@ -16,7 +16,8 @@ import {
   Header,
   SearchBar,
   HashtagRanking,
-  PublishBox
+  PublishBox,
+  NewPostNotification,
 } from "../../components";
 
 
@@ -42,11 +43,6 @@ export default function TimelinePage() {
     setIsLoading(false)
   }, [reload, id]);
 
-  if (isLoading) {
-    return <Loading>
-      <InfinitySpin color="grey" />
-    </Loading>
-  }
 
   if (posts.length === 0) {
     return <>
@@ -66,9 +62,19 @@ export default function TimelinePage() {
         <Timeline>
           <h2>{id === undefined ? 'timeline' : `${username}'s posts'`}</h2>
           {id === undefined ? <PublishBox /> : false}
-          {posts.map((post, index) =>
-            <Posts key={index} post={post} setPosts={setPosts} />
-          )}
+          {isLoading
+            ? <>
+              <Loading>
+                <InfinitySpin color="grey" />
+              </Loading>
+            </>
+            : <>
+              <NewPostNotification currentList={posts} setPosts={setPosts} />
+              {posts.map((post) =>
+                <Posts key={post.id} post={post} setPosts={setPosts} /> //Key precisa ser única, por isso, utilizar post.id em vez de index
+              )}
+            </>
+          }
         </Timeline>
         <TrendingBox>
           <HashtagRanking />
