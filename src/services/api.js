@@ -3,7 +3,10 @@ import dotenv from "dotenv";
 import { errServer } from "../modals/errServer";
 dotenv.config()
 
-const BASE_URL = "https://back--linkr.herokuapp.com"
+const BASE_URL = "http://localhost:5000"
+
+// localhost = http://localhost:5000
+// onlineServer = https://back--linkr.herokuapp.com
 
 function createConfig(token) {
   return { headers: { 'Authorization': `Bearer ${token}` } }
@@ -103,6 +106,21 @@ async function getTimeline(token) {
   }
 }
 
+async function getNewNotifications(token, location) {
+
+  const config = createConfig(token)
+
+  try {
+    const promise = await axios.get(`${BASE_URL}/notification${location}`,
+      config
+    );
+    return promise.data
+  } catch (error) {
+    console.log("erro trying to get new notifications ", error.response)
+    return;
+  }
+}
+
 const api = {
   getImageProfile,
   searchUser,
@@ -117,6 +135,7 @@ const api = {
   signUp,
   getUserTimeline,
   getTimeline,
+  getNewNotifications,
 }
 
 export default api

@@ -7,11 +7,11 @@ import api from "../../services/api";
 import { HashtagContainer, Line } from "./styled";
 
 
-function HashtagRanking() {
+function HashtagRanking(Props) {
 
   const [hashtagList, setHashtagList] = useState([]);
   const { auth } = useAuth()
-  const { reload } = useReload()
+  const { reload, setReload } = useReload()
   const navigate = useNavigate()
 
 
@@ -27,18 +27,23 @@ function HashtagRanking() {
     }
     getHashtagRanking(auth.token)
     // eslint-disable-next-line
+
   }, [reload])
 
   return (
     <HashtagContainer>
       <h1>trending</h1>
       <Line />
-      <ul>
-        {hashtagList.map((el, i) =>
-          <li onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
-            # {el.name}
-          </li>)}
-      </ul>
+      {Props.isLoading
+        ? <h1>Loading</h1>
+        : <ul>
+          {hashtagList.map((el, i) =>
+            <li onClick={() => navigate(`/hashtag/${el.name}`)} key={el.hashtagId}>
+              # {el.name}
+            </li>)}
+
+        </ul>
+      }
     </HashtagContainer>
   )
 
