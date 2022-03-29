@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth';
 import api from '../../services/api';
 import { LikeButton } from './styled';
 
-export default function Comments({ postId }) {
+export default function Likes({ postId }) {
   const { auth } = useAuth()
   const [isLiked, setIsLiked] = useState()
   const [whoLiked, setWhoLiked] = useState()

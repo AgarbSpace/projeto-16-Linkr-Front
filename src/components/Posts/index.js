@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { confirmDelete } from "../../modals/deletePostModal.js";
 import { errorEdit } from "../../modals/errorEditingPost.js";
 import api from "../../services/api";
-import { Text, Likes } from "../index"
+import { Text, Likes, CommentsIcon } from "../index"
 import AvatarImg from '../PublishBox/AvatarPicture';
 import {
   AvatarAndLikeBox,
@@ -25,6 +25,7 @@ function Posts({ post, setPosts }) {
 
   const [isEditing, setIsEditing] = useState(false);
   const [textToEdit, setTextToEdit] = useState(post.text);
+  const [comments, setComments] = useState([])
 
   const inputRef = useRef(null);
 
@@ -64,6 +65,23 @@ function Posts({ post, setPosts }) {
 
       ;
   }
+
+  async function fetchCommentData() {
+
+    try {
+      const data = await api.getCommentsByPostId(auth.token, post.id)
+      setComments(data)
+
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  useEffect(() => {
+    fetchCommentData()
+  }, []);
+
+
   return (
     <PostConteiner>
       <AvatarAndLikeBox>
@@ -71,6 +89,7 @@ function Posts({ post, setPosts }) {
           <AvatarImg img={post.picture} />
         </div>
         <Likes postId={post.id} />
+        <CommentsIcon number={comments.length} />
       </AvatarAndLikeBox>
       <ContentBox>
         <PostHeader>
