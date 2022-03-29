@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { confirmDelete } from "../../modals/deletePostModal.js";
 import { errorEdit } from "../../modals/errorEditingPost.js";
 import api from "../../services/api";
-import { Text, Likes, CommentsIcon } from "../index"
+import { Text, Likes, CommentsIcon, CommentSection } from "../index"
 import AvatarImg from '../PublishBox/AvatarPicture';
 import {
   AvatarAndLikeBox,
@@ -26,6 +26,7 @@ function Posts({ post, setPosts }) {
   const [isEditing, setIsEditing] = useState(false);
   const [textToEdit, setTextToEdit] = useState(post.text);
   const [comments, setComments] = useState([])
+  const [displayCommentSection, setDisplayCommentSection] = useState(false)
 
   const inputRef = useRef(null);
 
@@ -81,51 +82,57 @@ function Posts({ post, setPosts }) {
     fetchCommentData()
   }, []);
 
+  function handleClickDisplayComments() {
+    setDisplayCommentSection(!displayCommentSection)
+  }
 
   return (
-    <PostConteiner>
-      <AvatarAndLikeBox>
-        <div onClick={goToUserPage}>
-          <AvatarImg img={post.picture} />
-        </div>
-        <Likes postId={post.id} />
-        <CommentsIcon number={comments.length} />
-      </AvatarAndLikeBox>
-      <ContentBox>
-        <PostHeader>
-          <h1 onClick={goToUserPage}>{post.username}</h1>
-          <EditAndDeleteBox>
-            <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
-            <ion-icon name="create-outline" onClick={toggleEdit}></ion-icon>
-          </EditAndDeleteBox>
-        </PostHeader>
-        <span>{
-          isEditing ?
-            (
-              <form onSubmit={editPost} onKeyDown={verifyEsc}>
-                <input
-                  ref={inputRef}
-                  value={textToEdit}
-                  onChange={e => setTextToEdit(e.target.value)}
-                >
-                </input>
-              </form>
-            )
-            :
-            (
-              <Text>{textToEdit}</Text>
-            )
-        }</span>
-        <Snippet>
-          <InfosSnippet>
-            <a href={post.source} rel='noreferrer' target="_blank">{post.title}</a>
-            <span>{post.description}</span>
-            <a href={post.source} rel='noreferrer' target="_blank">{post.source}</a>
-          </InfosSnippet>
-          <ImageSnippet src={post.image} onClick={() => window.open(post.source, '_blank')} />
-        </Snippet>
-      </ContentBox>
-    </PostConteiner>
+    <>
+      <PostConteiner>
+        <AvatarAndLikeBox>
+          <div onClick={goToUserPage}>
+            <AvatarImg img={post.picture} />
+          </div>
+          <Likes postId={post.id} />
+          <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
+        </AvatarAndLikeBox>
+        <ContentBox>
+          <PostHeader>
+            <h1 onClick={goToUserPage}>{post.username}</h1>
+            <EditAndDeleteBox>
+              <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
+              <ion-icon name="create-outline" onClick={toggleEdit}></ion-icon>
+            </EditAndDeleteBox>
+          </PostHeader>
+          <span>{
+            isEditing ?
+              (
+                <form onSubmit={editPost} onKeyDown={verifyEsc}>
+                  <input
+                    ref={inputRef}
+                    value={textToEdit}
+                    onChange={e => setTextToEdit(e.target.value)}
+                  >
+                  </input>
+                </form>
+              )
+              :
+              (
+                <Text>{textToEdit}</Text>
+              )
+          }</span>
+          <Snippet>
+            <InfosSnippet>
+              <a href={post.source} rel='noreferrer' target="_blank">{post.title}</a>
+              <span>{post.description}</span>
+              <a href={post.source} rel='noreferrer' target="_blank">{post.source}</a>
+            </InfosSnippet>
+            <ImageSnippet src={post.image} onClick={() => window.open(post.source, '_blank')} />
+          </Snippet>
+        </ContentBox>
+      </PostConteiner>
+      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} />
+    </>
   );
 }
 
