@@ -9,7 +9,7 @@ const ContentBox = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding-left: 18px;
+    padding-left: 2px;
     
     a, h1{
         font-size: 19px;

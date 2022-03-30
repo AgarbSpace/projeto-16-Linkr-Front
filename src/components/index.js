@@ -6,6 +6,8 @@ import PublishBox from "./PublishBox/index.js";
 import { Text } from "./ReactHashtag/index.js";
 import SearchBar from "./SearchBar/index.js";
 import NewPostNotification from "./NewPostNotification/index.js";
+import CommentsIcon from "./CommentsIcon/index.js";
+import CommentSection from "./CommentSection/index.js";
 
 export {
   Header,
@@ -16,4 +18,6 @@ export {
   Text,
   SearchBar,
   NewPostNotification,
+  CommentsIcon,
+  CommentSection,
 }
