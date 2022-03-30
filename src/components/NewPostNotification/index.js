@@ -1,11 +1,11 @@
-import { NewPostNotificationStyled, ReloadIcon } from "./styled"
+import { NewPostNotificationStyled } from "./styled"
 import { BsArrowRepeat } from "react-icons/bs"
+import { AiOutlineSync } from "react-icons/ai"
 import { useLocation } from "react-router"
 import api from "../../services/api";
 import useInterval from "../../hooks/useInterval";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
-import useReload from "../../hooks/useReload";
 
 function NewPostNotification(Props) {
 
@@ -49,7 +49,7 @@ function NewPostNotification(Props) {
         ? ""
         : <NewPostNotificationStyled onClick={handleOnClick}>
           {newPost.length} new posts, load more!
-          <BsArrowRepeat size="1.5em" strokeWidth="0.75" />
+          <AiOutlineSync size="1.5em" strokeWidth="2.2em" />
         </NewPostNotificationStyled>
       }
     </>

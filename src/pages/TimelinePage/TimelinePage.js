@@ -5,6 +5,7 @@ import useReload from "../../hooks/useReload";
 import { useParams } from "react-router";
 import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroller"
+import NewPostNotification from '../../components/NewPostNotification'
 import {
   Loading,
   NoPosts,
@@ -18,24 +19,21 @@ import {
   SearchBar,
   HashtagRanking,
   PublishBox,
-  NewPostNotification,
 } from "../../components";
-import { FooterLoader } from "./Styleds";
-
+import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader } from "./Styleds";
 
 export default function TimelinePage() {
-
   const { auth } = useAuth();
   const { reload, setReload } = useReload();
-  const [username, setUsername] = useState('');
-  const [posts, setPosts] = useState();
+  const [username, setUsername] = useState("");
+  const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [offset, setOffset] = useState(10)
   const [hasMore, setHasMore] = useState(true)
   const { id } = useParams() || 0;
 
   useEffect(async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     if (!id) {
       const postsArray = await api.getTimeline(auth.token);
       setPosts(postsArray);
@@ -44,7 +42,7 @@ export default function TimelinePage() {
       setUsername(postsArray.username);
       setPosts(postsArray.posts);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   }, [reload, id]);
 
   if(!posts){
@@ -59,13 +57,15 @@ export default function TimelinePage() {
   }
 
   if (posts.length === 0) {
-    return <>
-      <Header />
-      <NoPosts>
-        {id === undefined ? <PublishBox /> : false}
-        <span>There are no posts yet</span>
-      </NoPosts>
-    </>
+    return (
+      <>
+        <Header />
+        <NoPosts>
+          {id === undefined ? <PublishBox /> : false}
+          <span>There are no posts yet</span>
+        </NoPosts>
+      </>
+    );
   }
 
   const loadPosts = async () => {
@@ -90,7 +90,11 @@ export default function TimelinePage() {
       <Header />
       <TimelineContainer>
         <Timeline>
-          <h2>{id === undefined ? 'timeline' : `${username}'s posts'`}</h2>
+          {id === undefined ? (
+            <h2>timeline</h2>
+          ) : (
+            <UserHeader posts={posts} id={id} username={username} />
+          )}
           {id === undefined ? <PublishBox /> : false}
           {isLoading
             ? <>
@@ -120,5 +124,64 @@ export default function TimelinePage() {
         </TrendingBox>
       </TimelineContainer>
     </>
-  )
+  );
+}
+
+function UserHeader({ posts, id, username }) {
+  const [follow, setFollow] = useState(false)
+  const { auth } = useAuth()
+  const followerId = posts[0].userId
+  const userId = auth.userId
+
+  postFollow()
+  getAllFollows()
+
+  async function postFollow(){
+    const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
+    if(verification.data.length > 0){
+      setFollow(true)
+    }
+  }
+
+  async function getAllFollows(){
+    const allFollows = await api.getAllFollows(auth.token, userId)
+    return allFollows.data
+  }
+
+  async function handleFollow(){
+    try {
+      await api.postFollow(auth.token, userId, followerId)
+      setFollow(true)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  async function handleUnfollow(){
+    try {
+      await api.postUnfollow(auth.token, userId, followerId)
+      setFollow(false)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  return (
+    <HeaderTimeline>
+      <div>
+        <img src={posts[0].picture} alt="imageUser" />
+        <h2>{id === undefined ? "timeline" : `${username}'s posts'`}</h2>
+      </div>
+      {followerId === userId ?
+      "" :
+      <>
+      {follow === false ? 
+      <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
+      :
+      <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
+      }
+      </>
+      }
+    </HeaderTimeline>
+  );
 }
