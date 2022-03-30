@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const PostConteiner = styled.div`
     width: 611px;
-    height: 276px;
+    min-height: 276px;
     position: relative;
 
     display: flex;

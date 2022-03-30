@@ -1,12 +1,29 @@
 import { RepostsIconsContainer } from "../styled";
 import { FiRepeat } from 'react-icons/fi'
+import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import api from "../../../services/api";
 
-export default function RepostsIcons() {
-  const arrayRePosts = [1,3,3]
+export default function RepostsIcons({postId}) {
+  const [repostCount, setRepostCount] = useState(0)
+  const { auth } = useAuth()
+  useEffect(() => getRepostCount(),
+    // eslint-disable-next-line
+    [])
+
+  async function getRepostCount() {
+    try {
+      const { data: count } = await api.getRepostCount(auth.token, postId)
+      setRepostCount(count)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
   return(
     <RepostsIconsContainer>
       <FiRepeat/>
-      <p><span>{arrayRePosts.length}</span>{arrayRePosts.length === 1 ? ` re-post`: ` re-posts`}</p>
+      <p><span>{repostCount}</span>{repostCount === 1 ? ` re-post`: ` re-posts`}</p>
     </RepostsIconsContainer>
   )
 }

@@ -165,6 +165,11 @@ async function getCommentsByPostId(token, postId) {
   }
 }
 
+async function getRepostCount(token, postId) {
+  const config = createConfig(token);
+  return axios.get(`${BASE_URL}/re-post/${postId}`, config )
+}
+
 const api = {
   getImageProfile,
   searchUser,
@@ -184,7 +189,8 @@ const api = {
   postFollowOrUnfollow,
   postFollow,
   postUnfollow,
-  getAllFollows
+  getAllFollows,
+  getRepostCount
 }
 
 export default api
