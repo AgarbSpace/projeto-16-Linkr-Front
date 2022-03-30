@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { errServer } from "../modals/errServer";
 dotenv.config()
 
-const BASE_URL = process.env.REACT_APP_URL || "http://localhost:5000" 
+const BASE_URL = process.env.REACT_APP_URL || "http://localhost:5000"
 
 // localhost = http://localhost:5000
 // onlineServer = https://back--linkr.herokuapp.com
@@ -119,8 +119,8 @@ async function getTimeline(token, offset) {
   const config = createConfig(token);
 
   let offsetQueryString = "";
-  
-  if(offset){
+
+  if (offset) {
     offsetQueryString = `?offset=${offset}`
   }
 
@@ -151,6 +151,20 @@ async function getNewNotifications(token, location) {
   }
 }
 
+async function getCommentsByPostId(token, postId) {
+
+  const config = createConfig(token)
+
+  try {
+    const promise = await axios.get(`${BASE_URL}/comments/${postId}`,
+      config
+    );
+    return promise.data
+  } catch (error) {
+    return;
+  }
+}
+
 const api = {
   getImageProfile,
   searchUser,
@@ -166,6 +180,7 @@ const api = {
   getUserTimeline,
   getTimeline,
   getNewNotifications,
+  getCommentsByPostId,
   postFollowOrUnfollow,
   postFollow,
   postUnfollow,

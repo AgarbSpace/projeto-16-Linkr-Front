@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ImageSnippet = styled.img`
-    width: 144.44px;
+    width: 155px;
     height: 155px;
     border-top-right-radius: 11px;
     border-bottom-right-radius: 11px;
