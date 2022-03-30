@@ -17,6 +17,8 @@ import {
   PostHeader,
   Snippet
 } from "./Styleds";
+import RepostsIcons from "../Reposts/RepostIcons";
+import RepostsBar from "../Reposts/RepostBar";
 
 function Posts({ post, setPosts }) {
 
@@ -66,11 +68,13 @@ function Posts({ post, setPosts }) {
   }
   return (
     <PostConteiner>
+      <RepostsBar/>
       <AvatarAndLikeBox>
         <div onClick={goToUserPage}>
           <AvatarImg img={post.picture} />
         </div>
         <Likes postId={post.id} />
+        <RepostsIcons/>
       </AvatarAndLikeBox>
       <ContentBox>
         <PostHeader>
