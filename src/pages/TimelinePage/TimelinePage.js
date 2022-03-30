@@ -5,6 +5,7 @@ import useReload from "../../hooks/useReload";
 import { useParams } from "react-router";
 import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroller"
+import NewPostNotification from '../../components/NewPostNotification'
 import {
   Loading,
   NoPosts,
@@ -128,12 +129,43 @@ export default function TimelinePage() {
 
 function UserHeader({ posts, id, username }) {
   const [follow, setFollow] = useState(false)
-  function handleFollow(){
-    setFollow(true)
+  const { auth } = useAuth()
+  const followerId = posts[0].userId
+  const userId = auth.userId
+
+  postFollow()
+  getAllFollows()
+
+  async function postFollow(){
+    const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
+    console.log(verification.data)
+    if(verification.data.length > 0){
+      setFollow(true)
+    }
   }
 
-  function handleUnfollow(){
-    setFollow(false)
+  async function getAllFollows(){
+    const allFollows = await api.getAllFollows(auth.token, userId)
+    console.log(allFollows.data)
+    return allFollows.data
+  }
+
+  async function handleFollow(){
+    try {
+      await api.postFollow(auth.token, userId, followerId)
+      setFollow(true)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  async function handleUnfollow(){
+    try {
+      await api.postUnfollow(auth.token, userId, followerId)
+      setFollow(false)
+    } catch (error) {
+      console.log(error.response)
+    }
   }
 
   return (
@@ -142,10 +174,15 @@ function UserHeader({ posts, id, username }) {
         <img src={posts[0].picture} alt="imageUser" />
         <h2>{id === undefined ? "timeline" : `${username}'s posts'`}</h2>
       </div>
+      {followerId === userId ?
+      "" :
+      <>
       {follow === false ? 
       <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
       :
       <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
+      }
+      </>
       }
     </HeaderTimeline>
   );
