@@ -7,7 +7,7 @@ import HeaderTimeline from './HeaderTimeline'
 import ButtonFollow from "./ButtonFollow";
 import ButtonUnfollow from "./ButtonUnfollow";
 import FooterLoader from "./FooterLoader";
-
+import NoFollow from "./NoFollow";
 
 export { 
   Loading,
@@ -18,5 +18,6 @@ export {
   HeaderTimeline,
   ButtonFollow,
   ButtonUnfollow,
-  FooterLoader
+  FooterLoader,
+  NoFollow,
 }
