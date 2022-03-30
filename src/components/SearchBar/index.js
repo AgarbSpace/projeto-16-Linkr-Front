@@ -66,13 +66,16 @@ function SearchBar() {
       }
     }
   }
+  
   for (let i = 0; i < newListUnfollow.length; i++) {
     const item = list[i];
     newList.push(item)
   }
+
   const filteredArray = newList.filter(function(ele , pos){
     return newList.indexOf(ele) == pos;
   }) 
+
   for (let i = 0; i < filteredArray.length; i++) {
     const element = filteredArray[i];
     if (!element) {
