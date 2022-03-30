@@ -99,10 +99,12 @@ function Posts({ post, setPosts }) {
         <ContentBox>
           <PostHeader>
             <h1 onClick={goToUserPage}>{post.username}</h1>
-            <EditAndDeleteBox>
-              <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
-              <ion-icon name="create-outline" onClick={toggleEdit}></ion-icon>
-            </EditAndDeleteBox>
+            {auth.userId === post.userId &&
+              <EditAndDeleteBox>
+                <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
+                <ion-icon name="create-outline" onClick={toggleEdit}></ion-icon>
+              </EditAndDeleteBox>
+            }
           </PostHeader>
           <span>{
             isEditing ?
