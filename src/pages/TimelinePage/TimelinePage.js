@@ -138,7 +138,6 @@ function UserHeader({ posts, id, username }) {
 
   async function postFollow(){
     const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
-    console.log(verification.data)
     if(verification.data.length > 0){
       setFollow(true)
     }
@@ -146,7 +145,6 @@ function UserHeader({ posts, id, username }) {
 
   async function getAllFollows(){
     const allFollows = await api.getAllFollows(auth.token, userId)
-    console.log(allFollows.data)
     return allFollows.data
   }
 

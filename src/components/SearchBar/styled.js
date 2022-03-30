@@ -112,6 +112,26 @@ h1{
   color: #515151;
 }
 
+div{
+  width: 7px;
+  height: 7px;
+  background-color: #C5C5C5;
+
+  border-radius: 3.5px;
+
+  margin-left: 10px;
+  margin-right: 3px;
+}
+
+h2{
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 23px;
+  color: #C5C5C5;
+}
+
 `
 
 export {

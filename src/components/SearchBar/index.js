@@ -28,6 +28,7 @@ function SearchBar() {
       else {
         setList([])
       }
+      allFollowsFunction()
     }
     getUserListSearch(auth.token, name)
     // eslint-disable-next-line
@@ -40,8 +41,46 @@ function SearchBar() {
     setName("")
   }
 
+  const [allFollows, setAllFollows] = useState ([])
+
+  async function allFollowsFunction(){
+    const result = await api.getAllFollows(auth.token, auth.userId)
+    setAllFollows(result.data)
+  }
+
   if (location.pathname === "/" || location.pathname === "/signin" || location.pathname === "/signup") {
     return ""
+  }
+
+  let newList = []
+  let newListUnfollow = []
+
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i];
+    for (let j = 0; j < allFollows.length; j++) {
+      const follows = allFollows[j];
+      if (item.id === follows.followerId && item) {
+        newList.push(item)
+      }else{
+        newListUnfollow.push(item)
+      }
+    }
+  }
+  
+  for (let i = 0; i < newListUnfollow.length; i++) {
+    const item = list[i];
+    newList.push(item)
+  }
+
+  const filteredArray = newList.filter(function(ele , pos){
+    return newList.indexOf(ele) == pos;
+  }) 
+
+  for (let i = 0; i < filteredArray.length; i++) {
+    const element = filteredArray[i];
+    if (!element) {
+      filteredArray.splice(i,1)
+    }
   }
 
   return (
@@ -58,10 +97,19 @@ function SearchBar() {
         <AiOutlineSearch className="search-icon" />
       </InputIconContainer>
       <UserListContainer>
-        {list.map((el, id) =>
+        {filteredArray.map((el, id) =>
           <UserListItem onClick={() => { handleClick(el.id) }} key={id}>
             <img src={el.picture} alt="user avatar" />
             <h1>{el.name}</h1>
+            {allFollows.map((item)=>
+              item.followerId === el.id ?
+                <>
+                <div></div>
+                <h2>following</h2>
+                </>
+              :
+                ""
+            )}
           </UserListItem>
         )}
       </UserListContainer>
