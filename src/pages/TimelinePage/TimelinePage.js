@@ -154,6 +154,8 @@ function UserHeader({ posts, id, username }) {
     const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
     if(verification.data.length > 0){
       setFollow(true)
+    }else{
+      setFollow(false)
     }
   }
 
