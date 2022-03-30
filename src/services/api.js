@@ -44,6 +44,30 @@ async function getLikes(token, postId) {
   return list
 }
 
+async function postFollowOrUnfollow(token, userId, followerId) {
+  const config = createConfig(token)
+  const list = await axios.post(`${BASE_URL}/followorunfollow/${userId}`, {followerId, config})
+  return list
+}
+
+async function postFollow(token, userId, followerId) {
+  const config = createConfig(token)
+  const list = await axios.post(`${BASE_URL}/follow/${userId}`, {followerId, config})
+  return list
+}
+
+async function getAllFollows(token, userId) {
+  const config = createConfig(token)
+  const list = await axios.get(`${BASE_URL}/allfollows/${userId}`, config)
+  return list
+}
+
+async function postUnfollow(token, userId, followerId) {
+  const config = createConfig(token)
+  const list = await axios.post(`${BASE_URL}/unfollow/${userId}`, {followerId, config})
+  return list
+}
+
 async function deletePublication(token, postId) {
   const config = createConfig(token);
   return axios.delete(`${BASE_URL}/publication/${postId}`, config);
@@ -157,6 +181,10 @@ const api = {
   getTimeline,
   getNewNotifications,
   getCommentsByPostId,
+  postFollowOrUnfollow,
+  postFollow,
+  postUnfollow,
+  getAllFollows
 }
 
 export default api
