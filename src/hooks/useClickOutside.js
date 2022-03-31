@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 
-export default function useOnClickOutside(ref, handler) {
+export default function useOnClickOutside(ref, handler, isNeeded) {
 
   useEffect(
     () => {
+
       const listener = (event) => {
 
-        if (!ref.current || ref.current.contains(event.target) || (event.type !== "mousedown" && event.keyCode !== 27)) {
+
+        if (event.type === "mousedown" && (!ref.current || ref.current.contains(event.target))
+          || (event.type !== "mousedown" && event.keyCode !== 27)) {
           return;
         }
 

@@ -18,10 +18,11 @@ function SearchBar() {
   let newListUnfollow = []
   let searchList = []
 
+
   useOnClickOutside(ref, handleClickOutside)
 
+
   function handleClickOutside() {
-    console.log("fui chamado")
     setName("")
     setList([])
   }
