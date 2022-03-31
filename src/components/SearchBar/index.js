@@ -12,6 +12,9 @@ function SearchBar() {
   const navigate = useNavigate()
   const [name, setName] = useState("");
   const [list, setList] = useState([])
+  let newList = []
+  let newListUnfollow = []
+  let searchList = []
 
   const { auth } = useAuth()
 
@@ -34,7 +37,6 @@ function SearchBar() {
     // eslint-disable-next-line
   }, [name]);
 
-
   function handleClick(id) {
     navigate(`/user/${id}`)
     setList([])
@@ -51,9 +53,6 @@ function SearchBar() {
   if (location.pathname === "/" || location.pathname === "/signin" || location.pathname === "/signup") {
     return ""
   }
-
-  let newList = []
-  let newListUnfollow = []
 
   for (let i = 0; i < list.length; i++) {
     const item = list[i];
@@ -83,6 +82,12 @@ function SearchBar() {
     }
   }
 
+  if (filteredArray.length === 0) {
+    searchList = list
+  }else{
+    searchList = filteredArray
+  }
+
   return (
     <SearchBarContainer>
       <InputIconContainer>
@@ -97,7 +102,7 @@ function SearchBar() {
         <AiOutlineSearch className="search-icon" />
       </InputIconContainer>
       <UserListContainer>
-        {filteredArray.map((el, id) =>
+        {searchList.map((el, id) =>
           <UserListItem onClick={() => { handleClick(el.id) }} key={id}>
             <img src={el.picture} alt="user avatar" />
             <h1>{el.name}</h1>
