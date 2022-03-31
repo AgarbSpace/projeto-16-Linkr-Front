@@ -169,7 +169,10 @@ async function getRepostCount(token, postId) {
   const config = createConfig(token);
   return axios.get(`${BASE_URL}/re-post/${postId}`, config )
 }
-
+async function repost(token, postId) {
+  const config = createConfig(token)
+  return axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
+}
 const api = {
   getImageProfile,
   searchUser,
@@ -190,7 +193,8 @@ const api = {
   postFollow,
   postUnfollow,
   getAllFollows,
-  getRepostCount
+  getRepostCount,
+  repost
 }
 
 export default api

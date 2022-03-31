@@ -3,6 +3,7 @@ import { FiRepeat } from 'react-icons/fi'
 import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import api from "../../../services/api";
+import confirmRePost from "../../../modals/confirmRePost";
 
 export default function RepostsIcons({postId}) {
   const [repostCount, setRepostCount] = useState(0)
@@ -20,8 +21,12 @@ export default function RepostsIcons({postId}) {
     }
   }
 
+  function handleRepost() {
+    confirmRePost(postId, auth.token)
+  }
+  
   return(
-    <RepostsIconsContainer>
+    <RepostsIconsContainer onClick={handleRepost}>
       <FiRepeat/>
       <p><span>{repostCount}</span>{repostCount === 1 ? ` re-post`: ` re-posts`}</p>
     </RepostsIconsContainer>
