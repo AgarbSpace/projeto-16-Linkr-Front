@@ -83,7 +83,7 @@ export default function TimelinePage() {
     const loadMorePosts = await api.getTimeline(auth.token, offset);
     return loadMorePosts;
   }
-
+  
   const loadFunc = async () => {
     const morePosts = await loadPosts();
     setPosts([...posts, ...morePosts]); 
