@@ -1,9 +1,8 @@
 import { CommentsContainer, LayoutDiv, CommentListWrapper } from "./styled";
 import CommentItem from "../CommentItem";
+import CommentAdd from "../CommentAdd";
 
-function CommentSection({ comments, postOwnerId, isDisplayed }) {
-
-  console.log(comments)
+function CommentSection({ comments, postOwnerId, isDisplayed, postId, fetchCommentData }) {
 
   return (
     <CommentsContainer display={isDisplayed}>
@@ -19,6 +18,7 @@ function CommentSection({ comments, postOwnerId, isDisplayed }) {
             text={el.comment}
           />)}
       </CommentListWrapper>
+      <CommentAdd postId={postId} fetchCommentData={fetchCommentData}/>
     </CommentsContainer>
   )
 

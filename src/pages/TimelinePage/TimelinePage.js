@@ -24,7 +24,7 @@ import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader , NoFollow} 
 
 export default function TimelinePage() {
   const { auth } = useAuth();
-  const { reload, setReload } = useReload();
+  const { reload } = useReload();
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,6 +69,7 @@ export default function TimelinePage() {
   
     return (
       <>
+        <SearchBar />
         <Header />
         <NoPosts>
           {id === undefined ? <PublishBox /> : false}
