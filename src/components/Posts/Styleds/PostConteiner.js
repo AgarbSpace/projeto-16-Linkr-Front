@@ -2,12 +2,13 @@ import styled from "styled-components";
 
 const PostConteiner = styled.div`
     width: 611px;
-    height: 276px;
+    min-height: 276px;
+    position: relative;
 
     display: flex;
     padding-top: 10px;
     padding-left: 18px;
-    margin-top: 29px;
+    margin-top: 70px;
 
     background-color: #171717;
 

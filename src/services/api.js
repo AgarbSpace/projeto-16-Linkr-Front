@@ -165,6 +165,14 @@ async function getCommentsByPostId(token, postId) {
   }
 }
 
+async function getRepostCount(token, postId) {
+  const config = createConfig(token);
+  return axios.get(`${BASE_URL}/re-post/${postId}`, config )
+}
+async function repost(token, postId) {
+  const config = createConfig(token)
+  return axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
+}
 async function listFollows (token) {
   const config = createConfig(token);
   try {
@@ -207,6 +215,8 @@ const api = {
   postFollow,
   postUnfollow,
   getAllFollows,
+  getRepostCount,
+  repost,
   listFollows,
   postComment,
 }

@@ -72,8 +72,7 @@ export default function TimelinePage() {
         <SearchBar />
         <Header />
         <NoPosts>
-          {id === undefined ? <PublishBox /> : false}
-          
+          {id === undefined ? <PublishBox /> : false} 
           <span>{listFollowsUser.length === 0 ? "You don't follow anyone yet. Search for new friends!" : "No posts found from your friends"}</span>
         </NoPosts>
       </>
@@ -82,6 +81,7 @@ export default function TimelinePage() {
 
   const loadPosts = async () => {
     const loadMorePosts = await api.getTimeline(auth.token, offset);
+    console.log(loadMorePosts)
     return loadMorePosts;
   }
   
@@ -95,7 +95,9 @@ export default function TimelinePage() {
 
     setOffset(offset+10);
   }
-
+  /* console.log("id:",id)
+  console.log("posts:",posts)
+  console.log("listFollowsUser:",listFollowsUser) */
   return (
     <>
       <SearchBar />
