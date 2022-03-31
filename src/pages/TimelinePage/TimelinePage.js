@@ -20,20 +20,24 @@ import {
   HashtagRanking,
   PublishBox,
 } from "../../components";
-import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader } from "./Styleds";
+import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader , NoFollow} from "./Styleds";
 
 export default function TimelinePage() {
   const { auth } = useAuth();
-  const { reload, setReload } = useReload();
+  const { reload } = useReload();
   const [username, setUsername] = useState("");
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [offset, setOffset] = useState(10)
   const [hasMore, setHasMore] = useState(true)
+  const [listFollowsUser, setListFOllowsUser] = useState([]);
   const { id } = useParams() || 0;
 
-  useEffect(async () => {
+  useEffect(() => {
+    async function getFuntionEffect () {
     setIsLoading(true);
+    const list = await api.listFollows(auth.token);
+    setListFOllowsUser(list);
     if (!id) {
       const postsArray = await api.getTimeline(auth.token);
       setPosts(postsArray);
@@ -43,7 +47,11 @@ export default function TimelinePage() {
       setPosts(postsArray.posts);
     }
     setIsLoading(false);
-  }, [reload, id]);
+    }
+
+    getFuntionEffect();
+    
+  }, [reload, id, auth.token]);
 
   if(!posts){
     return (
@@ -56,13 +64,15 @@ export default function TimelinePage() {
     )
   }
 
+
   if (posts.length === 0) {
+  
     return (
       <>
         <Header />
         <NoPosts>
-          {id === undefined ? <PublishBox /> : false}
-          <span>There are no posts yet</span>
+          {id === undefined ? <PublishBox /> : false} 
+          <span>{listFollowsUser.length === 0 ? "You don't follow anyone yet. Search for new friends!" : "No posts found from your friends"}</span>
         </NoPosts>
       </>
     );
@@ -73,10 +83,10 @@ export default function TimelinePage() {
     console.log(loadMorePosts)
     return loadMorePosts;
   }
-
+  
   const loadFunc = async () => {
     const morePosts = await loadPosts();
-    setPosts([...posts, ...morePosts]);
+    setPosts([...posts, ...morePosts]); 
 
     if(morePosts.length === 0 || morePosts.length < 10){
       setHasMore(false)
@@ -84,7 +94,9 @@ export default function TimelinePage() {
 
     setOffset(offset+10);
   }
-
+  /* console.log("id:",id)
+  console.log("posts:",posts)
+  console.log("listFollowsUser:",listFollowsUser) */
   return (
     <>
       <SearchBar />
@@ -97,6 +109,9 @@ export default function TimelinePage() {
             <UserHeader posts={posts} id={id} username={username} />
           )}
           {id === undefined ? <PublishBox /> : false}
+
+          {listFollowsUser.length === 0 ? (id === undefined ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : false) : false}
+          
           {isLoading
             ? <>
               <Loading>
@@ -141,6 +156,8 @@ function UserHeader({ posts, id, username }) {
     const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
     if(verification.data.length > 0){
       setFollow(true)
+    }else{
+      setFollow(false)
     }
   }
 

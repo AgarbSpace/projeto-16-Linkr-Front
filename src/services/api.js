@@ -173,6 +173,17 @@ async function repost(token, postId) {
   const config = createConfig(token)
   return axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
 }
+async function listFollows (token) {
+  const config = createConfig(token);
+  try {
+    const promise = await axios.get(`${BASE_URL}/hasFollows`, config);
+    return promise.data;
+  } catch (err) {
+    console.log(err)
+    return;
+  }
+}
+
 const api = {
   getImageProfile,
   searchUser,
@@ -194,7 +205,8 @@ const api = {
   postUnfollow,
   getAllFollows,
   getRepostCount,
-  repost
+  repost,
+  listFollows,
 }
 
 export default api

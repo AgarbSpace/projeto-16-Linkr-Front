@@ -91,7 +91,7 @@ function Posts({ post, setPosts }) {
   return (
     <>
     <PostConteiner>
-          <RepostsBar/>
+          {post.reposterId && <RepostsBar reposterName={post.reposterName}/>}
           <AvatarAndLikeBox>
             <div onClick={goToUserPage}>
               <AvatarImg img={post.picture} />
@@ -103,39 +103,41 @@ function Posts({ post, setPosts }) {
           <ContentBox>
             <PostHeader>
               <h1 onClick={goToUserPage}>{post.username}</h1>
+            {auth.userId === post.userId &&
               <EditAndDeleteBox>
                 <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
                 <ion-icon name="create-outline" onClick={toggleEdit}></ion-icon>
               </EditAndDeleteBox>
-            </PostHeader>
-            <span>{
-              isEditing ?
-                (
-                  <form onSubmit={editPost} onKeyDown={verifyEsc}>
-                    <input
-                      ref={inputRef}
-                      value={textToEdit}
-                      onChange={e => setTextToEdit(e.target.value)}
-                    >
-                    </input>
-                  </form>
-                )
-                :
-                (
-                  <Text>{textToEdit}</Text>
-                )
-            }</span>
-            <Snippet>
-              <InfosSnippet>
-                <a href={post.source} rel='noreferrer' target="_blank">{post.title}</a>
-                <span>{post.description}</span>
-                <a href={post.source} rel='noreferrer' target="_blank">{post.source}</a>
-              </InfosSnippet>
-              <ImageSnippet src={post.image} onClick={() => window.open(post.source, '_blank')} />
-            </Snippet>
-          </ContentBox>
-        </PostConteiner>
-        <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} />
+            }
+          </PostHeader>
+          <span>{
+            isEditing ?
+              (
+                <form onSubmit={editPost} onKeyDown={verifyEsc}>
+                  <input
+                    ref={inputRef}
+                    value={textToEdit}
+                    onChange={e => setTextToEdit(e.target.value)}
+                  >
+                  </input>
+                </form>
+              )
+              :
+              (
+                <Text>{textToEdit}</Text>
+              )
+          }</span>
+          <Snippet>
+            <InfosSnippet>
+              <a href={post.source} rel='noreferrer' target="_blank">{post.title}</a>
+              <span>{post.description}</span>
+              <a href={post.source} rel='noreferrer' target="_blank">{post.source}</a>
+            </InfosSnippet>
+            <ImageSnippet src={post.image} onClick={() => window.open(post.source, '_blank')} />
+          </Snippet>
+        </ContentBox>
+      </PostConteiner>
+      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} />
     </>
   );
 }
