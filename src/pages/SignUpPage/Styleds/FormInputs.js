@@ -17,6 +17,15 @@ const FormInputs = styled.form`
         display: flex;
         align-items: center;
 
+        font-family: 'Oswald';
+        font-size: 27px;
+        font-weight: 700;
+        line-height: 40px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #9F9F9F;
+        padding-left: 17px;
+        
         background-color: #FFFFFF;
 
         border: none;
@@ -31,16 +40,7 @@ const FormInputs = styled.form`
         }
 
         ::placeholder{
-            font-family: 'Oswald';
-            font-size: 27px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: 40px;
-            letter-spacing: 0em;
-            text-align: left;
             color: #9F9F9F;
-            
-            padding-left: 17px;
         }
 
     }
