@@ -87,12 +87,12 @@ export default function TimelinePage() {
   
   const loadFunc = async () => {
     const morePosts = await loadPosts();
-    setPosts([...posts, ...morePosts]); 
-
-    if(morePosts.length === 0 || morePosts.length < 10){
-      setHasMore(false)
+    
+    if(morePosts.length < 10){
+      return setHasMore(false)
     }
-
+    
+    setPosts([...posts, ...morePosts]); 
     setOffset(offset+10);
   }
   /* console.log("id:",id)
