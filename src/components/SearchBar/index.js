@@ -1,13 +1,15 @@
 import { DebounceInput } from 'react-debounce-input';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SearchBarContainer, UserListContainer, UserListItem, InputIconContainer } from './styled';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AiOutlineSearch } from "react-icons/ai";
 import api from '../../services/api';
 import useAuth from '../../hooks/useAuth';
+import useOnClickOutside from '../../hooks/useClickOutside';
 
 function SearchBar() {
 
+  const ref = useRef()
   const location = useLocation();
   const navigate = useNavigate()
   const [name, setName] = useState("");
@@ -15,6 +17,14 @@ function SearchBar() {
   let newList = []
   let newListUnfollow = []
   let searchList = []
+
+  useOnClickOutside(ref, handleClickOutside)
+
+  function handleClickOutside() {
+    console.log("fui chamado")
+    setName("")
+    setList([])
+  }
 
   const { auth } = useAuth()
 
@@ -43,9 +53,9 @@ function SearchBar() {
     setName("")
   }
 
-  const [allFollows, setAllFollows] = useState ([])
+  const [allFollows, setAllFollows] = useState([])
 
-  async function allFollowsFunction(){
+  async function allFollowsFunction() {
     const result = await api.getAllFollows(auth.token, auth.userId)
     setAllFollows(result.data)
   }
@@ -60,37 +70,37 @@ function SearchBar() {
       const follows = allFollows[j];
       if (item.id === follows.followerId && item) {
         newList.push(item)
-      }else{
+      } else {
         newListUnfollow.push(item)
       }
     }
   }
-  
+
   for (let i = 0; i < newListUnfollow.length; i++) {
     const item = list[i];
     newList.push(item)
   }
 
-  const filteredArray = newList.filter(function(ele , pos){
+  const filteredArray = newList.filter(function (ele, pos) {
     return newList.indexOf(ele) == pos;
-  }) 
+  })
 
   for (let i = 0; i < filteredArray.length; i++) {
     const element = filteredArray[i];
     if (!element) {
-      filteredArray.splice(i,1)
+      filteredArray.splice(i, 1)
     }
   }
 
   if (filteredArray.length === 0) {
     searchList = list
-  }else{
+  } else {
     searchList = filteredArray
   }
 
   return (
-    <SearchBarContainer>
-      <InputIconContainer>
+    <SearchBarContainer ref={ref} >
+      <InputIconContainer >
         <DebounceInput
           minLength={3}
           debounceTimeout={300}
@@ -101,23 +111,24 @@ function SearchBar() {
         />
         <AiOutlineSearch className="search-icon" />
       </InputIconContainer>
-      <UserListContainer>
+      <UserListContainer >
         {searchList.map((el, id) =>
-          <UserListItem onClick={() => { handleClick(el.id) }} key={id}>
+          <UserListItem onClick={() => { handleClick(el.id) }} key={el.id}>
             <img src={el.picture} alt="user avatar" />
             <h1>{el.name}</h1>
-            {allFollows.map((item)=>
+            {allFollows.map((item) =>
               item.followerId === el.id ?
                 <>
-                <div></div>
-                <h2>following</h2>
+                  <div></div>
+                  <h2>following</h2>
                 </>
-              :
+                :
                 ""
             )}
           </UserListItem>
         )}
       </UserListContainer>
+
     </SearchBarContainer>
   )
 }
