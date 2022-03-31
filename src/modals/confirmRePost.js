@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import api from '../services/api';
 
-export default async function confirmRePost (postId, token) {
+export default async function confirmRePost(postId, token, callback) {
   Swal.fire({
     html: `<h1 style = 'color: #fff'>Do you want to re-post this link?</h1>`,
     showDenyButton: true,
@@ -16,6 +16,7 @@ export default async function confirmRePost (postId, token) {
     if (!result.isConfirmed) {
       try {
         await api.repost(token, postId)
+        callback()
       } catch (err) {
         Swal.fire({
           html: `<h1 style = 'color: #fff'>Something went wrong. Try again later!</h1>`,
@@ -24,7 +25,8 @@ export default async function confirmRePost (postId, token) {
           timerProgressBar: true,
           showConfirmButton: false,
           position: 'center',
-          });    
+        });
       }
-    }});
+    }
+  });
 }
