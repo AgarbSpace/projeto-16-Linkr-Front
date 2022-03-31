@@ -88,9 +88,8 @@ export default function TimelinePage() {
   const loadFunc = async () => {
     const morePosts = await loadPosts();
     
-    if(morePosts.length === 0 || morePosts.length < 10){
-      setHasMore(false)
-      return
+    if(morePosts.length < 10){
+      return setHasMore(false)
     }
     
     setPosts([...posts, ...morePosts]); 
