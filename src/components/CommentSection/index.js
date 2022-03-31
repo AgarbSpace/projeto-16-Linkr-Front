@@ -3,6 +3,8 @@ import CommentItem from "../CommentItem";
 
 function CommentSection({ comments, postOwnerId, isDisplayed }) {
 
+  console.log(comments)
+
   return (
     <CommentsContainer display={isDisplayed}>
       <LayoutDiv />
