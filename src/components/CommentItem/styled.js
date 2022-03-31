@@ -13,7 +13,7 @@ gap: 18px;
 
 border-bottom: 1px solid #353535;
 padding: 16px 7px;
-margin: 10px 20px;
+margin: 0px 20px 0px 20px;
 
 &:first-of-type{
   margin-top: 0px;

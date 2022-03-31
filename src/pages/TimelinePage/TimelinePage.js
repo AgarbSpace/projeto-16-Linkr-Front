@@ -69,6 +69,7 @@ export default function TimelinePage() {
   
     return (
       <>
+        <SearchBar />
         <Header />
         <NoPosts>
           {id === undefined ? <PublishBox /> : false} 

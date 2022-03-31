@@ -184,6 +184,17 @@ async function listFollows (token) {
   }
 }
 
+async function postComment (token, body, id) {
+  const config = createConfig(token);
+  try {
+    const promise = await axios.post(`${BASE_URL}/comments/${id}`, body, config);
+    return promise.data;
+  } catch (err) {
+    console.log(err)
+    return;
+  }
+}
+
 const api = {
   getImageProfile,
   searchUser,
@@ -207,6 +218,7 @@ const api = {
   getRepostCount,
   repost,
   listFollows,
+  postComment,
 }
 
 export default api

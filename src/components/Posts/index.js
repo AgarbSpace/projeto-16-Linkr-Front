@@ -82,8 +82,8 @@ function Posts({ post, setPosts }) {
   }
 
   useEffect(() => {
-    fetchCommentData()
-  }, []);
+    fetchCommentData();
+  }, [fetchCommentData]);
 
   function handleClickDisplayComments() {
     setDisplayCommentSection(!displayCommentSection)
@@ -137,7 +137,7 @@ function Posts({ post, setPosts }) {
           </Snippet>
         </ContentBox>
       </PostConteiner>
-      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} />
+      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} postId={post.id} fetchCommentData={fetchCommentData}/>
     </>
   );
 }
