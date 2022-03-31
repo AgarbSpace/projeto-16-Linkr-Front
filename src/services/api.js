@@ -173,6 +173,10 @@ async function repost(token, postId) {
   const config = createConfig(token)
   return axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
 }
+async function deleteRepost(token, postId) {
+  const config = createConfig(token)
+  return axios.delete(`${BASE_URL}/re-post/${postId}`, config)
+}
 async function listFollows (token) {
   const config = createConfig(token);
   try {
@@ -217,6 +221,7 @@ const api = {
   getAllFollows,
   getRepostCount,
   repost,
+  deleteRepost,
   listFollows,
   postComment,
 }
