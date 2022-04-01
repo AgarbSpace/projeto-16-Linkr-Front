@@ -7,13 +7,6 @@ import api from "../../services/api";
 import InfiniteScroll from "react-infinite-scroller"
 import NewPostNotification from '../../components/NewPostNotification'
 import {
-  Loading,
-  NoPosts,
-  Timeline,
-  TimelineContainer,
-  TrendingBox
-} from "../Hashtags/Styleds";
-import {
   Posts,
   Header,
   SearchBar,
@@ -21,7 +14,15 @@ import {
   PublishBox,
   UserHeader,
 } from "../../components";
-import { FooterLoader, NoFollow, MyContent } from "./Styleds";
+import {
+  FooterLoader,
+  NoFollow,
+  Loading,
+  NoPosts,
+  Timeline,
+  TimelineContainer,
+  TrendingBox
+} from "./Styleds";
 
 export default function TimelinePage() {
   const { auth } = useAuth();
@@ -40,20 +41,28 @@ export default function TimelinePage() {
       setIsLoading(true);
       const list = await api.listFollows(auth.token);
       setListFOllowsUser(list);
-      if (!id) {
+      if (!id && !hashtag) {
         const postsArray = await api.getTimeline(auth.token);
         setPosts(postsArray);
-      } else {
+      }
+
+      else if (id) {
         const postsArray = await api.getUserTimeline(id, auth.token);
         setUsername(postsArray.username);
         setPosts(postsArray.posts);
+      }
+      else {
+
+        const list = await api.getPublicationByHashtag(auth.token, hashtag)
+
+        setPosts(list.data);
       }
       setIsLoading(false);
     }
 
     getFuntionEffect();
 
-  }, [reload, id]);
+  }, [reload, id, hashtag]);
 
   if (!posts) {
     return (
@@ -67,7 +76,7 @@ export default function TimelinePage() {
   }
 
 
-  if (posts.length === 0) {
+  if (posts.length === 0 && !isLoading) {
 
     return (
       <>
@@ -75,9 +84,18 @@ export default function TimelinePage() {
         <Header />
         <TimelineContainer>
           <Timeline>
+            {id === undefined ? (
+              <h2>timeline</h2>
+            ) : (
+              <UserHeader />
+            )}
+            {id === undefined
+              ? hashtag === undefined
+                ? <PublishBox />
+                : ""
+              : ""}
             <NoPosts>
-              {id === undefined ? <PublishBox /> : false}
-              <span>{listFollowsUser.length === 0 ? "You don't follow anyone yet. Search for new friends!" : "No posts found from your friends"}</span>
+              <span>{(listFollowsUser.length === 0 && !isLoading) ? "You don't follow anyone yet. Search for new friends!" : "No posts found from your friends"}</span>
             </NoPosts>
           </Timeline>
           <TrendingBox>
@@ -90,7 +108,10 @@ export default function TimelinePage() {
 
   const loadPosts = async () => {
 
-    console.log("fui chamado loadPost")
+    if (id || hashtag) {
+      return []
+    }
+
 
     const loadMorePosts = await api.getTimeline(auth.token, offset);
 
@@ -99,11 +120,15 @@ export default function TimelinePage() {
 
   const loadFunc = async () => {
 
-    console.log("fui chamado loadFunc")
 
     const morePosts = await loadPosts();
 
-    if (morePosts.length < 10) {
+    if (morePosts.length === 0) {
+      return setHasMore(false)
+    }
+
+    const MorePostIndex = morePosts.length - 1
+    if (morePosts[MorePostIndex].id === posts[0].id) {
       return setHasMore(false)
     }
 
@@ -116,22 +141,25 @@ export default function TimelinePage() {
       <Header />
       <TimelineContainer>
         <Timeline>
-          {id === undefined ? (
-            <h2>timeline</h2>
-          ) : (
-            <UserHeader id={id} hashtag={hashtag} />
-          )}
-          {id === undefined ? <PublishBox /> : false}
-
-          {listFollowsUser.length === 0 ? (id === undefined ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : "") : ""}
-
+          {id === undefined
+            ? hashtag === undefined
+              ? <h2>timeline</h2>
+              : <UserHeader />
+            : <UserHeader />
+          }
+          {id === undefined
+            ? hashtag === undefined
+              ? <PublishBox />
+              : ""
+            : ""}
+          {(listFollowsUser.length === 0 && !isLoading) ? (id === undefined ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : "") : ""}
           {isLoading
             ? <>
               <Loading>
                 <InfinitySpin color="grey" />
               </Loading>
             </>
-            : <>
+            : <div>
               <NewPostNotification currentList={posts} setPosts={setPosts} />
               <InfiniteScroll
                 pageStart={0}
@@ -145,7 +173,7 @@ export default function TimelinePage() {
                 )}
               </InfiniteScroll>
               {hasMore === true ? <></> : <FooterLoader><span>There are no more posts</span></FooterLoader>}
-            </>
+            </div>
           }
         </Timeline>
         <TrendingBox>

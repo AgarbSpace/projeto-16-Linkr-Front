@@ -88,10 +88,13 @@ function Posts({ post, setPosts, isRepost }) {
   function handleClickDisplayComments() {
     setDisplayCommentSection(!displayCommentSection)
   }
+
   return (
     <>
       <PostConteiner>
-        {post.reposterId !== post.userId && <RepostsBar reposterName={post.reposterName} />}
+        {post.reposterId === undefined
+          ? ""
+          : post.reposterId !== post.userId && <RepostsBar reposterName={post.reposterName} />}
         <AvatarAndLikeBox>
           <div onClick={goToUserPage}>
             <AvatarImg img={post.picture} />

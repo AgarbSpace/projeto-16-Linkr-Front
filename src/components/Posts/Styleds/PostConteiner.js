@@ -8,11 +8,12 @@ const PostConteiner = styled.div`
     display: flex;
     padding-top: 10px;
     padding-left: 18px;
-    margin-top: 70px;
-
+    margin-bottom: 70px;
     background-color: #171717;
 
     border-radius: 16px;
+
+    
 
     @media(max-width: 630px) {
         width:100vw;

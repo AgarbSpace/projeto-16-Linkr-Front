@@ -6,17 +6,19 @@ width: 611px;
 background-color: #1E1E1E;
 border-radius: 16px;
 position: relative;
-top: -27px;
+top: -127px;
 
 ${props => props.display ? "" : "display: none"};
 
 @media(max-width: 630px) {
+  top: -83px;
   width:100vw;
   border-radius: unset;
   -webkit-box-shadow: inset 0px 11px 20px -9px #000000; 
   box-shadow: inset 0px 11px 20px -9px #000000;
 
 }
+
 
 `
 
