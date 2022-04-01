@@ -46,13 +46,13 @@ async function getLikes(token, postId) {
 
 async function postFollowOrUnfollow(token, userId, followerId) {
   const config = createConfig(token)
-  const list = await axios.post(`${BASE_URL}/followorunfollow/${userId}`, {followerId, config})
+  const list = await axios.post(`${BASE_URL}/followorunfollow/${userId}`, { followerId, config })
   return list
 }
 
 async function postFollow(token, userId, followerId) {
   const config = createConfig(token)
-  const list = await axios.post(`${BASE_URL}/follow/${userId}`, {followerId, config})
+  const list = await axios.post(`${BASE_URL}/follow/${userId}`, { followerId, config })
   return list
 }
 
@@ -64,7 +64,7 @@ async function getAllFollows(token, userId) {
 
 async function postUnfollow(token, userId, followerId) {
   const config = createConfig(token)
-  const list = await axios.post(`${BASE_URL}/unfollow/${userId}`, {followerId, config})
+  const list = await axios.post(`${BASE_URL}/unfollow/${userId}`, { followerId, config })
   return list
 }
 
@@ -128,6 +128,7 @@ async function getTimeline(token, offset) {
     const promise = await axios.get(`${BASE_URL}/timeline${offsetQueryString}`,
       config
     );
+    console.log("fui chamado")
     return promise.data
   } catch (error) {
     console.log(error.response)
@@ -136,10 +137,13 @@ async function getTimeline(token, offset) {
   }
 }
 
-async function getNewNotifications(token, location) {
+async function getNewNotifications(token, location, isOnlyInfo) {
 
   const config = createConfig(token)
 
+  if (isOnlyInfo) {
+    config.headers.skipMetaData = true
+  }
   try {
     const promise = await axios.get(`${BASE_URL}/notification${location}`,
       config
@@ -167,13 +171,13 @@ async function getCommentsByPostId(token, postId) {
 
 async function getRepostCount(token, postId) {
   const config = createConfig(token);
-  return axios.get(`${BASE_URL}/re-post/${postId}`, config )
+  return axios.get(`${BASE_URL}/re-post/${postId}`, config)
 }
 async function repost(token, postId) {
   const config = createConfig(token)
   return axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
 }
-async function listFollows (token) {
+async function listFollows(token) {
   const config = createConfig(token);
   try {
     const promise = await axios.get(`${BASE_URL}/hasFollows`, config);
@@ -184,7 +188,7 @@ async function listFollows (token) {
   }
 }
 
-async function postComment (token, body, id) {
+async function postComment(token, body, id) {
   const config = createConfig(token);
   try {
     const promise = await axios.post(`${BASE_URL}/comments/${id}`, body, config);
@@ -193,6 +197,19 @@ async function postComment (token, body, id) {
     console.log(err)
     return;
   }
+}
+
+async function getUserInfoById(token, id) {
+  const config = createConfig(token);
+
+  try {
+    const promise = await axios.get(`${BASE_URL}/users/${id}`, config);
+    return promise.data;
+  } catch (err) {
+    console.log(err)
+    return;
+  }
+
 }
 
 const api = {
@@ -219,6 +236,7 @@ const api = {
   repost,
   listFollows,
   postComment,
+  getUserInfoById,
 }
 
 export default api

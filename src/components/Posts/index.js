@@ -29,7 +29,7 @@ function Posts({ post, setPosts }) {
   const [textToEdit, setTextToEdit] = useState(post.text);
   const [comments, setComments] = useState([])
   const [displayCommentSection, setDisplayCommentSection] = useState(false)
-  
+
 
   const inputRef = useRef(null);
 
@@ -74,7 +74,7 @@ function Posts({ post, setPosts }) {
 
     try {
       const data = await api.getCommentsByPostId(auth.token, post.id)
-      if (data) setComments(data)  
+      if (data) setComments(data)
 
     } catch (error) {
       console.log(error.response)
@@ -83,26 +83,26 @@ function Posts({ post, setPosts }) {
 
   useEffect(() => {
     fetchCommentData();
-  }, [fetchCommentData]);
+  }, []);
 
   function handleClickDisplayComments() {
     setDisplayCommentSection(!displayCommentSection)
   }
   return (
     <>
-    <PostConteiner>
-          {post.reposterId && <RepostsBar reposterName={post.reposterName}/>}
-          <AvatarAndLikeBox>
-            <div onClick={goToUserPage}>
-              <AvatarImg img={post.picture} />
-            </div>
-            <Likes postId={post.id} />
-            <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
-            <RepostsIcons postId={post.id}/>
-          </AvatarAndLikeBox>
-          <ContentBox>
-            <PostHeader>
-              <h1 onClick={goToUserPage}>{post.username}</h1>
+      <PostConteiner>
+        {post.reposterId !== post.userId && <RepostsBar reposterName={post.reposterName} />}
+        <AvatarAndLikeBox>
+          <div onClick={goToUserPage}>
+            <AvatarImg img={post.picture} />
+          </div>
+          <Likes postId={post.id} />
+          <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
+          <RepostsIcons postId={post.id} />
+        </AvatarAndLikeBox>
+        <ContentBox>
+          <PostHeader>
+            <h1 onClick={goToUserPage}>{post.username}</h1>
             {auth.userId === post.userId &&
               <EditAndDeleteBox>
                 <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
@@ -137,7 +137,7 @@ function Posts({ post, setPosts }) {
           </Snippet>
         </ContentBox>
       </PostConteiner>
-      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} postId={post.id} fetchCommentData={fetchCommentData}/>
+      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} postId={post.id} fetchCommentData={fetchCommentData} />
     </>
   );
 }

@@ -8,8 +8,7 @@ export default function useOnClickOutside(ref, handler, isNeeded) {
       const listener = (event) => {
 
 
-        if (event.type === "mousedown" && (!ref.current || ref.current.contains(event.target))
-          || (event.type !== "mousedown" && event.keyCode !== 27)) {
+        if ((event.type === "mousedown" && (!ref.current || ref.current.contains(event.target))) || (event.type !== "mousedown" && event.keyCode !== 27)) {
           return;
         }
 

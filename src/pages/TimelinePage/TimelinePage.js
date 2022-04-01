@@ -19,8 +19,9 @@ import {
   SearchBar,
   HashtagRanking,
   PublishBox,
+  UserHeader,
 } from "../../components";
-import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader, NoFollow } from "./Styleds";
+import { FooterLoader, NoFollow, MyContent } from "./Styleds";
 
 export default function TimelinePage() {
   const { auth } = useAuth();
@@ -31,7 +32,8 @@ export default function TimelinePage() {
   const [offset, setOffset] = useState(10)
   const [hasMore, setHasMore] = useState(true)
   const [listFollowsUser, setListFOllowsUser] = useState([]);
-  const { id } = useParams() || 0;
+  const { id, hashtag } = useParams();
+
 
   useEffect(() => {
     async function getFuntionEffect() {
@@ -51,7 +53,7 @@ export default function TimelinePage() {
 
     getFuntionEffect();
 
-  }, [reload, id, auth.token]);
+  }, [reload, id]);
 
   if (!posts) {
     return (
@@ -87,12 +89,18 @@ export default function TimelinePage() {
   }
 
   const loadPosts = async () => {
+
+    console.log("fui chamado loadPost")
+
     const loadMorePosts = await api.getTimeline(auth.token, offset);
-    console.log(loadMorePosts)
+
     return loadMorePosts;
   }
 
   const loadFunc = async () => {
+
+    console.log("fui chamado loadFunc")
+
     const morePosts = await loadPosts();
 
     if (morePosts.length < 10) {
@@ -114,7 +122,7 @@ export default function TimelinePage() {
           {id === undefined ? (
             <h2>timeline</h2>
           ) : (
-            <UserHeader posts={posts} id={id} username={username} />
+            <UserHeader id={id} hashtag={hashtag} />
           )}
           {id === undefined ? <PublishBox /> : false}
 
@@ -134,10 +142,9 @@ export default function TimelinePage() {
                 hasMore={hasMore}
                 loader={<FooterLoader>
                   <InfinitySpin color="grey" />
-                </FooterLoader>}>
-                {posts.map((post) =>
-                  <Posts key={post.id} post={post} setPosts={setPosts} />
-                )}
+                </FooterLoader>}
+                threshold={30}>
+                {posts.map((post) => <Posts key={post.id} post={post} setPosts={setPosts} />)}
               </InfiniteScroll>
               {hasMore === true ? <></> : <FooterLoader><span>There are no more posts</span></FooterLoader>}
             </>
@@ -151,63 +158,4 @@ export default function TimelinePage() {
   );
 }
 
-function UserHeader({ posts, id, username }) {
-  const [follow, setFollow] = useState(false)
-  const { auth } = useAuth()
-  const followerId = posts[0].userId
-  const userId = auth.userId
 
-  postFollow()
-  getAllFollows()
-
-  async function postFollow() {
-    const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
-    if (verification.data.length > 0) {
-      setFollow(true)
-    } else {
-      setFollow(false)
-    }
-  }
-
-  async function getAllFollows() {
-    const allFollows = await api.getAllFollows(auth.token, userId)
-    return allFollows.data
-  }
-
-  async function handleFollow() {
-    try {
-      await api.postFollow(auth.token, userId, followerId)
-      setFollow(true)
-    } catch (error) {
-      console.log(error.response)
-    }
-  }
-
-  async function handleUnfollow() {
-    try {
-      await api.postUnfollow(auth.token, userId, followerId)
-      setFollow(false)
-    } catch (error) {
-      console.log(error.response)
-    }
-  }
-
-  return (
-    <HeaderTimeline>
-      <div>
-        <img src={posts[0].picture} alt="imageUser" />
-        <h2>{id === undefined ? "timeline" : `${username}'s posts'`}</h2>
-      </div>
-      {followerId === userId ?
-        "" :
-        <>
-          {follow === false ?
-            <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
-            :
-            <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
-          }
-        </>
-      }
-    </HeaderTimeline>
-  );
-}

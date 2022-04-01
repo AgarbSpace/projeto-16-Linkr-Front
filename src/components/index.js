@@ -8,6 +8,7 @@ import SearchBar from "./SearchBar/index.js";
 import NewPostNotification from "./NewPostNotification/index.js";
 import CommentsIcon from "./CommentsIcon/index.js";
 import CommentSection from "./CommentSection/index.js";
+import { UserHeader } from "./UserPageHeader/index.js";
 
 export {
   Header,
@@ -20,4 +21,5 @@ export {
   NewPostNotification,
   CommentsIcon,
   CommentSection,
+  UserHeader,
 }
