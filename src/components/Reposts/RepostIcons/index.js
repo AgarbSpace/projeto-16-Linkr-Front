@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import api from "../../../services/api";
 import confirmRePost from "../../../modals/confirmRePost";
+import confirmDeleteRePost from "../../../modals/confirmDeleteRePost";
 
-export default function RepostsIcons({ postId }) {
+
+export default function RepostsIcons({postId, isRepost}) {
   const [repostCount, setRepostCount] = useState(0)
   const [reload, setReload] = useState(false)
 
@@ -23,12 +25,16 @@ export default function RepostsIcons({ postId }) {
     }
   }
 
-  function handleRepost() {
-    confirmRePost(postId, auth.token, handleReload)
-  }
 
-  function handleReload() {
-    setReload(!reload)
+  async function handleRepost() {
+    if(isRepost) {
+      await confirmDeleteRePost(postId, auth.token)
+      getRepostCount()
+      return 
+    }
+    await confirmRePost(postId, auth.token)
+    getRepostCount()
+
   }
 
   return (

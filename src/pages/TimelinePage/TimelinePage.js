@@ -102,9 +102,6 @@ export default function TimelinePage() {
     setPosts([...posts, ...morePosts]);
     setOffset(offset + 10);
   }
-  /* console.log("id:",id)
-  console.log("posts:",posts)
-  console.log("listFollowsUser:",listFollowsUser) */
   return (
     <>
       <SearchBar />
@@ -133,11 +130,11 @@ export default function TimelinePage() {
                 loadMore={loadFunc}
                 hasMore={hasMore}
                 loader={<FooterLoader>
-                  <InfinitySpin color="grey" />
-                </FooterLoader>}>
-                {posts.map((post) =>
-                  <Posts key={post.id} post={post} setPosts={setPosts} />
-                )}
+                          <InfinitySpin color="grey" />
+                        </FooterLoader>}>
+                  {posts.map((post) =>
+                    <Posts key={post.id} post={post} setPosts={setPosts} isRepost={!!post.reposterId}/>
+                  )} 
               </InfiniteScroll>
               {hasMore === true ? <></> : <FooterLoader><span>There are no more posts</span></FooterLoader>}
             </>

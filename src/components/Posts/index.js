@@ -20,7 +20,7 @@ import {
 import RepostsIcons from "../Reposts/RepostIcons";
 import RepostsBar from "../Reposts/RepostBar";
 
-function Posts({ post, setPosts }) {
+function Posts({ post, setPosts,isRepost }) {
 
   const { auth } = useAuth();
   const { reload, setReload } = useReload()
@@ -98,7 +98,7 @@ function Posts({ post, setPosts }) {
             </div>
             <Likes postId={post.id} />
             <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
-            <RepostsIcons postId={post.id}/>
+            <RepostsIcons postId={post.id} isRepost={isRepost}/>
           </AvatarAndLikeBox>
           <ContentBox>
             <PostHeader>
