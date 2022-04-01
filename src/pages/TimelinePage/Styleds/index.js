@@ -9,7 +9,7 @@ import ButtonUnfollow from "./ButtonUnfollow";
 import FooterLoader from "./FooterLoader";
 import NoFollow from "./NoFollow";
 
-export { 
+export {
   Loading,
   NoPosts,
   Timeline,

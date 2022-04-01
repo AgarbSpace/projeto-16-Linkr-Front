@@ -9,17 +9,19 @@ import { useState } from "react";
 
 function NewPostNotification(Props) {
 
+  console.log("fui chamado NewPostNotification")
 
   const [newPost, setNewPost] = useState([])
   const location = useLocation().pathname;
   const { auth } = useAuth()
+  const [loading, setLoading] = useState(false)
 
   useInterval(fetchData, 15000)
 
   async function fetchData() {
     try {
 
-      const newPostList = await api.getNewNotifications(auth.token, location)
+      const newPostList = await api.getNewNotifications(auth.token, location, true)
 
       const clientLastPostId = newPostList[0].id
 
@@ -30,17 +32,27 @@ function NewPostNotification(Props) {
         setNewPost(slicePost)
       }
 
+
     } catch (error) {
       console.log(error)
     }
 
   }
 
-  function handleOnClick() {
+  async function handleOnClick() {
+    setLoading(true)
+    try {
+      const newPostList = await api.getNewNotifications(auth.token, location, false)
 
-    Props.setPosts([...newPost, ...Props.currentList])
+      Props.setPosts([...newPostList, ...Props.currentList])
 
-    setNewPost([])
+      setNewPost([])
+
+    } catch (err) {
+      console.log(err)
+    }
+
+    setLoading(false)
   }
 
   return (
@@ -48,7 +60,10 @@ function NewPostNotification(Props) {
       {newPost.length === 0
         ? ""
         : <NewPostNotificationStyled onClick={handleOnClick}>
-          {newPost.length} new posts, load more!
+          {loading
+            ? "Loading new posts"
+            : `${newPost.length} new posts, load more!`
+          }
           <AiOutlineSync size="1.5em" strokeWidth="2.2em" />
         </NewPostNotificationStyled>
       }
