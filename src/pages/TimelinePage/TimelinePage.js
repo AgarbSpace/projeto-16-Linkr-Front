@@ -167,19 +167,21 @@ export default function TimelinePage() {
                 hasMore={hasMore}
                 loader={<FooterLoader>
                   <InfinitySpin color="grey" />
-                </FooterLoader>}>
-                {posts.map((post) =>
-                  <Posts key={post.id} post={post} setPosts={setPosts} isRepost={!!post.reposterId} />
-                )}
-              </InfiniteScroll>
+                </FooterLoader >}>
+                {
+                  posts.map((post) =>
+                    <Posts key={post.id} post={post} setPosts={setPosts} isRepost={!!post.reposterId} />
+                  )
+                }
+              </InfiniteScroll >
               {hasMore === true ? <></> : <FooterLoader><span>There are no more posts</span></FooterLoader>}
-            </div>
+            </div >
           }
-        </Timeline>
+        </Timeline >
         <TrendingBox>
           <HashtagRanking />
         </TrendingBox>
-      </TimelineContainer>
+      </TimelineContainer >
     </>
   );
 }
