@@ -12,7 +12,6 @@ const PostConteiner = styled.div`
     background-color: #171717;
 
     border-radius: 16px;
-
     
 
     @media(max-width: 630px) {

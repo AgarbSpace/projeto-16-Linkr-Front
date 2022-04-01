@@ -170,7 +170,7 @@ export default function TimelinePage() {
                 </FooterLoader >}>
                 {
                   posts.map((post) =>
-                    <Posts key={post.id} post={post} setPosts={setPosts} isRepost={!!post.reposterId} />
+                    <Posts key={post.id} post={post} setPosts={setPosts} />
                   )
                 }
               </InfiniteScroll >

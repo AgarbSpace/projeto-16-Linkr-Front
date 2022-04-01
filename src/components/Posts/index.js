@@ -20,7 +20,7 @@ import {
 import RepostsIcons from "../Reposts/RepostIcons";
 import RepostsBar from "../Reposts/RepostBar";
 
-function Posts({ post, setPosts, isRepost }) {
+function Posts({ post, setPosts }) {
 
   const { auth } = useAuth();
   const { reload, setReload } = useReload()
@@ -89,19 +89,27 @@ function Posts({ post, setPosts, isRepost }) {
     setDisplayCommentSection(!displayCommentSection)
   }
 
+  let isRePost = false
+  if (post.reposterId === post.userId) {
+    isRePost = true
+  }
+  if (post.reposterId === undefined) {
+    isRePost = false
+  }
+
   return (
     <>
       <PostConteiner>
         {post.reposterId === undefined
           ? ""
-          : post.reposterId !== post.userId && <RepostsBar reposterName={post.reposterName} />}
+          : post.reposterId !== post.userId && <RepostsBar reposterId={post.reposterId} reposterName={post.reposterName} />}
         <AvatarAndLikeBox>
           <div onClick={goToUserPage}>
             <AvatarImg img={post.picture} />
           </div>
           <Likes postId={post.id} />
           <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
-          <RepostsIcons postId={post.id} isRepost={isRepost} />
+          <RepostsIcons postId={post.id} isRepost={isRePost} />
         </AvatarAndLikeBox>
         <ContentBox>
           <PostHeader>

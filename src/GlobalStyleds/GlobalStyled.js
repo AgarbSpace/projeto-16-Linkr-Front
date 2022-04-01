@@ -15,7 +15,7 @@ const GlobalStyled = createGlobalStyle`
     }
 
     @media(max-width: 630px) {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 
 }
 

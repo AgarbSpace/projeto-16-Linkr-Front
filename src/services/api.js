@@ -170,15 +170,16 @@ async function getCommentsByPostId(token, postId) {
 
 async function getRepostCount(token, postId) {
   const config = createConfig(token);
-  return axios.get(`${BASE_URL}/re-post/${postId}`, config)
+  return await axios.get(`${BASE_URL}/re-post/${postId}`, config)
 }
 async function repost(token, postId) {
   const config = createConfig(token)
-  return axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
+  return await axios.post(`${BASE_URL}/re-post/${postId}`, {}, config)
 }
 async function deleteRepost(token, postId) {
   const config = createConfig(token)
-  return axios.delete(`${BASE_URL}/re-post/${postId}`, config)
+
+  return await axios.delete(`${BASE_URL}/re-post/${postId}`, config)
 }
 async function listFollows(token) {
   const config = createConfig(token);

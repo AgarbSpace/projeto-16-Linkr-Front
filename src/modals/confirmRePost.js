@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 import api from '../services/api';
 
-export default async function confirmRePost(postId, token, callback) {
+export default async function confirmRePost(postId, token, callback, reload) {
   Swal.fire({
     html: `<h1 style = 'color: #fff'>Do you want to re-post this link?</h1>`,
     showDenyButton: true,
@@ -16,8 +16,11 @@ export default async function confirmRePost(postId, token, callback) {
     if (!result.isConfirmed) {
       try {
         await api.repost(token, postId)
-        callback()
+
+        callback(!reload)
+
       } catch (err) {
+        console.log(err)
         Swal.fire({
           html: `<h1 style = 'color: #fff'>Something went wrong. Try again later!</h1>`,
           timer: 2000,

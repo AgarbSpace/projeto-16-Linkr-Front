@@ -40,7 +40,7 @@ img{
     }
 
     @media(max-width: 630px) {
-      width: 80%;
+      width: calc(100% - 75px)
 
 }
 
@@ -92,5 +92,7 @@ button {
 ion-icon{
     color: #F3F3F3;
     size: 5px;
+    position: relative;
+    left: -10px;
 }
 `
