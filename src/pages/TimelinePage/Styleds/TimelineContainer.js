@@ -13,6 +13,7 @@ const TimelineContainer = styled.div`
         padding-top: 150px;
         justify-content: flex-start;
     }
+
 `
 
 export default TimelineContainer;

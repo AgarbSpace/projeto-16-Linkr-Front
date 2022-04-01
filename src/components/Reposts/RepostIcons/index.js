@@ -7,13 +7,14 @@ import confirmRePost from "../../../modals/confirmRePost";
 import confirmDeleteRePost from "../../../modals/confirmDeleteRePost";
 
 
-export default function RepostsIcons({postId, isRepost}) {
+export default function RepostsIcons({ postId, isRepost }) {
   const [repostCount, setRepostCount] = useState(0)
   const [reload, setReload] = useState(false)
 
   const { auth } = useAuth()
-  useEffect(() => getRepostCount(),
-    // eslint-disable-next-line
+  useEffect(() => {
+    getRepostCount()
+  },
     [reload])
 
   async function getRepostCount() {
@@ -27,14 +28,15 @@ export default function RepostsIcons({postId, isRepost}) {
 
 
   async function handleRepost() {
-    if(isRepost) {
-      await confirmDeleteRePost(postId, auth.token)
-      getRepostCount()
-      return 
-    }
-    await confirmRePost(postId, auth.token)
-    getRepostCount()
+    if (isRepost) {
 
+      await confirmRePost(postId, auth.token, setReload, reload)
+
+    }
+    else {
+      await confirmRePost(postId, auth.token, setReload, reload)
+
+    }
   }
 
   return (

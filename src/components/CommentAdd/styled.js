@@ -38,6 +38,12 @@ img{
         width: 100%;
         height: 100%;
     }
+
+    @media(max-width: 630px) {
+      width: calc(100% - 75px)
+
+}
+
 }
 
 input {
@@ -86,5 +92,7 @@ button {
 ion-icon{
     color: #F3F3F3;
     size: 5px;
+    position: relative;
+    left: -10px;
 }
 `

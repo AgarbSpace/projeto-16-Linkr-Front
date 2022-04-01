@@ -20,7 +20,7 @@ import {
 import RepostsIcons from "../Reposts/RepostIcons";
 import RepostsBar from "../Reposts/RepostBar";
 
-function Posts({ post, setPosts,isRepost }) {
+function Posts({ post, setPosts }) {
 
   const { auth } = useAuth();
   const { reload, setReload } = useReload()
@@ -29,7 +29,7 @@ function Posts({ post, setPosts,isRepost }) {
   const [textToEdit, setTextToEdit] = useState(post.text);
   const [comments, setComments] = useState([])
   const [displayCommentSection, setDisplayCommentSection] = useState(false)
-  
+
 
   const inputRef = useRef(null);
 
@@ -74,7 +74,7 @@ function Posts({ post, setPosts,isRepost }) {
 
     try {
       const data = await api.getCommentsByPostId(auth.token, post.id)
-      if (data) setComments(data)  
+      if (data) setComments(data)
 
     } catch (error) {
       console.log(error.response)
@@ -83,26 +83,37 @@ function Posts({ post, setPosts,isRepost }) {
 
   useEffect(() => {
     fetchCommentData();
-  }, [fetchCommentData]);
+  }, []);
 
   function handleClickDisplayComments() {
     setDisplayCommentSection(!displayCommentSection)
   }
+
+  let isRePost = false
+  if (post.reposterId === post.userId) {
+    isRePost = true
+  }
+  if (post.reposterId === undefined) {
+    isRePost = false
+  }
+
   return (
     <>
-    <PostConteiner>
-          {post.reposterId && <RepostsBar reposterName={post.reposterName}/>}
-          <AvatarAndLikeBox>
-            <div onClick={goToUserPage}>
-              <AvatarImg img={post.picture} />
-            </div>
-            <Likes postId={post.id} />
-            <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
-            <RepostsIcons postId={post.id} isRepost={isRepost}/>
-          </AvatarAndLikeBox>
-          <ContentBox>
-            <PostHeader>
-              <h1 onClick={goToUserPage}>{post.username}</h1>
+      <PostConteiner>
+        {post.reposterId === undefined
+          ? ""
+          : post.reposterId !== post.userId && <RepostsBar reposterId={post.reposterId} reposterName={post.reposterName} />}
+        <AvatarAndLikeBox>
+          <div onClick={goToUserPage}>
+            <AvatarImg img={post.picture} />
+          </div>
+          <Likes postId={post.id} />
+          <CommentsIcon onClick={handleClickDisplayComments} number={comments.length} />
+          <RepostsIcons postId={post.id} isRepost={isRePost} />
+        </AvatarAndLikeBox>
+        <ContentBox>
+          <PostHeader>
+            <h1 onClick={goToUserPage}>{post.username}</h1>
             {auth.userId === post.userId &&
               <EditAndDeleteBox>
                 <ion-icon name="trash-outline" onClick={deletePost}></ion-icon>
@@ -137,7 +148,7 @@ function Posts({ post, setPosts,isRepost }) {
           </Snippet>
         </ContentBox>
       </PostConteiner>
-      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} postId={post.id} fetchCommentData={fetchCommentData}/>
+      <CommentSection comments={comments} postOwnerId={post.userId} isDisplayed={displayCommentSection} postId={post.id} fetchCommentData={fetchCommentData} />
     </>
   );
 }
