@@ -6,12 +6,15 @@ import api from "../../../services/api";
 import confirmRePost from "../../../modals/confirmRePost";
 import confirmDeleteRePost from "../../../modals/confirmDeleteRePost";
 
+
 export default function RepostsIcons({postId, isRepost}) {
   const [repostCount, setRepostCount] = useState(0)
+  const [reload, setReload] = useState(false)
+
   const { auth } = useAuth()
   useEffect(() => getRepostCount(),
     // eslint-disable-next-line
-    [])
+    [reload])
 
   async function getRepostCount() {
     try {
@@ -22,6 +25,7 @@ export default function RepostsIcons({postId, isRepost}) {
     }
   }
 
+
   async function handleRepost() {
     if(isRepost) {
       await confirmDeleteRePost(postId, auth.token)
@@ -30,12 +34,13 @@ export default function RepostsIcons({postId, isRepost}) {
     }
     await confirmRePost(postId, auth.token)
     getRepostCount()
+
   }
-  
-  return(
+
+  return (
     <RepostsIconsContainer onClick={handleRepost}>
-      <FiRepeat/>
-      <p><span>{repostCount}</span>{repostCount === 1 ? ` re-post`: ` re-posts`}</p>
+      <FiRepeat />
+      <p><span>{repostCount}</span>{repostCount === 1 ? ` re-post` : ` re-posts`}</p>
     </RepostsIconsContainer>
   )
 }

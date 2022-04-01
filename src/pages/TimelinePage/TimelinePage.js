@@ -20,7 +20,7 @@ import {
   HashtagRanking,
   PublishBox,
 } from "../../components";
-import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader , NoFollow} from "./Styleds";
+import { HeaderTimeline, ButtonFollow, ButtonUnfollow, FooterLoader, NoFollow } from "./Styleds";
 
 export default function TimelinePage() {
   const { auth } = useAuth();
@@ -34,26 +34,26 @@ export default function TimelinePage() {
   const { id } = useParams() || 0;
 
   useEffect(() => {
-    async function getFuntionEffect () {
-    setIsLoading(true);
-    const list = await api.listFollows(auth.token);
-    setListFOllowsUser(list);
-    if (!id) {
-      const postsArray = await api.getTimeline(auth.token);
-      setPosts(postsArray);
-    } else {
-      const postsArray = await api.getUserTimeline(id, auth.token);
-      setUsername(postsArray.username);
-      setPosts(postsArray.posts);
-    }
-    setIsLoading(false);
+    async function getFuntionEffect() {
+      setIsLoading(true);
+      const list = await api.listFollows(auth.token);
+      setListFOllowsUser(list);
+      if (!id) {
+        const postsArray = await api.getTimeline(auth.token);
+        setPosts(postsArray);
+      } else {
+        const postsArray = await api.getUserTimeline(id, auth.token);
+        setUsername(postsArray.username);
+        setPosts(postsArray.posts);
+      }
+      setIsLoading(false);
     }
 
     getFuntionEffect();
-    
+
   }, [reload, id, auth.token]);
 
-  if(!posts){
+  if (!posts) {
     return (
       <>
         <Header />
@@ -66,15 +66,22 @@ export default function TimelinePage() {
 
 
   if (posts.length === 0) {
-  
+
     return (
       <>
         <SearchBar />
         <Header />
-        <NoPosts>
-          {id === undefined ? <PublishBox /> : false} 
-          <span>{listFollowsUser.length === 0 ? "You don't follow anyone yet. Search for new friends!" : "No posts found from your friends"}</span>
-        </NoPosts>
+        <TimelineContainer>
+          <Timeline>
+            <NoPosts>
+              {id === undefined ? <PublishBox /> : false}
+              <span>{listFollowsUser.length === 0 ? "You don't follow anyone yet. Search for new friends!" : "No posts found from your friends"}</span>
+            </NoPosts>
+          </Timeline>
+          <TrendingBox>
+            <HashtagRanking />
+          </TrendingBox>
+        </TimelineContainer>
       </>
     );
   }
@@ -84,16 +91,16 @@ export default function TimelinePage() {
     console.log(loadMorePosts)
     return loadMorePosts;
   }
-  
+
   const loadFunc = async () => {
     const morePosts = await loadPosts();
-    
-    if(morePosts.length < 10){
+
+    if (morePosts.length < 10) {
       return setHasMore(false)
     }
-    
-    setPosts([...posts, ...morePosts]); 
-    setOffset(offset+10);
+
+    setPosts([...posts, ...morePosts]);
+    setOffset(offset + 10);
   }
   return (
     <>
@@ -108,8 +115,8 @@ export default function TimelinePage() {
           )}
           {id === undefined ? <PublishBox /> : false}
 
-          {listFollowsUser.length === 0 ? (id === undefined ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : false) : false}
-          
+          {listFollowsUser.length === 0 ? (id === undefined ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : "") : ""}
+
           {isLoading
             ? <>
               <Loading>
@@ -150,21 +157,21 @@ function UserHeader({ posts, id, username }) {
   postFollow()
   getAllFollows()
 
-  async function postFollow(){
+  async function postFollow() {
     const verification = await api.postFollowOrUnfollow(auth.token, userId, followerId)
-    if(verification.data.length > 0){
+    if (verification.data.length > 0) {
       setFollow(true)
-    }else{
+    } else {
       setFollow(false)
     }
   }
 
-  async function getAllFollows(){
+  async function getAllFollows() {
     const allFollows = await api.getAllFollows(auth.token, userId)
     return allFollows.data
   }
 
-  async function handleFollow(){
+  async function handleFollow() {
     try {
       await api.postFollow(auth.token, userId, followerId)
       setFollow(true)
@@ -173,7 +180,7 @@ function UserHeader({ posts, id, username }) {
     }
   }
 
-  async function handleUnfollow(){
+  async function handleUnfollow() {
     try {
       await api.postUnfollow(auth.token, userId, followerId)
       setFollow(false)
@@ -189,14 +196,14 @@ function UserHeader({ posts, id, username }) {
         <h2>{id === undefined ? "timeline" : `${username}'s posts'`}</h2>
       </div>
       {followerId === userId ?
-      "" :
-      <>
-      {follow === false ? 
-      <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
-      :
-      <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
-      }
-      </>
+        "" :
+        <>
+          {follow === false ?
+            <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
+            :
+            <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
+          }
+        </>
       }
     </HeaderTimeline>
   );
