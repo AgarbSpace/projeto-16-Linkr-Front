@@ -9,8 +9,6 @@ import { useState } from "react";
 
 function NewPostNotification(Props) {
 
-  console.log("fui chamado NewPostNotification")
-
   const [newPost, setNewPost] = useState([])
   const location = useLocation().pathname;
   const { auth } = useAuth()

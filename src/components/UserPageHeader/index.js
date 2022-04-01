@@ -2,41 +2,45 @@ import { HeaderTimeline, ButtonFollow, ButtonUnfollow } from "./Styleds";
 import useAuth from "../../hooks/useAuth";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
 
-export function UserHeader({ id, hashtag }) {
+export function UserHeader() {
   const [follow, setFollow] = useState(false)
   const { auth } = useAuth()
   const [userInfo, setUserInfo] = useState({})
-  const location = useLocation();
+  const { id, hashtag } = useParams()
+
 
   useEffect(() => {
-    postFollow()
     getAllFollows()
     getUserInfo()
-  }, []);
+  }, [id, hashtag]);
 
   async function getUserInfo() {
-    try {
-      const user = await api.getUserInfoById(auth.token, id)
-      setUserInfo(user)
-    } catch (error) {
-      console.log(error)
+    if (id) {
+      try {
+        const user = await api.getUserInfoById(auth.token, id)
+        setUserInfo(user)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
-  async function postFollow() {
-    const verification = await api.postFollowOrUnfollow(auth.token, auth.userId, userInfo.id)
-    if (verification.data.length > 0) {
-      setFollow(true)
-    } else {
-      setFollow(false)
-    }
-  }
 
   async function getAllFollows() {
-    const allFollows = await api.getAllFollows(auth.token, auth.userId)
-    return allFollows.data
+    if (id) {
+      const allFollows = await api.getAllFollows(auth.token, auth.userId)
+
+      const followingId = allFollows.data.find(el => el.followerId === parseInt(id))
+
+      if (followingId) {
+        setFollow(true)
+      }
+      else {
+        setFollow(false)
+      }
+    }
   }
 
   async function handleFollow() {
@@ -60,7 +64,10 @@ export function UserHeader({ id, hashtag }) {
   return (
     <HeaderTimeline>
       <div>
-        <img src={userInfo.picture} alt="imageUser" />
+        {hashtag
+          ? ""
+          : <img src={userInfo.picture} alt="imageUser" />
+        }
         <h2>{
           hashtag
             ? `${hashtag}`
@@ -69,15 +76,18 @@ export function UserHeader({ id, hashtag }) {
               : "timeline"
         }</h2>
       </div>
-      {userInfo.id === auth.userId ?
-        "" :
-        <>
-          {follow === false ?
-            <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
-            :
-            <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
-          }
-        </>
+      {id
+        ? <>{userInfo.id === auth.userId ?
+          "" :
+          <>
+            {follow === false ?
+              <ButtonFollow onClick={handleFollow}>Follow</ButtonFollow>
+              :
+              <ButtonUnfollow onClick={handleUnfollow}>Unfollow</ButtonUnfollow>
+            }
+          </>
+        }</>
+        : ""
       }
     </HeaderTimeline>
   );

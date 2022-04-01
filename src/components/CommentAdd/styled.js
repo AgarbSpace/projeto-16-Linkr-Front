@@ -38,6 +38,12 @@ img{
         width: 100%;
         height: 100%;
     }
+
+    @media(max-width: 630px) {
+      width: 80%;
+
+}
+
 }
 
 input {

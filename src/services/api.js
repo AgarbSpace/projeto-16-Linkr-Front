@@ -128,7 +128,6 @@ async function getTimeline(token, offset) {
     const promise = await axios.get(`${BASE_URL}/timeline${offsetQueryString}`,
       config
     );
-    console.log("fui chamado")
     return promise.data
   } catch (error) {
     console.log(error.response)

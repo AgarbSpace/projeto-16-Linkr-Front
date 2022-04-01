@@ -14,7 +14,10 @@ gap: 18px;
 width: 611px;
 height: 61px;
 padding: 16px 22px 16px 18px;
-margin-top: 40px;
+margin-top: 0px;
+margin-bottom: 20px;
+position: relative;
+top: -20px;
 
 font-family: 'Lato';
 font-style: normal;
