@@ -152,7 +152,7 @@ export default function TimelinePage() {
               ? <PublishBox />
               : ""
             : ""}
-          {(listFollowsUser.length === 0 && !isLoading) ? (id === undefined ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : "") : ""}
+          {(listFollowsUser.length === 0 && !isLoading) ? ((id === undefined || hashtag === undefined) ? <NoFollow><span>You don't follow anyone yet. Search for new friends!</span></NoFollow> : "") : ""}
           {isLoading
             ? <>
               <Loading>
